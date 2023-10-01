@@ -1,49 +1,70 @@
-#!/bin/python
+#!/usr/bin/python
 
+# Standard libraries
+import os
+
+# Third-party libraries
+from api.twilio import send_twilio_message
+from api.chatgpt import get_gpt_response
+from api.logger import log_info, log_error
 from flask import Flask, request, jsonify
 from twilio.rest import Client
+from dotenv import load_dotenv
+from flask import render_template
 import openai
-import os  # Import the os module to read environment variables
 
+# Load environment variables from .env file
+load_dotenv()
+
+# Initialize Flask app
 app = Flask(__name__)
 
-# Twilio Credentials from Environment Variables
-account_sid = os.environ.get('TWILIO_SID')
-auth_token = os.environ.get('TWILIO_AUTH_TOKEN')
-twilio_phone_number = os.environ.get('TWILIO_PHONE_NUMBER')  # Add this line
-client = Client(account_sid, auth_token)
+# Configuration
+TWILIO_SID = os.getenv('TWILIO_ACCOUNT_SID')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN')
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER')
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
 
-# OpenAI API key from Environment Variables
-openai.api_key = os.environ.get('OPEN_API_KEY')  # Changed to read from environment variables
+client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+openai.api_key = OPENAI_API_KEY
 
 @app.route('/send_text', methods=['POST'])
 def send_text():
     data = request.json
+    if not data:
+        log_error("No data received on /send_text endpoint")  # Logging
+        return jsonify({"error": "No data provided!"}), 400
+
     phone_number = data.get('phone_number')
     message = data.get('message')
+    if not phone_number or not message:
+        log_error("Missing phone number or message in /send_text request")  # Logging
+        return jsonify({"error": "Missing phone number or message!"}), 400
 
-    # Sending message using Twilio
-    message = client.messages.create(
-        body=message,
-        from_=twilio_phone_number,  # Changed to read from environment variable
-        to=phone_number
-    )
-    return jsonify({"message": "Text sent successfully!"})
+    # Use the function from twilio.py to send the message
+    message_sid = send_twilio_message(phone_number, message)
+    
+    if message_sid:
+        log_info(f"Message sent successfully with SID: {message_sid}")  # Logging
+    else:
+        log_error("Failed to send message via Twilio")  # Logging
+
+    return jsonify({"message": "Text sent successfully!", "sid": message_sid})
 
 @app.route('/chat', methods=['POST'])
 def chat():
     user_input = request.json.get('input')
 
-    # Using OpenAI API to get ChatGPT response
-    response = openai.Completion.create(
-        engine="text-davinci-002",
-        prompt=user_input,
-        max_tokens=150
-    )
+    if not user_input:
+        return jsonify({"error": "input is required"}), 400
 
-    chat_response = response['choices'][0]['text'].strip()
+    chat_response = get_gpt_response(user_input)
 
     return jsonify({"response": chat_response})
+
+@app.route('/')
+def index():
+    return render_template('chat_template.html')
 
 if __name__ == '__main__':
     app.run()

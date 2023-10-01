@@ -2,6 +2,33 @@
 <html lang="en">
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("form").submit(function(event) {
+                event.preventDefault(); // Prevent the default form submission
+    
+                var phoneNumber = $("#phone_number").val();
+                var message = $("#message").val();
+    
+                $.ajax({
+                    url: "/send_text",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        phone_number: phoneNumber,
+                        message: message
+                    }),
+                    success: function(response) {
+                        alert(response.message);
+                    },
+                    error: function(xhr, status, error) {
+                        alert(xhr.responseJSON.error);
+                    }
+                });
+            });
+        });
+    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Real Estate Contact</title>
@@ -32,7 +59,7 @@
         <form action="/send_text" method="post">
             <div class="form-group">
                 <label for="phone_number">Phone Number:</label>
-                <input type="text" name="phone_number" id="phone_number" class="form-control" required>
+                <input type="text" name="phone_number" id="phone_number" class="form-control" pattern="+\1\([0-9]{3}\)[0-9]{3}-[0-9]{4}" required>
             </div>
 
             <div class="form-group">
