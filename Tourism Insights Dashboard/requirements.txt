@@ -1,0 +1,13 @@
+azure-mgmt-dashboard==1.0.0
+beautifulsoup4==4.9.3
+dash==2.14.1
+dash-core-components==2.0.0
+dash-html-components==2.0.0
+dash-table==5.0.0
+pandas==2.1.2
+plotly==5.18.0
+pydash==5.1.2
+requests==2.25.1
+requests-futures==1.0.0
+requests-oauthlib==1.0.0
+requests-toolbelt==0.9.1
