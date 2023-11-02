@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  app:
+    image: linuxserver/bookstack
+    container_name: bookstack
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - DB_HOST=db
+      - DB_USER=bookstack
+      - DB_PASS=fuckyoumean805
+      - DB_DATABASE=bookstackapp
+      - APP_URL=http://192.168.56.105:6875   # <-- This line is added
+    volumes:
+      - ./config:/config
+    ports:
+      - 6875:80
+    restart: unless-stopped
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    container_name: bookstack_db
+    environment:
+      - MYSQL_DATABASE=bookstackapp
+      - MYSQL_USER=bookstack
+      - MYSQL_PASSWORD=fuckyoumean805
+      - MYSQL_ROOT_PASSWORD=Trolled135$$
+    volumes:
+      - ./db:/var/lib/mysql
+    restart: unless-stopped
