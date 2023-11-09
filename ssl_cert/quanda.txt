@@ -1,0 +1,22 @@
+1. Three hashes for the data file:
+   - Original: `80127b66279339a5c6e07ea1347703deae58a189b8e463bea3042935109b9fa3`
+   - After bit change: `d47d7c7ff3e6ef3afffb77c130f8c472d9044bc57f36f5159f286f4294d6b107`
+   - (The third hash after another bit change is not provided.)
+
+2. Did the guacamole server file match its file signature?
+   - yes its matched the client to client file
+
+3. Command to base64 encode the data file:
+   - `basenc --base64 data > data.b64`
+
+4. Purpose of using base64 encoding:
+   - To transmit binary data safely over channels that only support text.
+
+5. Example of software to verify before installation:
+   - An operating system like Ubuntu.
+
+6. Is it possible to reverse the hash?
+   - No, hashes cannot be reversed to retrieve the original content.
+
+7. Is the hash the same length for a few bytes of data?:
+   - Yes, SHA-256 hash is always the same length regardless of data size.

@@ -1,0 +1,24 @@
+Private Key Variables: {p, q, n, e, d}
+
+In OpenSSL, p and q are the prime factors of n.
+n is the modulus.
+e is the public exponent.
+d is the private exponent.
+Public Key Variables: {n, e}
+
+In OpenSSL, the public key contains the modulus n and the public exponent e.
+Expectation in Public Key:
+
+Based on the above, we should expect to see the modulus n and the public exponent e in the public key file.
+Command to Confirm Public Key Contents:
+
+The command to display the public key information is:
+sh
+Copy code
+openssl rsa -pubin -in pub.key -text -noout
+This command will confirm that the public key contains the modulus n and the public exponent e, as seen in the provided output.
+Reason to Give Away n in Public Key:
+
+We can give away n in our public key because it is the product of two large primes p and q. 
+The security of RSA relies on the fact that while it is easy to multiply p and q together to get n, it is currently not feasible to do the reverse (factoring n back into p and q) within a practical amount of time. 
+This one-way function property is what makes RSA secure for public distribution.

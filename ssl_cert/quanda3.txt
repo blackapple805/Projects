@@ -1,0 +1,19 @@
+Command to sign the file:
+Not shown in the screenshot, but typically:
+
+sh
+Copy code
+openssl pkeyutl -sign -in bottle.sha -inkey priv.key -out bottle.sig
+Command to verify the file:
+
+sh
+Copy code
+openssl pkeyutl -verify -in bottle.sha -sigfile bottle.sig -pubin -inkey pub.key
+Purpose of "encrypting" with the private key:
+It's not encryption; it's signing. The signature verifies the sender's identity and the message's integrity.
+
+Steps to verify bottle and bottle.sig:
+
+Generate a hash of bottle.
+Use the public key to verify the hash against bottle.sig.
+Success indicates no changes; failure indicates tampering or wrong public key
