@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: datadog-agent
+spec:
+  selector:
+    matchLabels:
+      app: datadog-agent
+  template:
+    metadata:
+      labels:
+        app: datadog-agent
+    spec:
+      containers:
+      - name: datadog-agent
+        image: datadog/agent:latest
+        imagePullPolicy: Always
+        env:
+          - name: DD_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: datadog-secret
+                key: api-key
+          - name: DD_APP_KEY
+            valueFrom:
+              secretKeyRef:
+                name: datadog-secret
+                key: app-key
+          - name: DD_HOSTNAME
+            value: "ya-dog"
