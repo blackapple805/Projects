@@ -1,0 +1,7 @@
+body { 
+  background: url(../img/background.png)  center center fixed; 
+}
+
+.top_padding {
+    margin-top: 100px;
+}
