@@ -1,0 +1,25 @@
+#Example of how to train your own model 
+
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from joblib import dump
+
+# Load a sample dataset
+data = load_iris()
+X, y = data.data, data.target
+
+# Split the data into training and test sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Initialize a model (Random Forest in this case)
+model = RandomForestClassifier(n_estimators=100)
+
+# Train the model
+model.fit(X_train, y_train)
+
+# Evaluate the model (you would normally check the performance here)
+print("Model training score:", model.score(X_test, y_test))
+
+# Save the model to a file
+dump(model, 'iris_model.joblib')
