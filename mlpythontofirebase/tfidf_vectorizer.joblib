@@ -1,0 +1,60 @@
+#Example of how to train your own model 
+
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from joblib import dump, load
+import pandas as pd
+
+# Example dataset
+data = {
+    'task': [
+        'Prepare the monthly report',
+        'Fix the server downtime issue',
+        'Schedule a meeting with the project team',
+        'Complete the client presentation slides',
+        'Update the website with the new changes',
+        'Send out the survey to all employees',
+        'Review the final project deliverables'
+    ],
+    'priority': [
+        'Low', 'High', 'Low', 'High', 'Low', 'Low', 'High'
+    ]
+}
+
+df = pd.DataFrame(data)
+
+# Split the dataset into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(df['task'], df['priority'], test_size=0.2)
+
+# Initialize the TF-IDF Vectorizer
+vectorizer = TfidfVectorizer()
+
+# Fit the vectorizer and transform the training data
+X_train_tfidf = vectorizer.fit_transform(X_train)
+
+# Train a machine learning model (Random Forest in this example)
+model = RandomForestClassifier(n_estimators=100)
+model.fit(X_train_tfidf, y_train)
+
+# Save the vectorizer and the model
+dump(vectorizer, 'tfidf_vectorizer.joblib')
+dump(model, 'task_priority_classifier.joblib')
+
+# When you want to make a prediction with new data:
+# Load the trained vectorizer and model
+loaded_vectorizer = load('tfidf_vectorizer.joblib')
+loaded_model = load('task_priority_classifier.joblib')
+
+# Function to predict task priority using the loaded ML model and vectorizer
+def predict_task_priority(task_description):
+    # Transform the new task description using the loaded vectorizer
+    task_description_tfidf = loaded_vectorizer.transform([task_description])
+    # Predict the priority with the loaded model
+    prediction = loaded_model.predict(task_description_tfidf)
+    return prediction[0]
+
+# Example usage of the function
+new_task_description = "Schedule annual budget review meeting"
+predicted_priority = predict_task_priority(new_task_description)
+print(f"Task: {new_task_description}, Predicted Priority: {predicted_priority}")
