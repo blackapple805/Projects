@@ -1,0 +1,22 @@
+{
+    "name": "my-web-app",
+    "version": "1.0.0",
+    "description": "A simple CRUD application backend.",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "dev": "nodemon server.js"
+    },
+    "author": "Eric Del Angel",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "react": "^18.2.0",
+        "react-dom": "^18.2.0"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.4",
+        "webpack": "^5.91.0",
+        "webpack-cli": "^5.1.4"
+    }
+}
