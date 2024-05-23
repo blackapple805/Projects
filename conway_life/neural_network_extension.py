@@ -84,10 +84,10 @@ for epoch in range(100):
     grid = outputs.detach().numpy().reshape(GRID_SIZE, GRID_SIZE)
 
 # Set up the figure, axis, and plot element
-fig, ax = plt.subplots()
+fig, ax = plt.subplots(figsize=(15, 15))  # Increase the figure size
 
-# Create a custom colormap: black background, green cells
-cmap = mcolors.ListedColormap(['black', 'green'])
+# Create a custom colormap: black background, dark purple cells
+cmap = mcolors.ListedColormap(['black', '#800080'])
 
 img = ax.imshow(grid, interpolation='nearest', cmap=cmap, vmin=0, vmax=1)
 
@@ -99,7 +99,7 @@ def animate(frame):
     return img,
 
 # Animate the simulation
-ani = animation.FuncAnimation(fig, animate, frames=100, interval=100, blit=True)
+ani = animation.FuncAnimation(fig, animate, frames=300, interval=100, blit=True)  # Increase the number of frames
 
 # Save the animation as a high-quality video file
 try:
