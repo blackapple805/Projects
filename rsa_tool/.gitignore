@@ -1,0 +1,20 @@
+# Ignore virtual environment directories
+venv/
+env/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore private keys
+*.pem
+
+# Ignore VS Code specific files
+.vscode/
+*.code-workspace
+
+# Ignore system-specific files
+.DS_Store
+Thumbs.db
