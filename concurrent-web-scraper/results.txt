@@ -1,0 +1,26 @@
+URL: https://news.ycombinator.com
+Title: Hacker News
+First Paragraph: 
+
+URL: https://www.reddit.com
+Title: 
+First Paragraph: 
+
+URL: https://www.example.com
+Title: Example Domain
+First Paragraph: This domain is for use in illustrative examples in documents. You may use this
+    domain in literature without prior coordination or asking for permission.
+
+URL: https://www.google.com
+Title: Google
+First Paragraph: © 2024 - 
+
+URL: https://www.stackoverflow.com
+Title: Stack Overflow - Where Developers Learn, Share, & Build Careers
+First Paragraph: 
+                                        Communities for your favorite technologies.  
+
+URL: https://www.github.com
+Title: TikTok
+First Paragraph: We read every piece of feedback, and take your input very seriously.
+
