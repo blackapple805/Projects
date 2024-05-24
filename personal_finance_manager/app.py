@@ -1,8 +1,13 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-import firebase_config
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# Path to your Firebase service account key
+cred = credentials.Certificate("/workspaces/Projects/personal_finance_manager/personalfinace-2145d-firebase-adminsdk-r6kb5-80dc29166b.json")
+firebase_admin.initialize_app(cred)
+db = firestore.client()
 
 app = Flask(__name__)
-db = firebase_config.db
 
 @app.route('/')
 def index():
