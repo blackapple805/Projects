@@ -1,0 +1,17 @@
+{
+    "name": "job-recommendation-backend",
+    "version": "1.0.0",
+    "description": "Backend for job recommendation system",
+    "main": "server.js",
+    "scripts": {
+      "start": "node server.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "mysql2": "^2.2.5",
+      "cors": "^2.8.5",
+      "bcrypt": "^5.0.1",
+      "jsonwebtoken": "^8.5.1"
+    }
+  }
+  
