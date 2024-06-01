@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        #chartContainer {
+            max-width: 800px; /* Set the max width to control the chart size */
+            margin: auto;
+        }
+        canvas {
+            width: 100% !important; /* Ensure the canvas takes full width of the container */
+            height: auto !important; /* Ensure the height adjusts automatically */
+        }
+        .button-container {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .button-container button {
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Welcome, <%= username %>!</h2>
+
+    <h2>Submit Machine Learning Request</h2>
+    <form id="mlRequestForm" enctype="multipart/form-data">
+        <input type="hidden" name="username" value="<%= username %>">
+        <label for="requestData">Request Data:</label>
+        <textarea id="requestData" name="requestData"></textarea>
+        <br>
+        <label for="csvFile">Upload CSV File:</label>
+        <input type="file" id="csvFile" name="csvFile" accept=".csv">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+
+    <div class="button-container">
+        <button id="clearButton">Clear Graph</button>
+        <button id="saveButton">Save Graph</button>
+    </div>
+
+    <h2>Machine Learning Results</h2>
+    <div id="chartContainer">
+        <canvas id="mlResultsChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('mlResultsChart').getContext('2d');
+        let chart;
+
+        function fetchAndUpdateChart() {
+            fetch('/ml_results?username=<%= username %>')
+                .then(response => response.json())
+                .then(data => {
+                    const formattedLabels = data.labels.map(label => new Date(label).toLocaleString());
+                    if (chart) {
+                        chart.data.labels = formattedLabels;
+                        chart.data.datasets[0].data = data.results;
+                        chart.update();
+                    } else {
+                        chart = new Chart(ctx, {
+                            type: 'line',
+                            data: {
+                                labels: formattedLabels,
+                                datasets: [{
+                                    label: 'ML Predictions',
+                                    data: data.results,
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderWidth: 2,
+                                    fill: true,
+                                    tension: 0.1
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `Prediction: ${context.parsed.y}`;
+                                            }
+                                        }
+                                    }
+                                },
+                                scales: {
+                                    x: {
+                                        title: {
+                                            display: true,
+                                            text: 'Date and Time'
+                                        },
+                                        ticks: {
+                                            maxRotation: 45,
+                                            minRotation: 45
+                                        }
+                                    },
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'Prediction'
+                                        },
+                                        beginAtZero: true
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+        }
+
+        $('#mlRequestForm').submit(function(event) {
+            event.preventDefault(); // Prevent the form from submitting the traditional way
+
+            // Check if either requestData or csvFile is filled
+            const requestData = $('#requestData').val();
+            const csvFile = $('#csvFile').val();
+
+            if (!requestData && !csvFile) {
+                alert('Please enter request data or upload a CSV file.');
+                return;
+            }
+
+            const formData = new FormData(this);
+
+            $.ajax({
+                type: 'POST',
+                url: '/ml_request',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    fetchAndUpdateChart();
+                    $('#requestData').val(''); // Clear the textarea
+                    $('#csvFile').val(''); // Clear the file input
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        // Initial chart fetch
+        fetchAndUpdateChart();
+
+        // Clear button functionality
+        document.getElementById('clearButton').addEventListener('click', () => {
+            $.ajax({
+                type: 'POST',
+                url: '/clear_ml_requests',
+                data: JSON.stringify({ username: '<%= username %>' }),
+                contentType: 'application/json',
+                success: function(response) {
+                    if (chart) {
+                        chart.data.labels = [];
+                        chart.data.datasets[0].data = [];
+                        chart.update();
+                    }
+                },
+                error: function(error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+
+        // Save button functionality
+        document.getElementById('saveButton').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.href = chart.toBase64Image();
+            link.download = 'chart.png';
+            link.click();
+        });
+    </script>
+</body>
+</html>
