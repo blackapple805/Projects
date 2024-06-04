@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Signup from './Signup';
 import Login from './Login';
 import Dashboard from './Dashboard';
@@ -18,16 +18,19 @@ function App() {
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
-            {!isLoggedIn && <li><a href="/signup">Signup</a></li>}
-            {!isLoggedIn && <li><a href="/login">Login</a></li>}
-          </ul>
-        </nav>
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/dashboard" element={<Dashboard onLogout={handleLogout} />} />
+          <Route
+            path="/dashboard"
+            element={
+              isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />
+            }
+          />
+          <Route
+            path="/"
+            element={<Navigate to={isLoggedIn ? "/dashboard" : "/login"} />}
+          />
         </Routes>
       </div>
     </Router>

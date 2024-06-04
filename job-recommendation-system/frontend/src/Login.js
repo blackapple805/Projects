@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './Login.css';
+import { FaFacebook, FaGoogle, FaEnvelope, FaLock } from 'react-icons/fa';
 
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
@@ -25,7 +27,7 @@ function Login({ onLogin }) {
       const data = await response.json();
       console.log(data);
       onLogin();  // Update login status
-      navigate('/dashboard', { state: { email } });
+      navigate('/dashboard', { state: { email, userId: data.userId } });
     } catch (error) {
       console.error('Error:', error);
       setError('Failed to login');
@@ -33,31 +35,69 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div className="login-background">
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <h3>Login Here</h3>
+          <div className="input-container">
+            <span className="icon"><FaEnvelope /></span>
+            <input
+              type="email"
+              placeholder="Email or Phone"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-container">
+            <span className="icon"><FaLock /></span>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="remember-me">
+            <label>
+              <input type="checkbox" /> Remember me
+            </label>
+            <Link to="#" className="forgot-password">Forgot Password?</Link>
+          </div>
+          <button type="submit" className="login-button">Log In</button>
+          {error && <p className="error">{error}</p>}
+          <div className="social-login">
+            <button type="button" className="google-login">
+              <FaGoogle />
+            </button>
+            <button type="button" className="facebook-login">
+              <FaFacebook />
+            </button>
+          </div>
+          <p>
+            Don't have an account? <Link to="/signup">Signup here</Link>
+          </p>
+        </form>
+        <div className="login-info">
+          <div className="info-card">
+            <h3>Quiz</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+          <div className="info-card">
+            <h3>Rating</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+          <div className="info-card">
+            <h3>User</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+          <div className="info-card">
+            <h3>News</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
         </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Login</button>
-        {error && <p>{error}</p>}
-      </form>
-      <p>Don't have an account? <Link to="/signup">Signup here</Link></p>
+      </div>
     </div>
   );
 }

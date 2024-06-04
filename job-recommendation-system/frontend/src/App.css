@@ -1,38 +1,171 @@
+body {
+  background-color: #f4f6f9;
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.App-link {
-  color: #61dafb;
+.login-container h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.login-container form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.login-container form div {
+  margin-bottom: 15px;
+}
+
+.login-container label {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.login-container input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+}
+
+.login-container input:focus {
+  border-color: #007bff;
+}
+
+.login-container button {
+  padding: 12px;
+  font-size: 16px;
+  background: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.login-container button:hover {
+  background: #0056b3;
+}
+
+.login-container p {
+  font-size: 14px;
+  color: #666;
+}
+
+.login-container p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-container p a:hover {
+  text-decoration: underline;
+}
+
+.error {
+  color: red;
+  font-size: 14px;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.remember-me input {
+  margin-right: 10px;
+}
+
+.remember-me label {
+  font-size: 14px;
+  color: #333;
+}
+
+.forgot-password {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.social-login {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.google-login,
+.facebook-login {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.google-login {
+  background: #db4437;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.google-login:hover {
+  background: #c33c2f;
+}
+
+.facebook-login {
+  background: #3b5998;
+  color: #fff;
+}
+
+.facebook-login:hover {
+  background: #2e4885;
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+    padding: 20px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .social-login {
+    flex-direction: column;
+  }
+
+  .google-login,
+  .facebook-login {
+    margin: 5px 0;
+    width: 100%;
   }
 }
+
