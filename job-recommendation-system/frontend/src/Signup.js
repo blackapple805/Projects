@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import './App.css';
 
 function Signup() {
   const [email, setEmail] = useState('');
@@ -22,9 +23,7 @@ function Signup() {
         throw new Error('Network response was not ok');
       }
 
-      const data = await response.json();
-      console.log(data);
-      navigate('/dashboard', { state: { email } });
+      navigate('/login');
     } catch (error) {
       console.error('Error:', error);
       setError('Failed to signup');
@@ -32,7 +31,7 @@ function Signup() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Signup</h2>
       <form onSubmit={handleSubmit}>
         <div>
@@ -54,7 +53,7 @@ function Signup() {
           />
         </div>
         <button type="submit">Signup</button>
-        {error && <p>{error}</p>}
+        {error && <p className="error">{error}</p>}
       </form>
       <p>Already have an account? <Link to="/login">Login here</Link></p>
     </div>
