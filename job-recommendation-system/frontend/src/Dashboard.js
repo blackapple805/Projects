@@ -1,6 +1,7 @@
 // Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import './Dashboard.css';
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
@@ -8,12 +9,14 @@ function Dashboard({ onLogout }) {
   const navigate = useNavigate();
   const [selectedPosition, setSelectedPosition] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedExperience, setSelectedExperience] = useState('');
+  const [selectedCompany, setSelectedCompany] = useState('');
   const [recommendations, setRecommendations] = useState([]);
   const [step, setStep] = useState(1);
 
   useEffect(() => {
-    if (selectedPosition && selectedLocation) {
-      fetch(`/recommendations?position=${selectedPosition}&location=${selectedLocation}`, {
+    if (selectedPosition && selectedLocation && selectedExperience && selectedCompany) {
+      fetch(`/recommendations?position=${selectedPosition}&location=${selectedLocation}&experience=${selectedExperience}&company=${selectedCompany}`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -31,7 +34,7 @@ function Dashboard({ onLogout }) {
           setRecommendations([]);
         });
     }
-  }, [selectedPosition, selectedLocation]);
+  }, [selectedPosition, selectedLocation, selectedExperience, selectedCompany]);
 
   const handleLogout = () => {
     onLogout();
@@ -48,22 +51,33 @@ function Dashboard({ onLogout }) {
     setStep(3);
   };
 
+  const handleExperienceChange = (e) => {
+    setSelectedExperience(e.target.value);
+    setStep(4);
+  };
+
+  const handleCompanyChange = (e) => {
+    setSelectedCompany(e.target.value);
+    setStep(5);
+  };
+
   return (
-    <div>
+    <div className="dashboard-container">
       <h1>Welcome, {email}!</h1>
       <p>Congratulations on successfully logging in!</p>
-      <button onClick={handleLogout}>Logout</button>
 
       <h2>Your Job Recommendations</h2>
 
       <div className="progress-bar">
-        <div style={{ backgroundColor: step >= 1 ? '#007BFF' : '#ccc' }}></div>
-        <div style={{ backgroundColor: step >= 2 ? '#007BFF' : '#ccc' }}></div>
-        <div style={{ backgroundColor: step >= 3 ? '#007BFF' : '#ccc' }}></div>
+        <div className={`progress-step ${step >= 1 ? 'active' : ''}`}></div>
+        <div className={`progress-step ${step >= 2 ? 'active' : ''}`}></div>
+        <div className={`progress-step ${step >= 3 ? 'active' : ''}`}></div>
+        <div className={`progress-step ${step >= 4 ? 'active' : ''}`}></div>
+        <div className={`progress-step ${step >= 5 ? 'active' : ''}`}></div>
       </div>
 
       {step === 1 && (
-        <div>
+        <div className="step-container">
           <h3>Select a position</h3>
           <select value={selectedPosition} onChange={handlePositionChange}>
             <option value="">Select a position</option>
@@ -75,7 +89,7 @@ function Dashboard({ onLogout }) {
       )}
 
       {step === 2 && (
-        <div>
+        <div className="step-container">
           <h3>Select a location</h3>
           <select value={selectedLocation} onChange={handleLocationChange}>
             <option value="">Select a location</option>
@@ -88,8 +102,33 @@ function Dashboard({ onLogout }) {
       )}
 
       {step === 3 && (
-        <div>
-          <h3>Recommendations for {selectedPosition} in {selectedLocation}</h3>
+        <div className="step-container">
+          <h3>Select your experience level</h3>
+          <select value={selectedExperience} onChange={handleExperienceChange}>
+            <option value="">Select experience</option>
+            <option value="Entry Level">Entry Level</option>
+            <option value="Mid Level">Mid Level</option>
+            <option value="Senior Level">Senior Level</option>
+          </select>
+        </div>
+      )}
+
+      {step === 4 && (
+        <div className="step-container">
+          <h3>Select a company</h3>
+          <select value={selectedCompany} onChange={handleCompanyChange}>
+            <option value="">Select a company</option>
+            <option value="Google">Google</option>
+            <option value="Amazon">Amazon</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Apple">Apple</option>
+          </select>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className="step-container">
+          <h3>Recommendations for {selectedPosition} in {selectedLocation} with {selectedExperience} experience at {selectedCompany}</h3>
           {recommendations.length > 0 ? (
             recommendations.map((job, index) => (
               <div key={index} className="card">
@@ -104,6 +143,8 @@ function Dashboard({ onLogout }) {
           )}
         </div>
       )}
+
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
   );
 }
