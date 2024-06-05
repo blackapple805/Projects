@@ -81,20 +81,20 @@ function Login({ onLogin }) {
         </form>
         <div className="login-info">
           <div className="info-card">
-            <h3>Quiz</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>Job Recommendations</h3>
+            <p>Get personalized job recommendations based on your profile and preferences.</p>
           </div>
           <div className="info-card">
-            <h3>Rating</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>Application Tracking</h3>
+            <p>Track the status of your job applications in one place.</p>
           </div>
           <div className="info-card">
-            <h3>User</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>User Dashboard</h3>
+            <p>Manage your profile, view job matches, and save favorite job listings.</p>
           </div>
           <div className="info-card">
-            <h3>News</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h3>Latest News</h3>
+            <p>Stay updated with the latest industry news and career advice.</p>
           </div>
         </div>
       </div>

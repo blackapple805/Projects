@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import './App.css';
+import { FaEnvelope, FaLock } from 'react-icons/fa';
+import './Signup.css';
 
 function Signup() {
   const [email, setEmail] = useState('');
@@ -20,42 +21,49 @@ function Signup() {
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        const data = await response.json();
+        throw new Error(data.message);
       }
 
       navigate('/login');
     } catch (error) {
       console.error('Error:', error);
-      setError('Failed to signup');
+      setError(error.message || 'Failed to signup');
     }
   };
 
   return (
-    <div className="login-container">
-      <h2>Signup</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button type="submit">Signup</button>
-        {error && <p className="error">{error}</p>}
-      </form>
-      <p>Already have an account? <Link to="/login">Login here</Link></p>
+    <div className="signup-background">
+      <div className="signup-container">
+        <form className="signup-form" onSubmit={handleSubmit}>
+          <h3>Sign up</h3>
+          <div className="input-container">
+            <span className="icon"><FaEnvelope /></span>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className="input-container">
+            <span className="icon"><FaLock /></span>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="signup-button">Sign up</button>
+          {error && <p className="error">{error}</p>}
+          <p>
+            Already have an account? <Link to="/login">Login here</Link>
+          </p>
+        </form>
+      </div>
     </div>
   );
 }

@@ -31,18 +31,31 @@ app.get('/', (req, res) => {
 });
 
 // Signup route
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
   const { email, password } = req.body;
   console.log('Signup request received:', email);
-  const hashedPassword = bcrypt.hashSync(password, 10);
-
-  const query = 'INSERT INTO users (email, password) VALUES (?, ?)';
-  db.query(query, [email, hashedPassword], (err, result) => {
+  
+  // Check if user already exists
+  const querySelect = 'SELECT * FROM users WHERE email = ?';
+  db.query(querySelect, [email], (err, results) => {
     if (err) {
-      console.error('Error creating user:', err);
-      return res.status(500).send({ message: 'Error creating user' });
+      console.error('Error checking existing user:', err);
+      return res.status(500).send({ message: 'Error checking existing user' });
     }
-    res.status(201).send({ message: 'User created successfully' });
+    if (results.length > 0) {
+      return res.status(400).send({ message: 'User already exists' });
+    }
+
+    // If user does not exist, proceed to create a new user
+    const hashedPassword = bcrypt.hashSync(password, 10);
+    const queryInsert = 'INSERT INTO users (email, password) VALUES (?, ?)';
+    db.query(queryInsert, [email, hashedPassword], (err, result) => {
+      if (err) {
+        console.error('Error creating user:', err);
+        return res.status(500).send({ message: 'Error creating user' });
+      }
+      res.status(201).send({ message: 'User created successfully' });
+    });
   });
 });
 

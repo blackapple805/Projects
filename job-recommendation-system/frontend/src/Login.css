@@ -1,186 +1,198 @@
 /* Basic reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  
-  /* Body styling */
-  body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(120deg, #3f3d56, #5c78a4);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Login background */
-  .login-background {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  /* Login container */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(120deg, #3f3d56, #5c78a4);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login background */
+.login-background {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Login container */
+.login-container {
+  display: flex;
+  width: 80%;
+  max-width: 1200px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  flex-direction: row;
+}
+
+/* Adjust layout for smaller screens */
+@media (max-width: 768px) {
   .login-container {
-    display: flex;
-    width: 80%;
-    max-width: 1000px;
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    flex-direction: row;
-  }
-  
-  /* Login form */
-  .login-form {
-    flex: 1;
-    padding: 40px;
-    display: flex;
     flex-direction: column;
-    justify-content: center;
   }
-  
-  .login-form h3 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-  }
-  
-  .input-container {
-    position: relative;
-    margin-bottom: 20px;
-  }
-  
-  .input-container .icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #888;
-  }
-  
-  .input-container input {
-    width: 100%;
-    padding: 10px 10px 10px 40px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #333;
-  }
-  
-  .remember-me {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .remember-me input {
-    margin-right: 10px;
-  }
-  
-  .remember-me label {
-    font-size: 14px;
-    color: #333;
-  }
-  
-  .forgot-password {
-    font-size: 14px;
-    color: #333;
-    text-decoration: none;
-  }
-  
-  .forgot-password:hover {
-    text-decoration: underline;
-  }
-  
-  .login-button {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background: #6c63ff;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-    margin-bottom: 20px;
-  }
-  
-  .login-button:hover {
-    background: #5752d6;
-  }
-  
-  .social-login {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  .google-login,
-  .facebook-login {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .google-login {
-    background: #db4437;
-    color: #fff;
-    margin-right: 10px;
-  }
-  
-  .google-login:hover {
-    background: #c33c2f;
-  }
-  
-  .facebook-login {
-    background: #3b5998;
-    color: #fff;
-  }
-  
-  .facebook-login:hover {
-    background: #2e4885;
-  }
-  
-  /* Login info */
-  .login-info {
-    flex: 1;
-    background: #f1f1f1;
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
+}
+
+/* Login form */
+.login-form {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+  text-align: center;  /* Center the text */
+}
+
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.input-container .icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+}
+
+.input-container input {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.remember-me input {
+  margin-right: 10px;
+}
+
+.remember-me label {
+  font-size: 14px;
+  color: #333;
+}
+
+.forgot-password {
+  font-size: 14px;
+  color: #333;
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+.login-button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background: #6c63ff;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.login-button:hover {
+  background: #5752d6;
+}
+
+.social-login {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.google-login,
+.facebook-login {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.google-login {
+  background: #db4437;
+  color: #fff;
+  margin-right: 10px;
+}
+
+.google-login:hover {
+  background: #c33c2f;
+}
+
+.facebook-login {
+  background: #3b5998;
+  color: #fff;
+}
+
+.facebook-login:hover {
+  background: #2e4885;
+}
+
+/* Login info */
+.login-info {
+  flex: 1;
+  background: #f1f1f1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.info-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  width: 80%;
+  text-align: center;
+  flex: 1;
+}
+
+.info-card h3 {
+  margin-bottom: 10px;
+  font-size: 16px;  /* Make the bold card names smaller */
+  color: #333;
+}
+
+.info-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
   .info-card {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    width: 80%;
-    text-align: center;
+    width: 100%;
   }
-  
-  .info-card h3 {
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-  }
-  
-  .info-card p {
-    font-size: 14px;
-    color: #666;
-  }
+}
