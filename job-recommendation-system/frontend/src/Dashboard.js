@@ -1,4 +1,3 @@
-// Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import './Dashboard.css';
@@ -64,7 +63,7 @@ function Dashboard({ onLogout }) {
   return (
     <div className="dashboard-container">
       <h1>Welcome, {email}!</h1>
-      <p>Congratulations on successfully logging in!</p>
+      <p>Let's find the best job opportunities for you.</p>
 
       <h2>Your Job Recommendations</h2>
 

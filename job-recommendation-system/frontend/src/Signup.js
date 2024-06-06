@@ -34,33 +34,35 @@ function Signup() {
 
   return (
     <div className="signup-background">
-      <div className="signup-container">
+      <div className="signup-container group">
         <form className="signup-form" onSubmit={handleSubmit}>
-          <h3>Sign up</h3>
-          <div className="input-container">
-            <span className="icon"><FaEnvelope /></span>
+          <h3 className="text-2xl font-semibold mb-4">Sign up</h3>
+          <div className="input-container mb-3 flex items-center">
+            <span className="icon mr-2"><FaEnvelope /></span>
             <input
               type="email"
               placeholder="Email"
+              className="input-field p-2 rounded-lg flex-1"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="input-container">
-            <span className="icon"><FaLock /></span>
+          <div className="input-container mb-3 flex items-center">
+            <span className="icon mr-2"><FaLock /></span>
             <input
               type="password"
               placeholder="Password"
+              className="input-field p-2 rounded-lg flex-1"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit" className="signup-button">Sign up</button>
-          {error && <p className="error">{error}</p>}
-          <p>
-            Already have an account? <Link to="/login">Login here</Link>
+          <button type="submit" className="signup-button p-2 rounded-lg bg-purple-600 text-white w-full">Sign up</button>
+          {error && <p className="error text-red-600 mt-3">{error}</p>}
+          <p className="mt-3 text-center">
+            Already have an account? <Link to="/login" className="text-purple-600">Login here</Link>
           </p>
         </form>
       </div>
@@ -69,3 +71,4 @@ function Signup() {
 }
 
 export default Signup;
+
