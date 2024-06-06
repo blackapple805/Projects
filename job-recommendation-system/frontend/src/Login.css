@@ -8,7 +8,7 @@
 /* Body styling */
 body {
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(120deg, #3f3d56, #5c78a4);
+  background: linear-gradient(120deg, #121212, #323232);
   height: 100vh;
   display: flex;
   justify-content: center;
@@ -27,13 +27,31 @@ body {
 /* Login container */
 .login-container {
   display: flex;
+  flex-direction: row;
   width: 80%;
   max-width: 1200px;
-  background: #fff;
+  background: rgba(40, 40, 40, 0.9);
   border-radius: 10px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  flex-direction: row;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.login-container:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #764ba2;
+  border-radius: 10px;
+  transform: translateY(100%);
+  transition: transform 0.5s ease;
+}
+
+.login-container:hover:after {
+  transform: translateY(0);
 }
 
 /* Adjust layout for smaller screens */
@@ -50,18 +68,24 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  background: rgba(50, 50, 50, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
+  margin: 20px;
 }
 
 .login-form h3 {
   margin-bottom: 20px;
   font-size: 24px;
-  color: #333;
-  text-align: center;  /* Center the text */
+  color: #fff;
+  text-align: center;
 }
 
 .input-container {
   position: relative;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .input-container .icon {
@@ -69,22 +93,24 @@ body {
   left: 10px;
   top: 50%;
   transform: translateY(-50%);
-  color: #888;
+  color: #bbb;
 }
 
 .input-container input {
   width: 100%;
   padding: 10px 10px 10px 40px;
-  border: 1px solid #ddd;
+  border: 1px solid #555;
   border-radius: 5px;
   font-size: 16px;
-  color: #333;
+  color: #fff;
+  background: #333;
 }
 
 .remember-me {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -94,12 +120,12 @@ body {
 
 .remember-me label {
   font-size: 14px;
-  color: #333;
+  color: #bbb;
 }
 
 .forgot-password {
   font-size: 14px;
-  color: #333;
+  color: #bbb;
   text-decoration: none;
 }
 
@@ -126,6 +152,7 @@ body {
 .social-login {
   display: flex;
   justify-content: space-between;
+  width: 100%;
   margin-bottom: 20px;
 }
 
@@ -137,6 +164,9 @@ body {
   border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .google-login {
@@ -158,37 +188,75 @@ body {
   background: #2e4885;
 }
 
+/* Login form link color */
+.login-form p a {
+  color: #6c63ff; /* Same color as the login button */
+  text-decoration: none;
+}
+
+.login-form p a:visited {
+  color: #6c63ff; /* Visited link color */
+}
+
+.login-form p a:hover {
+  text-decoration: underline;
+  color: #8a75ff; /* Slightly lighter color on hover for better visibility */
+}
+
 /* Login info */
 .login-info {
   flex: 1;
-  background: #f1f1f1;
+  background: rgba(50, 50, 50, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.7);
   padding: 40px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 20px;
 }
 
 .info-card {
-  background: #fff;
+  background: #444;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   margin-bottom: 20px;
   width: 80%;
   text-align: center;
-  flex: 1;
+  transition: all 0.3s ease;
+}
+
+.info-card:nth-child(1):hover {
+  background: #db4437;
+}
+
+.info-card:nth-child(2):hover {
+  background: #3b5998;
+}
+
+.info-card:nth-child(3):hover {
+  background: #34a853;
+}
+
+.info-card:nth-child(4):hover {
+  background: #6c63ff;
 }
 
 .info-card h3 {
   margin-bottom: 10px;
-  font-size: 16px;  /* Make the bold card names smaller */
-  color: #333;
+  font-size: 16px;
+  color: #fff;
 }
 
 .info-card p {
   font-size: 14px;
-  color: #666;
+  color: #bbb;
+}
+
+.info-card:hover {
+  transform: scale(1.05);
 }
 
 @media (max-width: 768px) {
@@ -196,3 +264,4 @@ body {
     width: 100%;
   }
 }
+

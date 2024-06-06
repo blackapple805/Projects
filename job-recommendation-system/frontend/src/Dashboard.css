@@ -1,110 +1,194 @@
 /* Dashboard.css */
 
+/* Basic reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styling */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(120deg, #121212, #323232);
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Dashboard background */
+.dashboard-background {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Dashboard container */
 .dashboard-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem;
-    background: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-    max-width: 800px;
-    margin: 3rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: rgba(40, 40, 40, 0.9);
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  max-width: 800px;
+  margin: 3rem auto;
+  text-align: center;
+}
+
+/* Header styling */
+h1 {
+  margin-bottom: 0.5rem;
+  font-size: 2rem;
+  color: #fff;
+}
+
+p {
+  margin-bottom: 1.5rem;
+  color: #aaa;
+}
+
+h2 {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #6c63ff;
+}
+
+/* Progress bar styling */
+.progress-bar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.progress-step {
+  width: 15%;
+  height: 5px;
+  margin: 0 5px;
+  background: #555;
+  transition: background 0.3s;
+}
+
+.progress-step.active {
+  background: #6c63ff;
+}
+
+/* Step container styling */
+.step-container {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.step-container select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #555;
+  width: 80%;
+  background: #444;
+  color: #fff;
+}
+
+/* Card styling */
+.card {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 1rem;
+  margin: 1rem 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  width: 100%;
+  text-align: left;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.card h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+  color: #6c63ff;
+}
+
+.card p {
+  margin-bottom: 0.5rem;
+  color: #aaa;
+}
+
+.card button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background: #6c63ff;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.card button:hover {
+  background: #5752d6;
+}
+
+/* Hover effects for cards */
+.card:nth-child(1):hover {
+  background: #db4437;
+}
+
+.card:nth-child(2):hover {
+  background: #3b5998;
+}
+
+.card:nth-child(3):hover {
+  background: #34a853;
+}
+
+.card:nth-child(4):hover {
+  background: #6c63ff;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Logout button styling */
+.logout-button {
+  margin-top: 2rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background: #dc3545;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logout-button:hover {
+  background: #c82333;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .dashboard-container {
+    width: 90%;
+    padding: 20px;
   }
-  
+
   h1 {
-    margin-bottom: 0.5rem;
-    font-size: 2rem;
-    color: #333;
+    font-size: 1.75rem;
   }
-  
-  p {
-    margin-bottom: 1.5rem;
-    color: #666;
-  }
-  
+
   h2 {
-    margin-bottom: 1rem;
-    font-size: 1.5rem;
-    color: #007BFF;
-  }
-  
-  .progress-bar {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-    width: 100%;
-  }
-  
-  .progress-step {
-    width: 15%;
-    height: 5px;
-    margin: 0 5px;
-    background: #ccc;
-    transition: background 0.3s;
-  }
-  
-  .progress-step.active {
-    background: #007BFF;
-  }
-  
-  .step-container {
-    text-align: center;
-    margin-bottom: 2rem;
-  }
-  
-  .step-container select {
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: 80%;
-  }
-  
-  .card {
-    background: #fff;
-    padding: 1rem;
-    margin: 1rem 0;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    text-align: left;
-  }
-  
-  .card h4 {
-    margin-bottom: 0.5rem;
     font-size: 1.25rem;
-    color: #007BFF;
   }
-  
-  .card p {
-    margin-bottom: 0.5rem;
-    color: #666;
+
+  .step-container select {
+    width: 100%;
   }
-  
-  .card button {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    background: #007BFF;
-    color: #fff;
-    cursor: pointer;
+
+  .card {
+    width: 100%;
   }
-  
-  .card button:hover {
-    background: #0056b3;
-  }
-  
-  .logout-button {
-    margin-top: 2rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 5px;
-    background: #dc3545;
-    color: #fff;
-    cursor: pointer;
-  }
-  
-  .logout-button:hover {
-    background: #c82333;
-  }
+}
+
   
