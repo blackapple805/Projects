@@ -1,5 +1,3 @@
-/* Dashboard.css */
-
 /* Basic reset */
 * {
   margin: 0;
@@ -31,31 +29,175 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  width: 100%;
+  height: 100vh;
   background: rgba(40, 40, 40, 0.9);
+  color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* Header styling */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 1rem;
+  background: #222;
+  color: #fff;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.header-left {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.header-right a {
+  margin-right: 1rem;
+  color: #fff;
+  text-decoration: none;
+}
+
+.header-right a:hover {
+  text-decoration: underline;
+}
+
+.header-right span {
+  margin-right: 1rem;
+}
+
+.logout-button {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  background: #dc3545;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logout-button:hover {
+  background: #c82333;
+}
+
+/* Dashboard body */
+.dashboard-body {
+  display: flex;
+  width: 100%;
+  height: calc(100vh - 60px); /* Adjust height based on header height */
+}
+
+/* Sidebar styling */
+.sidebar {
+  width: 200px;
+  background: #333;
+  padding: 1rem;
+  border-bottom-left-radius: 15px;
+}
+
+.sidebar ul {
+  list-style-type: none;
+}
+
+.sidebar li {
+  margin-bottom: 1rem;
+}
+
+.sidebar a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  text-decoration: underline;
+}
+
+/* Main content styling */
+.main-content {
+  flex-grow: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-y: auto;
+}
+
+/* Recommendations container */
+.recommendations-container {
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+/* Card styling */
+.card {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
   max-width: 800px;
-  margin: 3rem auto;
+  width: 100%;
   text-align: center;
+  margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
+  overflow: hidden; /* Ensure the pseudo-element is contained within the card */
+  transition: all 0.3s ease;
+}
+
+.card:after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: #6c63ff; /* Complementary color */
+  border-radius: 15px;
+  transform: translateY(100%);
+  transition: transform 0.5s ease;
+}
+
+.card:hover:after {
+  transform: translateY(0);
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Job card styling */
+.job-card {
+  background: rgba(60, 60, 60, 0.9);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  text-align: left;
+  transition: transform 0.3s ease, background-color 0.3s ease; /* Added for hover effect */
+}
+
+.job-card:hover {
+  transform: scale(1.05);
+  background: #6c63ff; /* Complementary color */
 }
 
 /* Header styling */
 h1 {
   margin-bottom: 0.5rem;
-  font-size: 2rem;
-  color: #fff;
-}
-
-p {
-  margin-bottom: 1.5rem;
-  color: #aaa;
+  font-size: 1.5rem;
+  color: #fff; /* Set the color of h1 to white */
 }
 
 h2 {
   margin-bottom: 1rem;
   font-size: 1.5rem;
-  color: #6c63ff;
+  color: #fff; /* Set the color of h2 to white */
 }
 
 /* Progress bar styling */
@@ -75,7 +217,7 @@ h2 {
 }
 
 .progress-step.active {
-  background: #6c63ff;
+  background: #fff; /* Set the active step color to white */
 }
 
 /* Step container styling */
@@ -91,80 +233,6 @@ h2 {
   width: 80%;
   background: #444;
   color: #fff;
-}
-
-/* Card styling */
-.card {
-  background: rgba(50, 50, 50, 0.9);
-  padding: 1rem;
-  margin: 1rem 0;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  width: 100%;
-  text-align: left;
-  transition: background 0.3s, transform 0.3s;
-}
-
-.card h4 {
-  margin-bottom: 0.5rem;
-  font-size: 1.25rem;
-  color: #6c63ff;
-}
-
-.card p {
-  margin-bottom: 0.5rem;
-  color: #aaa;
-}
-
-.card button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  background: #6c63ff;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.card button:hover {
-  background: #5752d6;
-}
-
-/* Hover effects for cards */
-.card:nth-child(1):hover {
-  background: #db4437;
-}
-
-.card:nth-child(2):hover {
-  background: #3b5998;
-}
-
-.card:nth-child(3):hover {
-  background: #34a853;
-}
-
-.card:nth-child(4):hover {
-  background: #6c63ff;
-}
-
-.card:hover {
-  transform: scale(1.05);
-}
-
-/* Logout button styling */
-.logout-button {
-  margin-top: 2rem;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  background: #dc3545;
-  color: #fff;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-.logout-button:hover {
-  background: #c82333;
 }
 
 /* Responsive adjustments */
@@ -190,5 +258,3 @@ h2 {
     width: 100%;
   }
 }
-
-  
