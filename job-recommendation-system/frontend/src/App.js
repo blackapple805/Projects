@@ -22,7 +22,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route
-            path="/dashboard"
+            path="/dashboard/*"
             element={
               isLoggedIn ? <Dashboard onLogout={handleLogout} /> : <Navigate to="/login" />
             }
