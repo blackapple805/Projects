@@ -187,7 +187,7 @@ function Dashboard({ onLogout }) {
             </div>
           </div>
           <Routes>
-            <Route path="my-details" element={<div className="card"><MyDetails /></div>} />
+            <Route path="my-details" element={<div className="card"><MyDetails userEmail={email} /></div>} />
             <Route path="profile" element={<div className="card"><Profile /></div>} />
             <Route path="password" element={<div className="card"><Password /></div>} />
             <Route path="team" element={<div className="card"><Team /></div>} />
