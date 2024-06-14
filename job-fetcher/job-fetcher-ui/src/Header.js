@@ -1,27 +1,60 @@
-import React from 'react';
-import { Navbar, Form, FormControl, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
 import './Header.css';
 
 const Header = ({ onSearch }) => {
-  const handleSearch = (e) => {
-    e.preventDefault();
-    const query = e.target.elements.search.value;
+  const [query, setQuery] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+
+  useEffect(() => {
+    if (query || showDropdown) {
+      setSuggestions([
+        `Job in ${query}`,
+        `Company ${query}`,
+        `Location ${query}`
+      ]);
+    } else {
+      setSuggestions([]);
+    }
+  }, [query, showDropdown]);
+
+  const handleSearch = () => {
     onSearch(query);
+    setQuery(''); // Clear the input field
+    setShowDropdown(false);
   };
 
   return (
-    <Navbar bg="dark" variant="dark" className="justify-content-between">
-      <Navbar.Brand href="#home">Job Fetcher</Navbar.Brand>
-      <Form inline onSubmit={handleSearch}>
-        <FormControl
+    <div className="header">
+      <h1>Job Fetcher</h1>
+      <div className="search-container">
+        <input
           type="text"
-          placeholder="Search"
-          className="mr-sm-2"
-          name="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => setShowDropdown(true)}
+          placeholder="Search for jobs, companies, locations..."
+          className="search-input"
         />
-        <Button variant="outline-info" type="submit">Search</Button>
-      </Form>
-    </Navbar>
+        <button onClick={handleSearch} className="search-button">Search</button>
+        {showDropdown && (
+          <div className="search-dropdown">
+            {suggestions.map((suggestion, index) => (
+              <div 
+                key={index} 
+                className="search-suggestion"
+                onClick={() => {
+                  setQuery(suggestion);
+                  handleSearch();
+                }}
+              >
+                {suggestion}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
