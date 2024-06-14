@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import JobList from './JobList';
 import Header from './Header';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
   return (
     <div className="App">
-      <Header />
+      <Header onSearch={handleSearch} />
       <div className="container">
-        <JobList />
+        <JobList searchQuery={searchQuery} />
       </div>
     </div>
   );
