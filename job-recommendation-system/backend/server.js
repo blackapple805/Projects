@@ -4,7 +4,6 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
-const mockJobData = require('./mockData'); // Import mock data
 
 const app = express();
 app.use(cors());
@@ -98,9 +97,40 @@ app.post('/login', (req, res) => {
 });
 
 // Fetch job recommendations route with position filter
-app.get('/recommendations', verifyToken, (req, res) => {
-  // Send mock data instead of calling the actual API
-  res.status(200).send(mockJobData);
+app.get('/recommendations', verifyToken, async (req, res) => {
+  const options = {
+    method: 'GET',
+    url: 'https://jobs-api14.p.rapidapi.com/list',
+    params: {
+      query: 'Web Developer',
+      location: 'United States',
+      distance: '1.0',
+      language: 'en_GB',
+      remoteOnly: 'false',
+      datePosted: 'month',
+      employmentTypes: 'fulltime;parttime;intern;contractor',
+      index: '0'
+    },
+    headers: {
+      'x-rapidapi-host': 'jobs-api14.p.rapidapi.com',
+      'x-rapidapi-key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976' // Replace with your actual API key
+    }
+  };
+
+  try {
+    const response = await axios.request(options);
+    const jobs = response.data.jobs.map(job => ({
+      title: job.title,
+      companyName: job.companyName,
+      location: job.formattedLocation,
+      description: job.jobDescription,
+      applyUrl: job.jobApplyUrl
+    }));
+    res.status(200).send(jobs);
+  } catch (error) {
+    console.error('Error fetching job recommendations:', error);
+    res.status(500).send({ message: 'Error fetching job recommendations' });
+  }
 });
 
 const PORT = process.env.PORT || 5000;

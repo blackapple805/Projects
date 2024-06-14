@@ -52,33 +52,15 @@ function Dashboard({ onLogout }) {
 
       const data = await response.json();
       console.log('Fetched data:', data);
-      if (data && Array.isArray(data.response.jobs)) {
-        setTestRecommendations(data.response.jobs);
+      if (Array.isArray(data)) {
+        setTestRecommendations(data);
       } else {
         console.error('Invalid data format:', data);
         setTestRecommendations([]);
       }
     } catch (error) {
       console.error('Error fetching test recommendations:', error);
-
-      // Mock data fallback
-      const mockData = [
-        {
-          title: 'Software Engineer II, Full Stack, Geo at Google',
-          companyName: 'Google',
-          location: 'Bengaluru, Karnataka, India',
-          description: "Minimum qualifications: Bachelor's degree or equivalent practical experience. 1 year of experience with software development.",
-          applyUrl: 'https://careers.google.com/jobs/results/108699149884367558-software-engineer-ii/'
-        },
-        {
-          title: 'Student Researcher, 2024 at Google',
-          companyName: 'Google',
-          location: 'Munich, Bavaria, Germany',
-          description: 'Placeholder job description to be used only by the Campus team. Please complete your application before June 21, 2024.',
-          applyUrl: 'https://careers.google.com/jobs/results/102147380345742022-student-researcher/'
-        }
-      ];
-      setTestRecommendations(mockData);
+      setTestRecommendations([]);
     }
   };
 
@@ -121,10 +103,22 @@ function Dashboard({ onLogout }) {
               {testRecommendations.length > 0 ? (
                 testRecommendations.map((job, index) => (
                   <div key={index} className="job-card">
-                    <h4>{job.title}</h4>
+                    <h4>{job.title} at {job.company}</h4>
                     <p>{job.location}</p>
                     <p>{job.description}</p>
-                    <a href={job.applyUrl} target="_blank" rel="noopener noreferrer" className="apply-button">Apply</a>
+                    {job.jobProviders && job.jobProviders.length > 0 ? (
+                      job.jobProviders.map((provider, i) => (
+                        <button
+                          key={i}
+                          onClick={() => window.open(provider.url, '_blank')}
+                          className="apply-button"
+                        >
+                          Apply on {provider.jobProvider}
+                        </button>
+                      ))
+                    ) : (
+                      <p>No application link available</p>
+                    )}
                   </div>
                 ))
               ) : (
