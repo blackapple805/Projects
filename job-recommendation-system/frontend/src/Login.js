@@ -26,6 +26,11 @@ function Login({ onLogin }) {
 
       const data = await response.json();
       console.log(data);
+
+      // Save the token to localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('email', email);
+
       onLogin();  // Update login status
       navigate('/dashboard', { state: { email, userId: data.userId } });
     } catch (error) {
