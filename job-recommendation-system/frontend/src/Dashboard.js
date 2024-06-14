@@ -10,18 +10,12 @@ import Billing from './Billing';
 import Email from './Email';
 import Notifications from './Notifications';
 import Integrations from './Integrations';
-import API from './API';
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState(localStorage.getItem('email') || 'User');
-  const [selectedPosition, setSelectedPosition] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('');
-  const [selectedExperience, setSelectedExperience] = useState('');
-  const [selectedCompany, setSelectedCompany] = useState('');
-  const [recommendations, setRecommendations] = useState([]);
-  const [step, setStep] = useState(1);
+  const [testRecommendations, setTestRecommendations] = useState([]);
 
   useEffect(() => {
     if (location.state && location.state.email) {
@@ -30,52 +24,62 @@ function Dashboard({ onLogout }) {
     }
   }, [location.state]);
 
-  useEffect(() => {
-    if (selectedPosition && selectedLocation && selectedExperience && selectedCompany) {
-      fetch(`/recommendations?position=${selectedPosition}&location=${selectedLocation}&experience=${selectedExperience}&company=${selectedCompany}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (Array.isArray(data)) {
-            setRecommendations(data);
-          } else {
-            setRecommendations([]);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching recommendations:', error);
-          setRecommendations([]);
-        });
-    }
-  }, [selectedPosition, selectedLocation, selectedExperience, selectedCompany]);
-
   const handleLogout = () => {
     onLogout();
     localStorage.removeItem('email');
+    localStorage.removeItem('token');
     navigate('/login');
   };
 
-  const handlePositionChange = (e) => {
-    setSelectedPosition(e.target.value);
-    setStep(2);
-  };
+  const fetchTestRecommendations = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      console.error('No token found');
+      return;
+    }
 
-  const handleLocationChange = (e) => {
-    setSelectedLocation(e.target.value);
-    setStep(3);
-  };
+    try {
+      const response = await fetch('/recommendations', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
 
-  const handleExperienceChange = (e) => {
-    setSelectedExperience(e.target.value);
-    setStep(4);
-  };
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
 
-  const handleCompanyChange = (e) => {
-    setSelectedCompany(e.target.value);
-    setStep(5);
+      const data = await response.json();
+      console.log('Fetched data:', data);
+      if (data && Array.isArray(data.response.jobs)) {
+        setTestRecommendations(data.response.jobs);
+      } else {
+        console.error('Invalid data format:', data);
+        setTestRecommendations([]);
+      }
+    } catch (error) {
+      console.error('Error fetching test recommendations:', error);
+
+      // Mock data fallback
+      const mockData = [
+        {
+          title: 'Software Engineer II, Full Stack, Geo at Google',
+          companyName: 'Google',
+          location: 'Bengaluru, Karnataka, India',
+          description: "Minimum qualifications: Bachelor's degree or equivalent practical experience. 1 year of experience with software development.",
+          applyUrl: 'https://careers.google.com/jobs/results/108699149884367558-software-engineer-ii/'
+        },
+        {
+          title: 'Student Researcher, 2024 at Google',
+          companyName: 'Google',
+          location: 'Munich, Bavaria, Germany',
+          description: 'Placeholder job description to be used only by the Campus team. Please complete your application before June 21, 2024.',
+          applyUrl: 'https://careers.google.com/jobs/results/102147380345742022-student-researcher/'
+        }
+      ];
+      setTestRecommendations(mockData);
+    }
   };
 
   return (
@@ -107,82 +111,24 @@ function Dashboard({ onLogout }) {
             <li><NavLink to="/dashboard/email">Email</NavLink></li>
             <li><NavLink to="/dashboard/notifications">Notifications</NavLink></li>
             <li><NavLink to="/dashboard/integrations">Integrations</NavLink></li>
-            <li><NavLink to="/dashboard/api">API</NavLink></li>
           </ul>
         </aside>
         <main className="main-content">
           <div className="recommendations-container">
             <div className="card">
-              <h2>Your Job Recommendations</h2>
-              <div className="progress-bar">
-                <div className={`progress-step ${step >= 1 ? 'active' : ''}`}></div>
-                <div className={`progress-step ${step >= 2 ? 'active' : ''}`}></div>
-                <div className={`progress-step ${step >= 3 ? 'active' : ''}`}></div>
-                <div className={`progress-step ${step >= 4 ? 'active' : ''}`}></div>
-                <div className={`progress-step ${step >= 5 ? 'active' : ''}`}></div>
-              </div>
-              {step === 1 && (
-                <div className="step-container">
-                  <h3>Select a position</h3>
-                  <select value={selectedPosition} onChange={handlePositionChange}>
-                    <option value="">Select a position</option>
-                    <option value="Software Engineer">Software Engineer</option>
-                    <option value="Data Scientist">Data Scientist</option>
-                    <option value="Product Manager">Product Manager</option>
-                  </select>
-                </div>
-              )}
-              {step === 2 && (
-                <div className="step-container">
-                  <h3>Select a location</h3>
-                  <select value={selectedLocation} onChange={handleLocationChange}>
-                    <option value="">Select a location</option>
-                    <option value="San Francisco">San Francisco</option>
-                    <option value="Los Angeles">Los Angeles</option>
-                    <option value="San Diego">San Diego</option>
-                    <option value="Sacramento">Sacramento</option>
-                  </select>
-                </div>
-              )}
-              {step === 3 && (
-                <div className="step-container">
-                  <h3>Select your experience level</h3>
-                  <select value={selectedExperience} onChange={handleExperienceChange}>
-                    <option value="">Select experience</option>
-                    <option value="Entry Level">Entry Level</option>
-                    <option value="Mid Level">Mid Level</option>
-                    <option value="Senior Level">Senior Level</option>
-                  </select>
-                </div>
-              )}
-              {step === 4 && (
-                <div className="step-container">
-                  <h3>Select a company</h3>
-                  <select value={selectedCompany} onChange={handleCompanyChange}>
-                    <option value="">Select a company</option>
-                    <option value="Google">Google</option>
-                    <option value="Amazon">Amazon</option>
-                    <option value="Facebook">Facebook</option>
-                    <option value="Apple">Apple</option>
-                  </select>
-                </div>
-              )}
-              {step === 5 && (
-                <div className="step-container">
-                  <h3>Recommendations for {selectedPosition} in {selectedLocation} with {selectedExperience} experience at {selectedCompany}</h3>
-                  {recommendations.length > 0 ? (
-                    recommendations.map((job, index) => (
-                      <div key={index} className="job-card">
-                        <h4>{job.job_title} at {job.company}</h4>
-                        <p>{job.location}</p>
-                        <p>{job.description}</p>
-                        <button>Apply on Company Site</button>
-                      </div>
-                    ))
-                  ) : (
-                    <p>No recommendations available</p>
-                  )}
-                </div>
+              <h2>Test Job Recommendations</h2>
+              <button onClick={fetchTestRecommendations} className="fetch-button">Fetch Test Recommendations</button>
+              {testRecommendations.length > 0 ? (
+                testRecommendations.map((job, index) => (
+                  <div key={index} className="job-card">
+                    <h4>{job.title}</h4>
+                    <p>{job.location}</p>
+                    <p>{job.description}</p>
+                    <a href={job.applyUrl} target="_blank" rel="noopener noreferrer" className="apply-button">Apply</a>
+                  </div>
+                ))
+              ) : (
+                <p>No test recommendations available</p>
               )}
             </div>
           </div>
@@ -196,7 +142,6 @@ function Dashboard({ onLogout }) {
             <Route path="email" element={<div className="card"><Email /></div>} />
             <Route path="notifications" element={<div className="card"><Notifications /></div>} />
             <Route path="integrations" element={<div className="card"><Integrations /></div>} />
-            <Route path="api" element={<div className="card"><API /></div>} />
           </Routes>
         </main>
       </div>

@@ -4,6 +4,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const mockJobData = require('./mockData'); // Import mock data
 
 const app = express();
 app.use(cors());
@@ -25,6 +26,21 @@ db.connect(err => {
   console.log('Connected to MySQL');
 });
 
+// Middleware to verify token
+const verifyToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) {
+    return res.status(401).send({ message: 'No token provided' });
+  }
+  jwt.verify(token.split(' ')[1], 'secret_key', (err, decoded) => {
+    if (err) {
+      return res.status(401).send({ message: 'Failed to authenticate token' });
+    }
+    req.userId = decoded.id;
+    next();
+  });
+};
+
 // Root route
 app.get('/', (req, res) => {
   res.send('Job Recommendation System API');
@@ -34,7 +50,7 @@ app.get('/', (req, res) => {
 app.post('/signup', async (req, res) => {
   const { email, password } = req.body;
   console.log('Signup request received:', email);
-  
+
   // Check if user already exists
   const querySelect = 'SELECT * FROM users WHERE email = ?';
   db.query(querySelect, [email], (err, results) => {
@@ -82,44 +98,9 @@ app.post('/login', (req, res) => {
 });
 
 // Fetch job recommendations route with position filter
-app.get('/recommendations', (req, res) => {
-  const token = req.headers['authorization'];
-  const { position, location } = req.query;
-
-  if (!token) {
-    return res.status(401).send({ message: 'No token provided' });
-  }
-
-  jwt.verify(token, 'secret_key', async (err, decoded) => {
-    if (err) {
-      return res.status(401).send({ message: 'Failed to authenticate token' });
-    }
-
-    const userId = decoded.id;
-
-    const options = {
-      method: 'POST',
-      url: 'https://linkedin-data-scraper.p.rapidapi.com/company_jobs',
-      headers: {
-        'content-type': 'application/json',
-        'X-RapidAPI-Key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976',  // Replace 'YOUR_API_KEY' with your actual API key
-        'X-RapidAPI-Host': 'linkedin-data-scraper.p.rapidapi.com'
-      },
-      data: {
-        company_url: 'http://www.linkedin.com/company/google',
-        count: 10
-      }
-    };
-
-    try {
-      const response = await axios.request(options);
-      console.log(response.data);
-      res.status(200).send(response.data);
-    } catch (error) {
-      console.error('Error fetching job recommendations:', error);
-      res.status(500).send({ message: 'Error fetching job recommendations' });
-    }
-  });
+app.get('/recommendations', verifyToken, (req, res) => {
+  // Send mock data instead of calling the actual API
+  res.status(200).send(mockJobData);
 });
 
 const PORT = process.env.PORT || 5000;
