@@ -121,10 +121,13 @@ app.get('/recommendations', verifyToken, async (req, res) => {
     const response = await axios.request(options);
     const jobs = response.data.jobs.map(job => ({
       title: job.title,
-      companyName: job.companyName,
-      location: job.formattedLocation,
-      description: job.jobDescription,
-      applyUrl: job.jobApplyUrl
+      company: job.company,
+      location: job.location,
+      description: job.description.length > 150 ? job.description.substring(0, 150) + '...' : job.description,
+      datePosted: job.datePosted,
+      employmentType: job.employmentType,
+      image: job.image,
+      jobProviders: job.jobProviders
     }));
     res.status(200).send(jobs);
   } catch (error) {
