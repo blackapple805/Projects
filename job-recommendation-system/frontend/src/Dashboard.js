@@ -104,25 +104,30 @@ function Dashboard({ onLogout }) {
                 testRecommendations.map((job, index) => (
                   <div key={index} className="job-card">
                     <h4>{job.title} at {job.company}</h4>
-                    <p>{job.location}</p>
-                    <p>{job.description}</p>
-                    {job.jobProviders && job.jobProviders.length > 0 ? (
-                      job.jobProviders.map((provider, i) => (
-                        <button
-                          key={i}
-                          onClick={() => window.open(provider.url, '_blank')}
-                          className="apply-button"
-                        >
-                          Apply on {provider.jobProvider}
-                        </button>
-                      ))
-                    ) : (
-                      <p>No application link available</p>
-                    )}
+                    <p><strong>Location:</strong> {job.location}</p>
+                    <p><strong>Description:</strong> {job.description}</p>
+                    <p><strong>Date Posted:</strong> {job.datePosted}</p>
+                    <p><strong>Employment Type:</strong> {job.employmentType}</p>
+                    <img src={job.image} alt={job.title} className="company-logo" />
+                    <div className="apply-buttons">
+                      {job.jobProviders && job.jobProviders.length > 0 ? (
+                        job.jobProviders.map((provider, i) => (
+                          <button
+                            key={i}
+                            onClick={() => window.open(provider.url, '_blank')}
+                            className="apply-button"
+                          >
+                            Apply on {provider.jobProvider}
+                          </button>
+                        ))
+                      ) : (
+                        <p>No application link available</p>
+                      )}
+                    </div>
                   </div>
                 ))
               ) : (
-                <p>No test recommendations available</p>
+                null // Remove the no test recommendations message
               )}
             </div>
           </div>
