@@ -10,6 +10,11 @@ import Billing from './Billing';
 import Email from './Email';
 import Notifications from './Notifications';
 import Integrations from './Integrations';
+import Projects from './Projects';
+import Tasks from './Tasks';
+import Reporting from './Reporting';
+import Users from './Users';
+import Dash from './Dash';
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
@@ -72,7 +77,7 @@ function Dashboard({ onLogout }) {
         </div>
         <nav className="header-right">
           <NavLink to="/dashboard">Home</NavLink>
-          <NavLink to="/dashboard">Dashboard</NavLink>
+          <NavLink to="/dashboard/dash">Dash</NavLink> {/* Updated this line */}
           <NavLink to="/dashboard/projects">Projects</NavLink>
           <NavLink to="/dashboard/tasks">Tasks</NavLink>
           <NavLink to="/dashboard/reporting">Reporting</NavLink>
@@ -97,7 +102,7 @@ function Dashboard({ onLogout }) {
         </aside>
         <main className="main-content">
           <div className="recommendations-container">
-            <div className="card">
+            <div className="card home-card">
               <h2>Test Job Recommendations</h2>
               <button onClick={fetchTestRecommendations} className="fetch-button">Fetch Test Recommendations</button>
               {testRecommendations.length > 0 ? (
@@ -127,7 +132,7 @@ function Dashboard({ onLogout }) {
                   </div>
                 ))
               ) : (
-                null // Remove the no test recommendations message
+                null
               )}
             </div>
           </div>
@@ -141,6 +146,11 @@ function Dashboard({ onLogout }) {
             <Route path="email" element={<div className="card"><Email /></div>} />
             <Route path="notifications" element={<div className="card"><Notifications /></div>} />
             <Route path="integrations" element={<div className="card"><Integrations /></div>} />
+            <Route path="projects" element={<div className="card"><Projects /></div>} /> {/* Added Projects Route */}
+            <Route path="tasks" element={<div className="card"><Tasks /></div>} /> {/* Added Tasks Route */}
+            <Route path="reporting" element={<div className="card"><Reporting /></div>} /> {/* Added Reporting Route */}
+            <Route path="users" element={<div className="card"><Users /></div>} /> {/* Added Users Route */}
+            <Route path="dash" element={<div className="card"><Dash /></div>} /> {/* Added Dash Route */}
           </Routes>
         </main>
       </div>

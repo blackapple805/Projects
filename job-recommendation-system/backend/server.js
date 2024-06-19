@@ -113,7 +113,7 @@ app.get('/recommendations', verifyToken, async (req, res) => {
     },
     headers: {
       'x-rapidapi-host': 'jobs-api14.p.rapidapi.com',
-      'x-rapidapi-key': '5959e3c5aemshb6457aeebb127e3p14b826jsn762af38bf976' // Replace with your actual API key
+      'x-rapidapi-key': '3174ee127cmsh86affbe38530963p157252jsncbd64bd9917e' // Replace with your actual API key
     }
   };
 

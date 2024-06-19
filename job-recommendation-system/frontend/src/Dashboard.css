@@ -56,7 +56,7 @@ body {
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 1rem;
+  padding: 1rem 2rem; /* Add more padding */
   background: #222;
   color: #fff;
   border-top-left-radius: 15px;
@@ -64,17 +64,19 @@ body {
 }
 
 .header-left {
-  font-size: 1.25rem;
+  font-size: 1.5rem; /* Increase font size */
   font-weight: bold;
+  margin-right: 2rem; /* Add margin to the right */
 }
 
 .header-right {
   display: flex;
   align-items: center;
+  flex-grow: 1; /* Allow it to grow */
 }
 
 .header-right a {
-  margin-right: 1rem;
+  margin-right: 1.5rem; /* Add more space between links */
   color: #fff;
   text-decoration: none;
 }
