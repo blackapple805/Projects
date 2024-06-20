@@ -1,38 +1,63 @@
 /* Dash.css */
 .dash-container {
-    padding: 2rem;
-    text-align: center;
-    color: #fff;
-  }
-  
-  .metrics-container {
-    display: flex;
-    justify-content: space-around;
-    margin-bottom: 2rem;
-  }
-  
-  .metric-card {
-    background: rgba(50, 50, 50, 0.9);
-    padding: 1rem 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    text-align: center;
-  }
-  
-  .metric-card h3 {
-    margin-bottom: 0.5rem;
-    font-size: 1.2rem;
-  }
-  
-  .metric-card p {
-    font-size: 1.5rem;
-    margin: 0;
-  }
-  
-  .chart-container {
-    background: rgba(50, 50, 50, 0.9);
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
-  
+  padding: 2rem;
+  text-align: center;
+  color: #fff;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 1rem 1rem; /* Adjusted padding */
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 22%;
+  cursor: pointer;
+}
+
+.stat-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem; /* Reduced font size */
+  font-weight: bold; /* Make the heading text bold */
+  color: #fff; /* Ensure the color is white */
+}
+
+.stat-card p {
+  font-size: 1.8rem; /* Reduced font size */
+  margin: 0;
+  line-height: 1; /* Ensure line-height is consistent */
+  vertical-align: middle; /* Align text vertically */
+  color: #ddd; /* Slightly lighter color for contrast */
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+  background: #6c63ff; /* Change background color on hover */
+}
+
+.stat-card:hover h3,
+.stat-card:hover p {
+  color: #8a75ff; /* Change text color on hover */
+}
+
+.chart-container {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 400px; /* Adjust height as needed */
+  position: relative;
+  overflow: hidden;
+  transition: background 0.5s ease; /* Smooth transition for background color */
+}
+
+.chart-container:hover {
+  background: #6c63ff;
+}

@@ -1,29 +1,32 @@
+// Dash.js
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto';
-import './Dashboard.css';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, Box, Line } from '@react-three/drei';
+import './Dash.css';
+
+const CustomGrid = ({ size, divisions, position, rotation }) => {
+  const grid = [];
+  const step = size / divisions;
+
+  for (let i = -size / 2; i <= size / 2; i += step) {
+    grid.push(
+      <Line key={`h-${i}`} points={[[-size / 2, 0, i], [size / 2, 0, i]]} color="gray" lineWidth={1} />,
+      <Line key={`v-${i}`} points={[[i, 0, -size / 2], [i, 0, size / 2]]} color="gray" lineWidth={1} />
+    );
+  }
+
+  return <group position={position} rotation={rotation}>{grid}</group>;
+};
 
 const Dash = () => {
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June'],
-    datasets: [
-      {
-        label: 'Job Applications',
-        data: [10, 18, 6, 10, 4, 7],
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-    ],
-  };
-
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-      },
-    },
-  };
+  const data = [
+    { label: 'January', value: 10 },
+    { label: 'February', value: 18 },
+    { label: 'March', value: 6 },
+    { label: 'April', value: 10 },
+    { label: 'May', value: 4 },
+    { label: 'June', value: 7 },
+  ];
 
   return (
     <div className="dash-container">
@@ -47,7 +50,26 @@ const Dash = () => {
         </div>
       </div>
       <div className="chart-container">
-        <Bar data={data} options={options} />
+        <Canvas>
+          <ambientLight intensity={0.5} />
+          <pointLight position={[10, 10, 10]} />
+          <OrbitControls />
+          {/* Main bottom grid */}
+          <CustomGrid size={20} divisions={20} position={[0, 0, 0]} rotation={[0, 0, 0]} />
+          {/* Side grid 1 */}
+          <CustomGrid size={20} divisions={10} position={[0, 10, -10]} rotation={[Math.PI / 2, 0, 0]} />
+          {/* Side grid 2 */}
+          <CustomGrid size={20} divisions={10} position={[10, 10, 0]} rotation={[0, 0, Math.PI / 2]} />
+          {data.map((item, index) => (
+            <Box
+              key={index}
+              position={[index * 2 - 5, item.value / 2, 0]}
+              args={[1, item.value, 1]}
+            >
+              <meshStandardMaterial color={`hsl(${(index * 60) % 360}, 100%, 50%)`} />
+            </Box>
+          ))}
+        </Canvas>
       </div>
     </div>
   );
