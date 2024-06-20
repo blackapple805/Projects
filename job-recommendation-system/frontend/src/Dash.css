@@ -1,0 +1,38 @@
+/* Dash.css */
+.dash-container {
+    padding: 2rem;
+    text-align: center;
+    color: #fff;
+  }
+  
+  .metrics-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+  }
+  
+  .metric-card {
+    background: rgba(50, 50, 50, 0.9);
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  
+  .metric-card h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+  }
+  
+  .metric-card p {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+  
+  .chart-container {
+    background: rgba(50, 50, 50, 0.9);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
