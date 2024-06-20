@@ -29,6 +29,12 @@ function Dashboard({ onLogout }) {
     }
   }, [location.state]);
 
+  useEffect(() => {
+    if (location.pathname !== '/dashboard') {
+      setTestRecommendations([]);
+    }
+  }, [location.pathname]);
+
   const handleLogout = () => {
     onLogout();
     localStorage.removeItem('email');
@@ -77,7 +83,7 @@ function Dashboard({ onLogout }) {
         </div>
         <nav className="header-right">
           <NavLink to="/dashboard">Home</NavLink>
-          <NavLink to="/dashboard/dash">Dash</NavLink> {/* Updated this line */}
+          <NavLink to="/dashboard/dash">Dash</NavLink>
           <NavLink to="/dashboard/projects">Projects</NavLink>
           <NavLink to="/dashboard/tasks">Tasks</NavLink>
           <NavLink to="/dashboard/reporting">Reporting</NavLink>
@@ -101,41 +107,43 @@ function Dashboard({ onLogout }) {
           </ul>
         </aside>
         <main className="main-content">
-          <div className="recommendations-container">
-            <div className="card home-card">
-              <h2>Test Job Recommendations</h2>
-              <button onClick={fetchTestRecommendations} className="fetch-button">Fetch Test Recommendations</button>
-              {testRecommendations.length > 0 ? (
-                testRecommendations.map((job, index) => (
-                  <div key={index} className="job-card">
-                    <h4>{job.title} at {job.company}</h4>
-                    <p><strong>Location:</strong> {job.location}</p>
-                    <p><strong>Description:</strong> {job.description}</p>
-                    <p><strong>Date Posted:</strong> {job.datePosted}</p>
-                    <p><strong>Employment Type:</strong> {job.employmentType}</p>
-                    <img src={job.image} alt={job.title} className="company-logo" />
-                    <div className="apply-buttons">
-                      {job.jobProviders && job.jobProviders.length > 0 ? (
-                        job.jobProviders.map((provider, i) => (
-                          <button
-                            key={i}
-                            onClick={() => window.open(provider.url, '_blank')}
-                            className="apply-button"
-                          >
-                            Apply on {provider.jobProvider}
-                          </button>
-                        ))
-                      ) : (
-                        <p>No application link available</p>
-                      )}
+          {location.pathname === '/dashboard' && (
+            <div className="recommendations-container">
+              <div className="card home-card">
+                <h2>Test Job Recommendations</h2>
+                <button onClick={fetchTestRecommendations} className="fetch-button">Fetch Test Recommendations</button>
+                {testRecommendations.length > 0 ? (
+                  testRecommendations.map((job, index) => (
+                    <div key={index} className="job-card">
+                      <h4>{job.title} at {job.company}</h4>
+                      <p><strong>Location:</strong> {job.location}</p>
+                      <p><strong>Description:</strong> {job.description}</p>
+                      <p><strong>Date Posted:</strong> {job.datePosted}</p>
+                      <p><strong>Employment Type:</strong> {job.employmentType}</p>
+                      <img src={job.image} alt={job.title} className="company-logo" />
+                      <div className="apply-buttons">
+                        {job.jobProviders && job.jobProviders.length > 0 ? (
+                          job.jobProviders.map((provider, i) => (
+                            <button
+                              key={i}
+                              onClick={() => window.open(provider.url, '_blank')}
+                              className="apply-button"
+                            >
+                              Apply on {provider.jobProvider}
+                            </button>
+                          ))
+                        ) : (
+                          <p>No application link available</p>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                null
-              )}
+                  ))
+                ) : (
+                  null
+                )}
+              </div>
             </div>
-          </div>
+          )}
           <Routes>
             <Route path="my-details" element={<div className="card"><MyDetails userEmail={email} /></div>} />
             <Route path="profile" element={<div className="card"><Profile /></div>} />
@@ -146,11 +154,11 @@ function Dashboard({ onLogout }) {
             <Route path="email" element={<div className="card"><Email /></div>} />
             <Route path="notifications" element={<div className="card"><Notifications /></div>} />
             <Route path="integrations" element={<div className="card"><Integrations /></div>} />
-            <Route path="projects" element={<div className="card"><Projects /></div>} /> {/* Added Projects Route */}
-            <Route path="tasks" element={<div className="card"><Tasks /></div>} /> {/* Added Tasks Route */}
-            <Route path="reporting" element={<div className="card"><Reporting /></div>} /> {/* Added Reporting Route */}
-            <Route path="users" element={<div className="card"><Users /></div>} /> {/* Added Users Route */}
-            <Route path="dash" element={<div className="card"><Dash /></div>} /> {/* Added Dash Route */}
+            <Route path="projects" element={<div className="card"><Projects /></div>} />
+            <Route path="tasks" element={<div className="card"><Tasks /></div>} />
+            <Route path="reporting" element={<div className="card"><Reporting /></div>} />
+            <Route path="users" element={<div className="card"><Users /></div>} />
+            <Route path="dash" element={<div className="card"><Dash /></div>} />
           </Routes>
         </main>
       </div>

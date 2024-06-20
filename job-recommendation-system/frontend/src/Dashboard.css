@@ -355,3 +355,61 @@ h2 {
 .details-content::-webkit-scrollbar-thumb {
   background-color: transparent;
 }
+
+/* Existing CSS rules... */
+
+/* Dash container styling */
+.dash-container {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(50, 50, 50, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.stats-container {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+}
+
+.stat-card {
+  background: rgba(60, 60, 60, 0.9);
+  padding: 1rem;
+  border-radius: 10px;
+  text-align: center;
+  transition: all 0.3s ease;
+  width: 22%;
+  cursor: pointer;
+}
+
+.stat-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem; /* Reduced font size for headings */
+  color: #fff;
+}
+
+.stat-card p {
+  font-size: 1.5rem; /* Slightly increased font size for numbers */
+  color: #ddd;
+}
+
+.stat-card:hover {
+  transform: scale(1.05);
+  background: rgba(70, 70, 70, 0.9); /* Slightly different color on hover */
+}
+
+.chart-container {
+  width: 100%;
+  max-width: 800px;
+  background: rgba(50, 50, 50, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  margin-bottom: 2rem;
+}
