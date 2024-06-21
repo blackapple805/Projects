@@ -1,7 +1,6 @@
-// Dash.js
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, Box, Line } from '@react-three/drei';
+import { OrbitControls, Box, Line, Text } from '@react-three/drei';
 import './Dash.css';
 
 const CustomGrid = ({ size, divisions, position, rotation }) => {
@@ -26,7 +25,17 @@ const Dash = () => {
     { label: 'April', value: 10 },
     { label: 'May', value: 4 },
     { label: 'June', value: 7 },
+    { label: 'July', value: 8 },
+    { label: 'August', value: 15 },
+    { label: 'September', value: 12 },
+    { label: 'October', value: 9 },
+    { label: 'November', value: 13 },
+    { label: 'December', value: 5 },
   ];
+
+  const maxValue = 20; // Cap the height of the bars
+  const scaledData = data.map(item => ({ ...item, value: Math.min(item.value, maxValue) }));
+  const colors = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ac'];
 
   return (
     <div className="dash-container">
@@ -60,14 +69,38 @@ const Dash = () => {
           <CustomGrid size={20} divisions={10} position={[0, 10, -10]} rotation={[Math.PI / 2, 0, 0]} />
           {/* Side grid 2 */}
           <CustomGrid size={20} divisions={10} position={[10, 10, 0]} rotation={[0, 0, Math.PI / 2]} />
-          {data.map((item, index) => (
+          {scaledData.map((item, index) => (
             <Box
               key={index}
-              position={[index * 2 - 5, item.value / 2, 0]}
+              position={[index * 1.5 - 7.5, item.value / 2, -index * 1.5 + 7.5]}
               args={[1, item.value, 1]}
             >
-              <meshStandardMaterial color={`hsl(${(index * 60) % 360}, 100%, 50%)`} />
+              <meshStandardMaterial color={colors[index % colors.length]} />
             </Box>
+          ))}
+          {/* Month labels */}
+          {data.map((item, index) => (
+            <Text
+              key={index}
+              position={[index * 1.5 - 7.5, -1, 11]}
+              rotation={[-Math.PI / 2, 0, Math.PI / 4]}
+              fontSize={0.5}
+              color="white"
+            >
+              {item.label}
+            </Text>
+          ))}
+          {/* Number labels */}
+          {Array.from({ length: 14 }, (_, i) => i * 5).map((value, index) => (
+            <Text
+              key={index}
+              position={[-11, index * 1.5, -11]}
+              rotation={[0, 0, 0]}
+              fontSize={0.5}
+              color="white"
+            >
+              {value}
+            </Text>
           ))}
         </Canvas>
       </div>
