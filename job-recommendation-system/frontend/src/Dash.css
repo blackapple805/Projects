@@ -43,7 +43,7 @@
 
 .stat-card:hover h3,
 .stat-card:hover p {
-  color: #8a75ff; /* Change text color on hover */
+  color: #ddd; /* Keep text color unchanged */
 }
 
 .chart-container {
