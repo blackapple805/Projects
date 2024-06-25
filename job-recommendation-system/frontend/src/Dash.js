@@ -1,7 +1,12 @@
 import React from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Box, Line, Text } from '@react-three/drei';
+import { Bar, Doughnut } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
 import './Dash.css';
+
+// Register necessary chart.js components
+ChartJS.register(CategoryScale, LinearScale, BarElement, ArcElement, Title, Tooltip, Legend);
 
 const CustomGrid = ({ size, divisions, position, rotation }) => {
   const grid = [];
@@ -36,6 +41,57 @@ const Dash = () => {
   const maxValue = 20; // Cap the height of the bars
   const scaledData = data.map(item => ({ ...item, value: Math.min(item.value, maxValue) }));
   const colors = ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2', '#59a14f', '#edc949', '#af7aa1', '#ff9da7', '#9c755f', '#bab0ac'];
+
+  const barData = {
+    labels: data.map(item => item.label),
+    datasets: [{
+      label: 'Applications',
+      data: data.map(item => item.value),
+      backgroundColor: colors,
+    }],
+  };
+
+  const barOptions = {
+    scales: {
+      x: {
+        ticks: {
+          color: 'white', // Change X-axis labels to white
+        },
+      },
+      y: {
+        ticks: {
+          color: 'white', // Change Y-axis labels to white
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white', // Change legend text to white
+        },
+      },
+    },
+  };
+
+  const doughnutData = {
+    labels: ['Total Applications', 'Interviews Scheduled', 'Offers Received', 'Rejections'],
+    datasets: [{
+      label: 'My First Dataset',
+      data: [45, 10, 3, 5],
+      backgroundColor: ['#4e79a7', '#f28e2c', '#e15759', '#76b7b2'],
+      hoverOffset: 4,
+    }],
+  };
+
+  const doughnutOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: 'white', // Change legend text to white
+        },
+      },
+    },
+  };
 
   return (
     <div className="dash-container">
@@ -103,6 +159,12 @@ const Dash = () => {
             </Text>
           ))}
         </Canvas>
+      </div>
+      <div className="chart-container-2d">
+        <Bar data={barData} options={barOptions} />
+      </div>
+      <div className="chart-container-2d">
+        <Doughnut data={doughnutData} options={doughnutOptions} />
       </div>
     </div>
   );
