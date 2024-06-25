@@ -2,6 +2,14 @@
   padding: 2rem;
   text-align: center;
   color: #fff;
+  max-height: 80vh; /* Adjust the max-height to fit your design */
+  overflow-y: auto; /* Enable vertical scrolling */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+}
+
+.dash-container::-webkit-scrollbar {
+  width: 0;  /* Safari and Chrome */
 }
 
 .stats-container {
@@ -16,7 +24,7 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   text-align: center;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, background 0.3s ease;
   width: 22%;
   cursor: pointer;
 }
@@ -51,12 +59,29 @@
   padding: 2rem;
   border-radius: 15px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  height: 400px; /* Adjust height as needed */
+  height: 400px; /* Fixed height for the 3D chart container */
+  margin-bottom: 2rem;
   position: relative;
   overflow: hidden;
   transition: background 0.5s ease; /* Smooth transition for background color */
 }
 
-.chart-container:hover {
+.chart-container-2d {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 2rem;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: 400px; /* Fixed height for the 2D chart container */
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.5s ease; /* Smooth transition for background color */
+}
+
+.chart-container:hover,
+.chart-container-2d:hover {
   background: #6c63ff;
 }
