@@ -1,0 +1,78 @@
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css');
+
+.users-container {
+  padding: 2rem;
+  color: #fff;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.user-card {
+  background: rgba(50, 50, 50, 0.9);
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.user-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.user-card p {
+  margin: 0.5rem 0;
+  color: #ddd;
+}
+
+.user-card strong {
+  color: #fff;
+}
+
+.user-card:hover {
+  transform: scale(1.05);
+}
+
+.user-card:nth-child(1):hover {
+  background: #24305e; /* Solid color for the first card */
+}
+
+.user-card:nth-child(2):hover {
+  background: #004c4c; /* Solid color for the second card */
+}
+
+.user-card:nth-child(3):hover {
+  background: #370048; /* Solid color for the third card */
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.status-dot.active {
+  background-color: green;
+}
+
+.status-dot.inactive {
+  background-color: orange;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.user-header i {
+  font-size: 1.2rem;
+  color: #fff;
+}
