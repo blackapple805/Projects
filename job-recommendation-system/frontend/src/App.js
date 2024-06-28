@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Signup from './Signup';
 import Login from './Login';
 import Dashboard from './Dashboard';
+import '@fortawesome/fontawesome-free/css/all.min.css'; // Import Font Awesome CSS
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

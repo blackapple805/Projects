@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate, NavLink, Route, Routes } from 'react-router-dom';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import './Dashboard.css';
 import MyDetails from './MyDetails';
 import Profile from './Profile';
@@ -82,12 +83,12 @@ function Dashboard({ onLogout }) {
           <h1>JobFinder</h1>
         </div>
         <nav className="header-right">
-          <NavLink to="/dashboard">Home</NavLink>
-          <NavLink to="/dashboard/dash">Dash</NavLink>
-          <NavLink to="/dashboard/projects">Projects</NavLink>
-          <NavLink to="/dashboard/tasks">Tasks</NavLink>
-          <NavLink to="/dashboard/reporting">Reporting</NavLink>
-          <NavLink to="/dashboard/users">Users</NavLink>
+          <NavLink to="/dashboard"><i className="fas fa-home"></i></NavLink>
+          <NavLink to="/dashboard/dash"><i className="fas fa-tachometer-alt"></i></NavLink>
+          <NavLink to="/dashboard/projects"><i className="fas fa-briefcase"></i></NavLink>
+          <NavLink to="/dashboard/tasks"><i className="fas fa-tasks"></i></NavLink>
+          <NavLink to="/dashboard/reporting"><i className="fas fa-chart-line"></i></NavLink>
+          <NavLink to="/dashboard/users"><i className="fas fa-users"></i></NavLink>
           <span>{email}</span>
           <button className="logout-button" onClick={handleLogout}>Logout</button>
         </nav>
@@ -95,15 +96,15 @@ function Dashboard({ onLogout }) {
       <div className="dashboard-body">
         <aside className="sidebar">
           <ul>
-            <li><NavLink to="/dashboard/my-details">My details</NavLink></li>
-            <li><NavLink to="/dashboard/profile">Profile</NavLink></li>
-            <li><NavLink to="/dashboard/password">Password</NavLink></li>
-            <li><NavLink to="/dashboard/team">Team</NavLink></li>
-            <li><NavLink to="/dashboard/plan">Plan</NavLink></li>
-            <li><NavLink to="/dashboard/billing">Billing</NavLink></li>
-            <li><NavLink to="/dashboard/email">Email</NavLink></li>
-            <li><NavLink to="/dashboard/notifications">Notifications</NavLink></li>
-            <li><NavLink to="/dashboard/integrations">Integrations</NavLink></li>
+            <li><NavLink to="/dashboard/my-details"><i className="fas fa-user"></i> My details</NavLink></li>
+            <li><NavLink to="/dashboard/profile"><i className="fas fa-id-card"></i> Profile</NavLink></li>
+            <li><NavLink to="/dashboard/password"><i className="fas fa-key"></i> Password</NavLink></li>
+            <li><NavLink to="/dashboard/team"><i className="fas fa-users-cog"></i> Team</NavLink></li>
+            <li><NavLink to="/dashboard/plan"><i className="fas fa-list"></i> Plan</NavLink></li>
+            <li><NavLink to="/dashboard/billing"><i className="fas fa-credit-card"></i> Billing</NavLink></li>
+            <li><NavLink to="/dashboard/email"><i className="fas fa-envelope"></i> Email</NavLink></li>
+            <li><NavLink to="/dashboard/notifications"><i className="fas fa-bell"></i> Notifications</NavLink></li>
+            <li><NavLink to="/dashboard/integrations"><i className="fas fa-plug"></i> Integrations</NavLink></li>
           </ul>
         </aside>
         <main className="main-content">
