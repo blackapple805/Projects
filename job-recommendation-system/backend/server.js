@@ -4,10 +4,31 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const axios = require('axios');
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use('/uploads', express.static(path.join(__dirname, 'uploads'))); // Serve static files
+
+// Create uploads directory if it doesn't exist
+const uploadDir = path.join(__dirname, 'uploads');
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir);
+}
+
+// Set up multer for file uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+const upload = multer({ storage: storage });
 
 // Connect to MySQL
 const db = mysql.createConnection({
@@ -61,10 +82,10 @@ app.post('/signup', async (req, res) => {
       return res.status(400).send({ message: 'User already exists' });
     }
 
-    // If user does not exist, proceed to create a new user
+    // If user does not exist, proceed to create a new user with default values for profile fields
     const hashedPassword = bcrypt.hashSync(password, 10);
-    const queryInsert = 'INSERT INTO users (email, password) VALUES (?, ?)';
-    db.query(queryInsert, [email, hashedPassword], (err, result) => {
+    const queryInsert = 'INSERT INTO users (email, password, name, phone, address, profile_picture) VALUES (?, ?, ?, ?, ?, ?)';
+    db.query(queryInsert, [email, hashedPassword, '', '', '', ''], (err, result) => {
       if (err) {
         console.error('Error creating user:', err);
         return res.status(500).send({ message: 'Error creating user' });
@@ -134,6 +155,69 @@ app.get('/recommendations', verifyToken, async (req, res) => {
     console.error('Error fetching job recommendations:', error);
     res.status(500).send({ message: 'Error fetching job recommendations' });
   }
+});
+
+// Get user profile route
+app.get('/profile', verifyToken, (req, res) => {
+  const userId = req.userId;
+
+  const query = 'SELECT name, email, phone, address, profile_picture FROM users WHERE id = ?';
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching user profile:', err);
+      return res.status(500).send({ message: 'Error fetching user profile' });
+    }
+    if (results.length === 0) {
+      return res.status(404).send({ message: 'User not found' });
+    }
+    res.status(200).send(results[0]);
+  });
+});
+
+// Update user profile route
+app.put('/profile', verifyToken, (req, res) => {
+  const { name, phone, address } = req.body;
+  const userId = req.userId;
+
+  const query = 'UPDATE users SET name = ?, phone = ?, address = ? WHERE id = ?';
+  db.query(query, [name, phone, address, userId], (err, result) => {
+    if (err) {
+      console.error('Error updating user profile:', err);
+      return res.status(500).send({ message: 'Error updating user profile' });
+    }
+    res.status(200).send({ message: 'Profile updated successfully' });
+  });
+});
+
+// Update user profile picture route
+app.put('/profile-picture', verifyToken, upload.single('profile_picture'), (req, res) => {
+  const profilePicture = req.file.path;
+  const userId = req.userId;
+
+  const querySelect = 'SELECT profile_picture FROM users WHERE id = ?';
+  db.query(querySelect, [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching user profile:', err);
+      return res.status(500).send({ message: 'Error fetching user profile' });
+    }
+    const oldProfilePicture = results[0].profile_picture;
+
+    const queryUpdate = 'UPDATE users SET profile_picture = ? WHERE id = ?';
+    db.query(queryUpdate, [profilePicture, userId], (err, result) => {
+      if (err) {
+        console.error('Error updating profile picture:', err);
+        return res.status(500).send({ message: 'Error updating profile picture' });
+      }
+      if (oldProfilePicture) {
+        fs.unlink(oldProfilePicture, (err) => {
+          if (err) {
+            console.error('Error deleting old profile picture:', err);
+          }
+        });
+      }
+      res.status(200).send({ message: 'Profile picture updated successfully', profilePicture });
+    });
+  });
 });
 
 const PORT = process.env.PORT || 5000;
