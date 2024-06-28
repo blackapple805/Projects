@@ -73,12 +73,20 @@ body {
   display: flex;
   align-items: center;
   flex-grow: 1; /* Allow it to grow */
+  justify-content: flex-end; /* Align items to the right */
 }
 
 .header-right a {
-  margin-right: 1.5rem; /* Add more space between links */
+  margin: 0 2rem; /* Add more space between links */
   color: #fff;
   text-decoration: none;
+  font-size: 1.25rem; /* Ensure icons are appropriately sized */
+  display: flex;
+  align-items: center;
+}
+
+.header-right a i {
+  margin-right: 0.5rem; /* Adjust this value for icon spacing */
 }
 
 .header-right a:hover {
@@ -129,6 +137,13 @@ body {
 .sidebar a {
   color: #fff;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  font-size: 1rem; /* Adjust font size if necessary */
+}
+
+.sidebar a i {
+  margin-right: 0.5rem; /* Adjust this value for icon spacing */
 }
 
 .sidebar a:hover {
@@ -356,8 +371,6 @@ h2 {
   background-color: transparent;
 }
 
-/* Existing CSS rules... */
-
 /* Dash container styling */
 .dash-container {
   width: 100%;
@@ -413,4 +426,3 @@ h2 {
   text-align: center;
   margin-bottom: 2rem;
 }
-
