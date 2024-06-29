@@ -1,7 +1,22 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Plan.css';
 
 function Plan() {
+  const navigate = useNavigate();
+
+  const handleBasicPlan = () => {
+    navigate('/dashboard/billing', { state: { plan: 'basic' } });
+  };
+
+  const handleProPlan = () => {
+    navigate('/dashboard/billing', { state: { plan: 'pro' } });
+  };
+
+  const handleEnterprisePlan = () => {
+    navigate('/dashboard/email');
+  };
+
   return (
     <div className="plan-container">
       <h2>Our Plans</h2>
@@ -15,7 +30,7 @@ function Plan() {
             <li>Email support</li>
             <li>10 job applications per month</li>
           </ul>
-          <button>Choose Plan</button>
+          <button onClick={handleBasicPlan}>Choose Plan</button>
         </div>
         <div className="plan-card">
           <h3>Pro Plan</h3>
@@ -26,7 +41,7 @@ function Plan() {
             <li>Unlimited job applications</li>
             <li>Personalized job recommendations</li>
           </ul>
-          <button>Choose Plan</button>
+          <button onClick={handleProPlan}>Choose Plan</button>
         </div>
         <div className="plan-card">
           <h3>Enterprise Plan</h3>
@@ -37,7 +52,7 @@ function Plan() {
             <li>Custom integrations</li>
             <li>On-site training</li>
           </ul>
-          <button>Contact Us</button>
+          <button onClick={handleEnterprisePlan}>Contact Us</button>
         </div>
       </div>
     </div>
