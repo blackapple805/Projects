@@ -69,49 +69,47 @@ function Profile() {
   return (
     <div className="profile-container">
       <h2>Profile</h2>
-      <div className="profile-content">
-        <div className="profile-picture" onClick={() => document.getElementById('fileInput').click()}>
-          {userInfo.profile_picture ? (
-            <img src={`/${userInfo.profile_picture}`} alt="Profile" />
+      <div className="profile-picture" onClick={() => document.getElementById('fileInput').click()}>
+        {userInfo.profile_picture ? (
+          <img src={`/${userInfo.profile_picture}`} alt="Profile" />
+        ) : (
+          <div className="placeholder">150 x 150</div>
+        )}
+      </div>
+      <input
+        type="file"
+        id="fileInput"
+        style={{ display: 'none' }}
+        onChange={handleFileChange}
+      />
+      <div className="profile-fields">
+        <div className="profile-field">
+          <label>Name:</label>
+          {editMode ? (
+            <input type="text" name="name" value={userInfo.name} onChange={handleChange} />
           ) : (
-            <div className="placeholder">150 x 150</div>
+            <span>{userInfo.name}</span>
           )}
         </div>
-        <input
-          type="file"
-          id="fileInput"
-          style={{ display: 'none' }}
-          onChange={handleFileChange}
-        />
-        <div className="profile-fields">
-          <div className="profile-field">
-            <label>Name:</label>
-            {editMode ? (
-              <input type="text" name="name" value={userInfo.name} onChange={handleChange} />
-            ) : (
-              <span>{userInfo.name}</span>
-            )}
-          </div>
-          <div className="profile-field">
-            <label>Email:</label>
-            <span>{userInfo.email}</span>
-          </div>
-          <div className="profile-field">
-            <label>Phone:</label>
-            {editMode ? (
-              <input type="text" name="phone" value={userInfo.phone} onChange={handleChange} />
-            ) : (
-              <span>{userInfo.phone}</span>
-            )}
-          </div>
-          <div className="profile-field">
-            <label>Address:</label>
-            {editMode ? (
-              <input type="text" name="address" value={userInfo.address} onChange={handleChange} />
-            ) : (
-              <span>{userInfo.address}</span>
-            )}
-          </div>
+        <div className="profile-field">
+          <label>Email:</label>
+          <span>{userInfo.email}</span>
+        </div>
+        <div className="profile-field">
+          <label>Phone:</label>
+          {editMode ? (
+            <input type="text" name="phone" value={userInfo.phone} onChange={handleChange} />
+          ) : (
+            <span>{userInfo.phone}</span>
+          )}
+        </div>
+        <div className="profile-field">
+          <label>Address:</label>
+          {editMode ? (
+            <input type="text" name="address" value={userInfo.address} onChange={handleChange} />
+          ) : (
+            <span>{userInfo.address}</span>
+          )}
         </div>
       </div>
       {editMode ? (
