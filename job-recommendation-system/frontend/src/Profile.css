@@ -1,16 +1,13 @@
-/* Profile.css */
 .profile-container {
   padding: 2rem;
   text-align: center;
   color: #fff;
   max-width: 600px;
   margin: 0 auto;
-}
-
-.profile-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: #333;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  min-height: 700px; /* Increase the minimum height */
 }
 
 .profile-picture {
@@ -19,7 +16,7 @@
   background: #ccc;
   border-radius: 50%;
   overflow: hidden;
-  margin-right: 2rem;
+  margin: 0 auto 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -38,11 +35,13 @@
 }
 
 .profile-fields {
-  flex: 1;
+  text-align: center;
+  margin: 0 auto;
+  width: 80%;
 }
 
 .profile-field {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem; /* Increase the margin between fields */
 }
 
 .profile-field label {
@@ -51,15 +50,26 @@
   margin-bottom: 0.5rem;
 }
 
+.profile-field span,
 .profile-field input {
+  display: block;
   width: 100%;
   padding: 0.5rem;
   border-radius: 5px;
   border: 1px solid #ccc;
+  background: #444;
+  color: #fff;
+}
+
+.profile-field input {
+  background: #555;
+  color: #fff;
 }
 
 .profile-buttons {
   margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
 .profile-buttons button,
@@ -70,7 +80,7 @@
   background: #6c63ff;
   color: #fff;
   cursor: pointer;
-  margin-right: 1rem;
+  margin: 0 0.5rem;
 }
 
 .profile-buttons button:hover,
