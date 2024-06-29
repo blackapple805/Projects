@@ -220,6 +220,36 @@ app.put('/profile-picture', verifyToken, upload.single('profile_picture'), (req,
   });
 });
 
+// Update user password route
+app.put('/update-password', verifyToken, (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+  const userId = req.userId;
+
+  const querySelect = 'SELECT password FROM users WHERE id = ?';
+  db.query(querySelect, [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching user password:', err);
+      return res.status(500).send({ message: 'Error fetching user password' });
+    }
+
+    const user = results[0];
+    const isValidPassword = bcrypt.compareSync(currentPassword, user.password);
+    if (!isValidPassword) {
+      return res.status(401).send({ message: 'Current password is incorrect' });
+    }
+
+    const hashedNewPassword = bcrypt.hashSync(newPassword, 10);
+    const queryUpdate = 'UPDATE users SET password = ? WHERE id = ?';
+    db.query(queryUpdate, [hashedNewPassword, userId], (err, result) => {
+      if (err) {
+        console.error('Error updating password:', err);
+        return res.status(500).send({ message: 'Error updating password' });
+      }
+      res.status(200).send({ message: 'Password updated successfully' });
+    });
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
