@@ -32,7 +32,7 @@
   .form .label:has(input:focus) .title {
     top: 0;
     left: 0;
-    color: #d17842;
+    color: #6c63ff;
   }
   .form .label .title {
     padding: 0 10px;
@@ -56,16 +56,16 @@
     background-color: transparent;
     border: 1px solid #21262e;
     transition: all 0.3s;
-    caret-color: #d17842;
+    caret-color: #6c63ff;
     color: #aeaeae;
   }
   
   .form .input-field:hover {
-    border-color: rgba(209, 121, 66, 0.5);
-  }
+    border-color: #6c63ff;
+}
   
   .form .input-field:focus {
-    border-color: #d17842;
+    border-color: #6c63ff;
   }
   .form .split {
     display: flex;
