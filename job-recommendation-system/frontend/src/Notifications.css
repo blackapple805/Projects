@@ -1,0 +1,55 @@
+.notifications-container {
+    padding: 2rem;
+    text-align: center;
+    color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #333;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  .notification {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    background-color: #555; /* Default gray background */
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  }
+  
+  .notification.success:hover {
+    background-color: #4CAF50; /* Green */
+  }
+  
+  .notification.info:hover {
+    background-color: #2196F3; /* Blue */
+  }
+  
+  .notification.warning:hover {
+    background-color: #FF9800; /* Orange */
+  }
+  
+  .notification.error {
+    color: red;
+  }
+  
+  .notification.error:hover {
+    background-color: #F44336; /* Red */
+    color: white; /* Change text color to white */
+  }
+  
+  .mark-read {
+    cursor: pointer;
+    color: #ccc;
+    background: none;
+    border: none;
+    font-size: 14px;
+  }
+  
+  .mark-read:hover {
+    color: #fff;
+  }
+  
