@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './Profile.css';
 
 function Profile() {
@@ -57,6 +59,10 @@ function Profile() {
         });
       }
       setEditMode(false);
+      toast.success('Your profile has been updated successfully.', {
+        className: 'toast-success',
+        progressClassName: 'toast-progress',
+      });
     } catch (error) {
       console.error('Error updating profile:', error);
     }
@@ -120,6 +126,7 @@ function Profile() {
       ) : (
         <button className="edit-button" onClick={handleEditToggle}>Edit</button>
       )}
+      <ToastContainer />
     </div>
   );
 }

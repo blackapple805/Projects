@@ -87,3 +87,15 @@
 .edit-button:hover {
   background: #5952d3;
 }
+
+/* Toast notification styles */
+.toast-success {
+  background-color: #333 !important;
+  color: #4CAF50 !important;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.toast-progress {
+  background-color: #4CAF50 !important;
+}
