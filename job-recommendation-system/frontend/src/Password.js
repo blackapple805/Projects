@@ -40,21 +40,23 @@ function Password() {
       <h2>Change Password</h2>
       <div className="password-content">
         <div className="password-field">
-          <label>Current Password:</label>
           <input
             type="password"
             value={currentPassword}
             onChange={(e) => setCurrentPassword(e.target.value)}
+            placeholder=" "
           />
+          <label>Current Password:</label>
         </div>
         <div className="password-field">
-          <label>New Password:</label>
           <div className="password-input-wrapper">
             <input
               type={showNewPassword ? 'text' : 'password'}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
+              placeholder=" "
             />
+            <label>New Password:</label>
             <FontAwesomeIcon
               icon={showNewPassword ? faEyeSlash : faEye}
               onClick={toggleShowNewPassword}
@@ -63,13 +65,14 @@ function Password() {
           </div>
         </div>
         <div className="password-field">
-          <label>Confirm New Password:</label>
           <div className="password-input-wrapper">
             <input
               type={showConfirmPassword ? 'text' : 'password'}
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
+              placeholder=" "
             />
+            <label>Confirm New Password:</label>
             <FontAwesomeIcon
               icon={showConfirmPassword ? faEyeSlash : faEye}
               onClick={toggleShowConfirmPassword}
@@ -77,7 +80,7 @@ function Password() {
             />
           </div>
         </div>
-        <button onClick={handleChangePassword}>Change Password</button>
+        <button className="password-buttons" onClick={handleChangePassword}>Change Password</button>
       </div>
       <ToastContainer 
         position="top-right"
