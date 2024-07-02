@@ -3,12 +3,13 @@ import axios from 'axios';
 import './Password.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Password() {
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [message, setMessage] = useState('');
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -17,7 +18,7 @@ function Password() {
 
   const handleChangePassword = async () => {
     if (newPassword !== confirmPassword) {
-      setMessage('New passwords do not match');
+      toast.error('New passwords do not match');
       return;
     }
 
@@ -28,16 +29,15 @@ function Password() {
         { currentPassword, newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setMessage('Password updated successfully');
+      toast.success('Password updated successfully');
     } catch (error) {
-      setMessage('Error updating password');
+      toast.error('Error updating password');
     }
   };
 
   return (
     <div className="password-container">
       <h2>Change Password</h2>
-      {message && <div className="message">{message}</div>}
       <div className="password-content">
         <div className="password-field">
           <label>Current Password:</label>
@@ -79,6 +79,18 @@ function Password() {
         </div>
         <button onClick={handleChangePassword}>Change Password</button>
       </div>
+      <ToastContainer 
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </div>
   );
 }
