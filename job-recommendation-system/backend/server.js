@@ -250,6 +250,22 @@ app.put('/update-password', verifyToken, (req, res) => {
   });
 });
 
+// Route to handle billing information
+app.post('/billing', verifyToken, (req, res) => {
+  const { card_holder_name, card_number, expiry_date, cvv } = req.body;
+  const userId = req.userId;
+
+  const query = `UPDATE users SET card_holder_name = ?, card_number = ?, expiry_date = ?, cvv = ? WHERE id = ?`;
+  
+  db.query(query, [card_holder_name, card_number, expiry_date, cvv, userId], (err, result) => {
+    if (err) {
+      console.error('Error updating billing details:', err);
+      return res.status(500).send('Error saving billing details');
+    }
+    res.send('Billing details saved successfully');
+  });
+});
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
