@@ -53,7 +53,7 @@
 }
 
 .form .input-field {
-  width: auto;
+  width: 100%;
   height: 50px;
   text-indent: 15px;
   border-radius: 15px;
@@ -113,6 +113,29 @@
   border: 2px solid transparent;
   background: #6c63ff;
   transition: all 200ms;
+  width: 100%; /* Make the button the same width as the input fields */
+}
+
+/* Autofill background and text color */
+.form .input-field:-webkit-autofill,
+.form .input-field:-webkit-autofill:hover,
+.form .input-field:-webkit-autofill:focus {
+  border-color: #6c63ff;
+  -webkit-text-fill-color: #aeaeae;
+  -webkit-box-shadow: 0 0 0px 1000px #444 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.form .input-field:hover {
+  border-color: #6c63ff;
+}
+
+.form .input-field:focus {
+  border-color: #6c63ff;
+}
+
+.form .checkout-btn {
+  width: 100%; /* Make the button the same width as the input fields */
 }
 
 .form .checkout-btn:active {

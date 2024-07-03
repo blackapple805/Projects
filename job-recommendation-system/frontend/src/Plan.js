@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Plan.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 function Plan() {
   const navigate = useNavigate();
@@ -26,9 +28,9 @@ function Plan() {
           <h3>Basic Plan</h3>
           <p className="price">$9.99/month</p>
           <ul>
-            <li>Access to basic features</li>
-            <li>Email support</li>
-            <li>10 job applications per month</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Access to basic features</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Email support</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> 10 job applications per month</li>
           </ul>
           <button onClick={handleBasicPlan}>Choose Plan</button>
         </div>
@@ -36,10 +38,10 @@ function Plan() {
           <h3>Pro Plan</h3>
           <p className="price">$19.99/month</p>
           <ul>
-            <li>Access to all features</li>
-            <li>Priority email support</li>
-            <li>Unlimited job applications</li>
-            <li>Personalized job recommendations</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Access to all features</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Priority email support</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Unlimited job applications</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Personalized job recommendations</li>
           </ul>
           <button onClick={handleProPlan}>Choose Plan</button>
         </div>
@@ -47,10 +49,10 @@ function Plan() {
           <h3>Enterprise Plan</h3>
           <p className="price">Contact us</p>
           <ul>
-            <li>All Pro Plan features</li>
-            <li>Dedicated account manager</li>
-            <li>Custom integrations</li>
-            <li>On-site training</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> All Pro Plan features</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Dedicated account manager</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> Custom integrations</li>
+            <li><FontAwesomeIcon icon={faCheckCircle} className="check-icon" /> On-site training</li>
           </ul>
           <button onClick={handleEnterprisePlan}>Contact Us</button>
         </div>
