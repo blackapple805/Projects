@@ -89,42 +89,42 @@ function Profile() {
         onChange={handleFileChange}
       />
       <div className="profile-fields">
-        <div className="profile-field">
-          <label>Name:</label>
+        <div className="profile-field label">
+          <span className="title">Name:</span>
           {editMode ? (
-            <input type="text" name="name" value={userInfo.name} onChange={handleChange} />
+            <input className="input-field" type="text" name="name" value={userInfo.name} onChange={handleChange} />
           ) : (
-            <span>{userInfo.name}</span>
+            <span className="input-field">{userInfo.name}</span>
           )}
         </div>
-        <div className="profile-field">
-          <label>Email:</label>
-          <span>{userInfo.email}</span>
+        <div className="profile-field label">
+          <span className="title">Email:</span>
+          <span className="input-field">{userInfo.email}</span>
         </div>
-        <div className="profile-field">
-          <label>Phone:</label>
+        <div className="profile-field label">
+          <span className="title">Phone:</span>
           {editMode ? (
-            <input type="text" name="phone" value={userInfo.phone} onChange={handleChange} />
+            <input className="input-field" type="text" name="phone" value={userInfo.phone} onChange={handleChange} />
           ) : (
-            <span>{userInfo.phone}</span>
+            <span className="input-field">{userInfo.phone}</span>
           )}
         </div>
-        <div className="profile-field">
-          <label>Address:</label>
+        <div className="profile-field label">
+          <span className="title">Address:</span>
           {editMode ? (
-            <input type="text" name="address" value={userInfo.address} onChange={handleChange} />
+            <input className="input-field" type="text" name="address" value={userInfo.address} onChange={handleChange} />
           ) : (
-            <span>{userInfo.address}</span>
+            <span className="input-field">{userInfo.address}</span>
           )}
         </div>
       </div>
       {editMode ? (
         <div className="profile-buttons">
-          <button onClick={handleEditToggle}>Cancel</button>
-          <button onClick={handleSave}>Save</button>
+          <button className="checkout-btn" onClick={handleEditToggle}>Cancel</button>
+          <button className="checkout-btn" onClick={handleSave}>Save</button>
         </div>
       ) : (
-        <button className="edit-button" onClick={handleEditToggle}>Edit</button>
+        <button className="checkout-btn edit-button" onClick={handleEditToggle}>Edit</button>
       )}
       <ToastContainer />
     </div>
