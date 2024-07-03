@@ -21,6 +21,7 @@ function Dashboard({ onLogout }) {
   const location = useLocation();
   const navigate = useNavigate();
   const [email, setEmail] = useState(localStorage.getItem('email') || 'User');
+  const [user, setUser] = useState(null);
   const [testRecommendations, setTestRecommendations] = useState([]);
 
   useEffect(() => {
@@ -36,10 +37,18 @@ function Dashboard({ onLogout }) {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    const savedUserInfo = localStorage.getItem('userInfo');
+    if (savedUserInfo) {
+      setUser(JSON.parse(savedUserInfo));
+    }
+  }, []);
+
   const handleLogout = () => {
     onLogout();
     localStorage.removeItem('email');
     localStorage.removeItem('token');
+    localStorage.removeItem('userInfo');
     navigate('/login');
   };
 
@@ -146,8 +155,8 @@ function Dashboard({ onLogout }) {
             </div>
           )}
           <Routes>
-            <Route path="my-details" element={<div className="card"><MyDetails userEmail={email} /></div>} />
-            <Route path="profile" element={<div className="card"><Profile /></div>} />
+            <Route path="my-details" element={<div className="card"><MyDetails user={user} /></div>} />
+            <Route path="profile" element={<div className="card"><Profile setUser={setUser} /></div>} />
             <Route path="password" element={<div className="card"><Password /></div>} />
             <Route path="team" element={<div className="card"><Team /></div>} />
             <Route path="plan" element={<div className="card"><Plan /></div>} />

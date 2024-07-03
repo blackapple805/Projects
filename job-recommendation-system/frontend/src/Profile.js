@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './Profile.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './Profile.css';
 
-function Profile() {
+function Profile({ setUser }) {
   const [userInfo, setUserInfo] = useState({
     name: '',
     email: '',
@@ -17,7 +17,6 @@ function Profile() {
   const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
-    // Fetch user information from the backend
     const fetchUserInfo = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -25,13 +24,22 @@ function Profile() {
           headers: { Authorization: `Bearer ${token}` }
         });
         setUserInfo(response.data);
+        localStorage.setItem('userInfo', JSON.stringify(response.data));
+        setUser(response.data); // Update the user info in the parent state
       } catch (error) {
         console.error('Error fetching user information:', error);
       }
     };
 
-    fetchUserInfo();
-  }, []);
+    const savedUserInfo = localStorage.getItem('userInfo');
+    if (savedUserInfo) {
+      const parsedUserInfo = JSON.parse(savedUserInfo);
+      setUserInfo(parsedUserInfo);
+      setUser(parsedUserInfo); // Update the user info in the parent state
+    } else {
+      fetchUserInfo();
+    }
+  }, [setUser]);
 
   const handleEditToggle = () => {
     setEditMode(!editMode);
@@ -58,6 +66,8 @@ function Profile() {
           headers: { Authorization: `Bearer ${token}` }
         });
       }
+      localStorage.setItem('userInfo', JSON.stringify(userInfo));
+      setUser(userInfo); // Update the user info in the parent state
       setEditMode(false);
       toast.success('Your profile has been updated successfully.', {
         className: 'toast-success',

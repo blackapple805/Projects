@@ -1,27 +1,121 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import './MyDetails.css';
 
-function MyDetails({ userEmail }) {
+function MyDetails({ user }) {
+  const [bio, setBio] = useState('');
+  const [desiredPosition, setDesiredPosition] = useState('Software Engineer');
+  const [preferredLocation, setPreferredLocation] = useState('San Francisco, CA');
+  const [experienceLevel, setExperienceLevel] = useState('Mid Level');
+  const [preferredCompanies, setPreferredCompanies] = useState('Google, Amazon, Facebook');
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    const fetchUserPreferences = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/user-preferences', {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setBio(response.data.bio);
+        setDesiredPosition(response.data.desired_position);
+        setPreferredLocation(response.data.preferred_location);
+        setExperienceLevel(response.data.experience_level);
+        setPreferredCompanies(response.data.preferred_companies);
+      } catch (error) {
+        console.error('Error fetching user preferences:', error);
+      }
+    };
+
+    fetchUserPreferences();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const userPreferences = { bio, desired_position: desiredPosition, preferred_location: preferredLocation, experience_level: experienceLevel, preferred_companies: preferredCompanies };
+      await axios.put('/user-preferences', userPreferences, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setEditMode(false);
+    } catch (error) {
+      console.error('Error saving user preferences:', error);
+    }
+  };
+
+  if (!user) {
+    return <p>Loading...</p>;
+  }
+
   return (
     <div>
       <h2>My Details</h2>
       <div className="details-content">
         <div className="details-section">
           <h3>Personal Information</h3>
-          <p><strong>Name:</strong> Eric Del Angel</p>
-          <p><strong>Email:</strong> {userEmail}</p>
-          <p><strong>Phone:</strong> (123) 456-7890</p>
+          <p><strong>Name:</strong> {user.name}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>Phone:</strong> {user.phone}</p>
         </div>
         <div className="details-section">
           <h3>Job Preferences</h3>
-          <p><strong>Desired Position:</strong> Software Engineer</p>
-          <p><strong>Preferred Location:</strong> San Francisco, CA</p>
-          <p><strong>Experience Level:</strong> Mid Level</p>
-          <p><strong>Preferred Companies:</strong> Google, Amazon, Facebook</p>
+          {editMode ? (
+            <>
+              <p>
+                <strong>Desired Position:</strong>
+                <input
+                  type="text"
+                  value={desiredPosition}
+                  onChange={(e) => setDesiredPosition(e.target.value)}
+                />
+              </p>
+              <p>
+                <strong>Preferred Location:</strong>
+                <input
+                  type="text"
+                  value={preferredLocation}
+                  onChange={(e) => setPreferredLocation(e.target.value)}
+                />
+              </p>
+              <p>
+                <strong>Experience Level:</strong>
+                <input
+                  type="text"
+                  value={experienceLevel}
+                  onChange={(e) => setExperienceLevel(e.target.value)}
+                />
+              </p>
+              <p>
+                <strong>Preferred Companies:</strong>
+                <input
+                  type="text"
+                  value={preferredCompanies}
+                  onChange={(e) => setPreferredCompanies(e.target.value)}
+                />
+              </p>
+            </>
+          ) : (
+            <>
+              <p><strong>Desired Position:</strong> {desiredPosition}</p>
+              <p><strong>Preferred Location:</strong> {preferredLocation}</p>
+              <p><strong>Experience Level:</strong> {experienceLevel}</p>
+              <p><strong>Preferred Companies:</strong> {preferredCompanies}</p>
+            </>
+          )}
         </div>
         <div className="details-section bio-section">
           <h3>Bio</h3>
-          <p>Eric is a passionate software engineer with over 5 years of experience in developing scalable web applications. He is skilled in JavaScript, React, and Node.js. In his free time, Eric enjoys contributing to open-source projects and exploring new technologies.</p>
+          {editMode ? (
+            <textarea value={bio} onChange={(e) => setBio(e.target.value)} />
+          ) : (
+            <p>{bio}</p>
+          )}
         </div>
+        {editMode ? (
+          <button className="save-button" onClick={handleSave}>Save</button>
+        ) : (
+          <button className="save-button" onClick={() => setEditMode(true)}>Edit</button>
+        )}
       </div>
     </div>
   );
