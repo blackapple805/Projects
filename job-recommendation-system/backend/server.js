@@ -161,7 +161,7 @@ app.get('/recommendations', verifyToken, async (req, res) => {
 app.get('/profile', verifyToken, (req, res) => {
   const userId = req.userId;
 
-  const query = 'SELECT name, email, phone, address, profile_picture FROM users WHERE id = ?';
+  const query = 'SELECT name, email, phone, address, profile_picture, bio, desired_position, preferred_location, experience_level, preferred_companies FROM users WHERE id = ?';
   db.query(query, [userId], (err, results) => {
     if (err) {
       console.error('Error fetching user profile:', err);
@@ -247,6 +247,38 @@ app.put('/update-password', verifyToken, (req, res) => {
       }
       res.status(200).send({ message: 'Password updated successfully' });
     });
+  });
+});
+
+// Update user preferences route
+app.put('/user-preferences', verifyToken, (req, res) => {
+  const { bio, desired_position, preferred_location, experience_level, preferred_companies } = req.body;
+  const userId = req.userId;
+
+  const query = 'UPDATE users SET bio = ?, desired_position = ?, preferred_location = ?, experience_level = ?, preferred_companies = ? WHERE id = ?';
+  db.query(query, [bio, desired_position, preferred_location, experience_level, preferred_companies, userId], (err, result) => {
+    if (err) {
+      console.error('Error updating user preferences:', err);
+      return res.status(500).send({ message: 'Error updating user preferences' });
+    }
+    res.status(200).send({ message: 'User preferences updated successfully' });
+  });
+});
+
+// Fetch user preferences route
+app.get('/user-preferences', verifyToken, (req, res) => {
+  const userId = req.userId;
+
+  const query = 'SELECT bio, desired_position, preferred_location, experience_level, preferred_companies FROM users WHERE id = ?';
+  db.query(query, [userId], (err, results) => {
+    if (err) {
+      console.error('Error fetching user preferences:', err);
+      return res.status(500).send({ message: 'Error fetching user preferences' });
+    }
+    if (results.length === 0) {
+      return res.status(404).send({ message: 'User preferences not found' });
+    }
+    res.status(200).send(results[0]);
   });
 });
 
