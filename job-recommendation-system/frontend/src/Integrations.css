@@ -1,57 +1,87 @@
+/* Integrations.css */
 .integrations-container {
-    padding: 2rem;
-    text-align: center;
-    color: #fff;
-    max-width: 800px;
-    margin: 0 auto;
-    background: #333;
-    border-radius: 15px;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    max-height: 600px; /* Set a maximum height */
-    overflow-y: auto; /* Enable vertical scrolling */
-  }
-  
-  /* Hide the scrollbar */
-  .integrations-container::-webkit-scrollbar {
-    width: 0;
-  }
-  
-  .integrations-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-  
-  .integration-card {
-    background: #444;
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  
-  .integration-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-  }
-  
-  .integration-card h3 {
-    margin-top: 0;
-    color: #6c63ff;
-  }
-  
-  .integration-link {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    color: #fff;
-    background: #6c63ff;
-    border-radius: 5px;
-    text-decoration: none;
-    transition: background 0.3s;
-  }
-  
-  .integration-link:hover {
-    background: #5952d3;
-  }
-  
+  padding: 2rem;
+  text-align: center;
+  color: #fff;
+  max-width: 800px;
+  margin: 0 auto;
+  background: #333;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  max-height: 600px; /* Set a maximum height */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Hide the scrollbar */
+.integrations-container::-webkit-scrollbar {
+  width: 0;
+}
+
+.integrations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.integration-card {
+  background: #444;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+  height: 150px; /* Fixed height for consistency */
+}
+
+.integration-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.integration-card h3 {
+  margin-top: 0;
+  color: #6c63ff;
+}
+
+.integration-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  background: #6c63ff;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.integration-link:hover {
+  background: #5952d3;
+}
+
+/* Fix button position */
+.integration-card button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  margin: 0 auto;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+  color: #fff;
+  background: #6c63ff;
+  transition: all 200ms;
+}
+
+.integration-card button:active {
+  scale: 0.95;
+}
+
+.integration-card button:hover {
+  color: #6c63ff;
+  border: 2px solid #6c63ff;
+  background: transparent;
+}
