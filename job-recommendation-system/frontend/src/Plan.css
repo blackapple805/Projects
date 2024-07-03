@@ -1,3 +1,4 @@
+/* Plan.css */
 .plan-container {
   padding: 2rem;
   text-align: center;
@@ -59,15 +60,35 @@
 }
 
 .plan-card button {
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 5px;
-  background: #6c63ff;
-  color: #fff;
+  margin-top: 20px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  font-weight: 700;
+  transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
   cursor: pointer;
-  margin-top: 1rem;
+  font-size: 16px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  fill: #fff;
+  color: #fff;
+  border: 2px solid transparent;
+  background: #6c63ff;
+  transition: all 200ms;
+  width: 100%; /* Center the button by making it full width */
+  max-width: 200px; /* Limit the width */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.plan-card button:active {
+  scale: 0.95;
 }
 
 .plan-card button:hover {
-  background: #5952d3;
+  color: #6c63ff;
+  border: 2px solid #6c63ff;
+  background: transparent;
 }
