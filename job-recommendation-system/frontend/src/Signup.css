@@ -45,7 +45,7 @@ body {
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: #764ba2;
+  background: #6c63ff;
   border-radius: 10px;
   transform: translateY(100%);
   transition: transform 0.5s ease;
