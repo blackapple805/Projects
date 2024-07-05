@@ -11,6 +11,7 @@ function MyDetails({ user }) {
   const [experienceLevel, setExperienceLevel] = useState('Mid Level');
   const [preferredCompanies, setPreferredCompanies] = useState('Google, Amazon, Facebook');
   const [editMode, setEditMode] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserPreferences = async () => {
@@ -24,8 +25,13 @@ function MyDetails({ user }) {
         setPreferredLocation(response.data.preferred_location);
         setExperienceLevel(response.data.experience_level);
         setPreferredCompanies(response.data.preferred_companies);
+        // Ensure the loader is visible for at least 1 second
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000); // 1000ms = 1 second
       } catch (error) {
         console.error('Error fetching user preferences:', error);
+        setLoading(false);
       }
     };
 
@@ -53,8 +59,24 @@ function MyDetails({ user }) {
     }
   };
 
-  if (!user) {
-    return <p>Loading...</p>;
+  if (loading) {
+    return (
+      <div className="details-content">
+        <div className="loader-container">
+          <div id="wifi-loader">
+            <svg viewBox="0 0 86 86" className="circle-outer">
+              <circle r="40" cy="43" cx="43" className="back"></circle>
+              <circle r="40" cy="43" cx="43" className="front"></circle>
+              <circle r="40" cy="43" cx="43" className="new"></circle>
+            </svg>
+            <svg viewBox="0 0 60 60" className="circle-middle">
+              <circle r="27" cy="30" cx="30" className="back"></circle>
+              <circle r="27" cy="30" cx="30" className="front"></circle>
+            </svg>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
