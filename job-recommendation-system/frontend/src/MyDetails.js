@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './MyDetails.css';
 
 function MyDetails({ user }) {
@@ -38,8 +40,16 @@ function MyDetails({ user }) {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEditMode(false);
+      toast.success('Your details have been updated successfully.', {
+        className: 'toast-success',
+        progressClassName: 'toast-progress',
+      });
     } catch (error) {
       console.error('Error saving user preferences:', error);
+      toast.error('Failed to update details.', {
+        className: 'toast-error',
+        progressClassName: 'toast-progress',
+      });
     }
   };
 
@@ -61,38 +71,42 @@ function MyDetails({ user }) {
           <h3>Job Preferences</h3>
           {editMode ? (
             <>
-              <p>
-                <strong>Desired Position:</strong>
+              <div className="label">
+                <span className="title">Desired Position</span>
                 <input
                   type="text"
                   value={desiredPosition}
                   onChange={(e) => setDesiredPosition(e.target.value)}
+                  className="input-field"
                 />
-              </p>
-              <p>
-                <strong>Preferred Location:</strong>
+              </div>
+              <div className="label">
+                <span className="title">Preferred Location</span>
                 <input
                   type="text"
                   value={preferredLocation}
                   onChange={(e) => setPreferredLocation(e.target.value)}
+                  className="input-field"
                 />
-              </p>
-              <p>
-                <strong>Experience Level:</strong>
+              </div>
+              <div className="label">
+                <span className="title">Experience Level</span>
                 <input
                   type="text"
                   value={experienceLevel}
                   onChange={(e) => setExperienceLevel(e.target.value)}
+                  className="input-field"
                 />
-              </p>
-              <p>
-                <strong>Preferred Companies:</strong>
+              </div>
+              <div className="label">
+                <span className="title">Preferred Companies</span>
                 <input
                   type="text"
                   value={preferredCompanies}
                   onChange={(e) => setPreferredCompanies(e.target.value)}
+                  className="input-field"
                 />
-              </p>
+              </div>
             </>
           ) : (
             <>
@@ -117,6 +131,7 @@ function MyDetails({ user }) {
           <button className="save-button" onClick={() => setEditMode(true)}>Edit</button>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 }

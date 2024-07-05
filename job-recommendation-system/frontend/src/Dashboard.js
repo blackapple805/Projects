@@ -120,8 +120,8 @@ function Dashboard({ onLogout }) {
           {location.pathname === '/dashboard' && (
             <div className="recommendations-container">
               <div className="card home-card">
-                <h2>Test Job Recommendations</h2>
-                <button onClick={fetchTestRecommendations} className="fetch-button">Fetch Test Recommendations</button>
+                <h2>Job Recommendations</h2>
+                <button onClick={fetchTestRecommendations} className="fetch-button">Fetch Recommendations</button>
                 {testRecommendations.length > 0 ? (
                   testRecommendations.map((job, index) => (
                     <div key={index} className="job-card">
