@@ -92,6 +92,7 @@ body {
   justify-content: flex-end; /* Align items to the right */
 }
 
+/* Updated CSS for icon hover effect */
 .header-right a {
   margin: 0 2rem; /* Add more space between links */
   color: #fff;
@@ -99,6 +100,7 @@ body {
   font-size: 1.25rem; /* Ensure icons are appropriately sized */
   display: flex;
   align-items: center;
+  transition: transform 0.3s ease; /* Add transition for hover effect */
 }
 
 .header-right a i {
@@ -106,7 +108,8 @@ body {
 }
 
 .header-right a:hover {
-  text-decoration: underline;
+  text-decoration: none; /* Remove underline on hover */
+  transform: translateY(-3px); /* Apply translate effect on hover */
 }
 
 .header-right span {
@@ -150,12 +153,14 @@ body {
   margin-bottom: 1rem;
 }
 
+/* Updated CSS for sidebar icon hover effect */
 .sidebar a {
   color: #fff;
   text-decoration: none;
   display: flex;
   align-items: center;
   font-size: 1rem; /* Adjust font size if necessary */
+  transition: transform 0.3s ease; /* Add transition for hover effect */
 }
 
 .sidebar a i {
@@ -163,8 +168,10 @@ body {
 }
 
 .sidebar a:hover {
-  text-decoration: underline;
+  text-decoration: none; /* Remove underline on hover */
+  transform: translateY(-3px); /* Apply translate effect on hover */
 }
+
 
 /* Main content styling */
 .main-content {
