@@ -16,6 +16,7 @@ import Tasks from './Tasks';
 import Reporting from './Reporting';
 import Users from './Users';
 import Dash from './Dash';
+import SideCard from './SideCard';
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
@@ -23,6 +24,7 @@ function Dashboard({ onLogout }) {
   const [email, setEmail] = useState(localStorage.getItem('email') || 'User');
   const [user, setUser] = useState(null);
   const [testRecommendations, setTestRecommendations] = useState([]);
+  const [showChatbox, setShowChatbox] = useState(false);
 
   useEffect(() => {
     if (location.state && location.state.email) {
@@ -43,6 +45,29 @@ function Dashboard({ onLogout }) {
       setUser(JSON.parse(savedUserInfo));
     }
   }, []);
+
+  useEffect(() => {
+    if (!user) {
+      const fetchUserData = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await fetch('/user-data', {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await response.json();
+          setUser(data);
+          localStorage.setItem('userInfo', JSON.stringify(data));
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [user]);
 
   const handleLogout = () => {
     onLogout();
@@ -172,6 +197,30 @@ function Dashboard({ onLogout }) {
           </Routes>
         </main>
       </div>
+      <SideCard 
+        position="left" 
+        content={<>
+          <button className="cool-button" onClick={() => navigate('/dashboard/profile')}>Go to Profile</button>
+          <button className="cool-button">Help</button>
+        </>} 
+      />
+      <SideCard 
+        position="right" 
+        content={<>
+          <button className="cool-button" onClick={() => setShowChatbox(true)}>Chat with us!</button>
+        </>} 
+      />
+      {showChatbox && (
+        <div className="chatbox">
+          <div className="chatbox-header">
+            <h2>Chat with us!</h2>
+            <button onClick={() => setShowChatbox(false)} className="chatbox-close-button">&times;</button>
+          </div>
+          <div className="chatbox-body">
+            {/* Chatbox content */}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
