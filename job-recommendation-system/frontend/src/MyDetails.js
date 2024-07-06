@@ -35,8 +35,10 @@ function MyDetails({ user }) {
       }
     };
 
-    fetchUserPreferences();
-  }, []);
+    if (user) {
+      fetchUserPreferences();
+    }
+  }, [user]);
 
   const handleSave = async () => {
     try {
@@ -77,6 +79,10 @@ function MyDetails({ user }) {
         </div>
       </div>
     );
+  }
+
+  if (!user) {
+    return <div className="details-content">Loading user data...</div>;
   }
 
   return (
