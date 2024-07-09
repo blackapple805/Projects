@@ -17,8 +17,7 @@ import Reporting from './Reporting';
 import Users from './Users';
 import Dash from './Dash';
 import SideCard from './SideCard';
-import Chatbox from './Chatbox';
-import Chatbot from './Chatbot';
+import Chatbot from './Chatbot'; // Ensure Chatbot is imported
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
