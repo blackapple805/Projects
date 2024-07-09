@@ -1,76 +1,147 @@
 .chatbot-container {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    right: 1rem;
-    width: 300px;
-    background: rgba(50, 50, 50, 0.9);
-    border-radius: 15px 15px 0 0;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-    z-index: 1001;
-    color: #fff;
-    flex-direction: column;
-  }
-  
-  .chatbot-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    background: #6c63ff;
-    border-radius: 15px 15px 0 0;
-  }
-  
-  .chatbot-body {
-    padding: 1rem;
-    height: 200px;
-    overflow-y: auto;
-  }
-  
-  .chatbot-footer {
-    display: flex;
-    padding: 1rem;
-  }
-  
-  .chatbot-footer input {
-    flex-grow: 1;
-    padding: 0.5rem;
-    border: none;
-    border-radius: 5px;
-  }
-  
-  .chatbot-footer button {
-    padding: 0.5rem 1rem;
-    background: #6c63ff;
-    border: none;
-    color: #fff;
-    border-radius: 5px;
-    margin-left: 0.5rem;
-  }
-  
-  .bot-message {
-    text-align: left;
-  }
-  
-  .user-message {
-    text-align: right;
-  }
-  
-  .open-chatbot-button {
-    position: fixed;
-    bottom: 1rem;
-    right: 1rem;
-    background: #6c63ff;
-    border: none;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    z-index: 1002;
-    transition: background-color 0.3s;
-  }
-  
-  .open-chatbot-button:hover {
-    background-color: #4e4f51;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  bottom: 0;
+  right: 1rem;
+  width: 300px;
+  background: rgba(50, 50, 50, 0.9);
+  border-radius: 15px 15px 0 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  color: #fff;
+  max-height: 70vh; /* Adjust height as needed */
+}
+
+.chatbot-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #6c63ff;
+  border-radius: 15px 15px 0 0;
+}
+
+.chatbot-body {
+  padding: 1rem;
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatbot-body::-webkit-scrollbar {
+  width: 0;
+  background: transparent; /* For Chrome, Safari, and Opera */
+}
+
+.chatbot-body {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.chatbot-footer {
+  display: flex;
+  padding: 1rem;
+}
+
+.chatbot-footer input {
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.chatbot-footer button {
+  padding: 0.5rem 1rem;
+  background: #6c63ff;
+  border: none;
+  color: #fff;
+  border-radius: 5px;
+  margin-left: 0.5rem;
+}
+
+.message-bubble {
+  padding: 10px;
+  border-radius: 15px;
+  margin-bottom: 10px;
+  max-width: 80%; /* Adjust width as needed */
+  word-wrap: break-word;
+  width: 100%; /* Ensure fixed width */
+}
+
+.bot-message {
+  align-self: flex-start;
+  background: #6c63ff;
+  color: #fff;
+}
+
+.user-message {
+  align-self: flex-end;
+  background: #4e4f51;
+  color: #fff;
+}
+
+.open-chatbot-button {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: #6c63ff;
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  z-index: 1002;
+  transition: background-color 0.3s;
+}
+
+.open-chatbot-button:hover {
+  background-color: #4e4f51;
+}
+
+.chatbox-close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.example-questions {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 15px 15px;
+  color: #fff;
+  overflow-y: auto;
+  max-height: 30vh; /* Adjust height as needed */
+}
+
+.example-questions::-webkit-scrollbar {
+  width: 0;
+  background: transparent; /* For Chrome, Safari, and Opera */
+}
+
+.example-questions {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.example-questions ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.example-questions li {
+  margin-bottom: 5px;
+  padding: 5px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.example-questions li:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
