@@ -17,6 +17,7 @@ import Reporting from './Reporting';
 import Users from './Users';
 import Dash from './Dash';
 import SideCard from './SideCard';
+import Chatbot from './Chatbot';
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
@@ -201,7 +202,6 @@ function Dashboard({ onLogout }) {
         position="left" 
         content={<>
           <button className="cool-button" onClick={() => navigate('/dashboard/profile')}>Go to Profile</button>
-          <button className="cool-button">Help</button>
         </>} 
       />
       <SideCard 
@@ -211,15 +211,7 @@ function Dashboard({ onLogout }) {
         </>} 
       />
       {showChatbox && (
-        <div className="chatbox">
-          <div className="chatbox-header">
-            <h2>Chat with us!</h2>
-            <button onClick={() => setShowChatbox(false)} className="chatbox-close-button">&times;</button>
-          </div>
-          <div className="chatbox-body">
-            {/* Chatbox content */}
-          </div>
-        </div>
+        <Chatbot onClose={() => setShowChatbox(false)} />
       )}
     </div>
   );
