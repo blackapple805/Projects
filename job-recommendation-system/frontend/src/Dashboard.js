@@ -17,6 +17,7 @@ import Reporting from './Reporting';
 import Users from './Users';
 import Dash from './Dash';
 import SideCard from './SideCard';
+import Chatbox from './Chatbox';
 import Chatbot from './Chatbot';
 
 function Dashboard({ onLogout }) {
@@ -213,6 +214,11 @@ function Dashboard({ onLogout }) {
       {showChatbox && (
         <Chatbot onClose={() => setShowChatbox(false)} />
       )}
+      <div className="container">
+        {Array.from({ length: 21 }).map((_, i) => (
+          <div className="item" style={{ '--i': i }} key={i}></div>
+        ))}
+      </div>
     </div>
   );
 }

@@ -9,11 +9,11 @@ const Chatbot = ({ onClose }) => {
 
   const handleSendMessage = () => {
     if (inputValue.trim()) {
-      setMessages([...messages, { text: inputValue, isBot: false }]);
+      setMessages([...messages, { text: inputValue.trim(), isBot: false }]);
       setInputValue('');
 
       setTimeout(() => {
-        const response = getBotResponse(inputValue);
+        const response = getBotResponse(inputValue.trim());
         setMessages(prevMessages => [
           ...prevMessages,
           { text: response, isBot: true }
@@ -50,7 +50,8 @@ const Chatbot = ({ onClose }) => {
   };
 
   const handleExampleClick = (example) => {
-    setInputValue(example);
+    setInputValue(example.trim());
+    handleSendMessage();
   };
 
   return (
@@ -70,7 +71,7 @@ const Chatbot = ({ onClose }) => {
         <input
           type="text"
           value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
+          onChange={e => setInputValue(e.target.value.trim())}
           placeholder="Type a message..."
         />
         <button onClick={handleSendMessage}>Send</button>
