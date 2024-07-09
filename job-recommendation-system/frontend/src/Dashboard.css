@@ -24,23 +24,39 @@ body {
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  --s: 200px; /* control the size */
-  --c1: #1d1d1d;
-  --c2: #4e4f51;
-  --c3: #6c63ff;
-  background: repeating-conic-gradient(
-      from 30deg,
-      #0000 0 120deg,
-      var(--c3) 0 180deg
-    )
-    calc(0.5 * var(--s)) calc(0.5 * var(--s) * 0.577),
-    repeating-conic-gradient(
-      from 30deg,
-      var(--c1) 0 60deg,
-      var(--c2) 0 120deg,
-      var(--c3) 0 180deg
-    );
-  background-size: var(--s) calc(var(--s) * 0.577);
+  --s: 100px; /* control the size */
+  --c1: #6c63ff; 
+  --c2: #1b1b3a; /* blue */
+
+  --_g: var(--c2) 6% 14%, var(--c1) 16% 24%, var(--c2) 26% 34%,
+    var(--c1) 36% 44%, var(--c2) 46% 54%, var(--c1) 56% 64%, var(--c2) 66% 74%,
+    var(--c1) 76% 84%, var(--c2) 86% 94%;
+  background: radial-gradient(
+      100% 100% at 100% 0,
+      var(--c1) 4%,
+      var(--_g),
+      #0008 96%,
+      #0000
+    ),
+    radial-gradient(
+        100% 100% at 0 100%,
+        #0000,
+        #0008 4%,
+        var(--_g),
+        var(--c1) 96%
+      )
+      var(--c1);
+  background-size: var(--s) var(--s);
+  animation: move 4s linear infinite;
+}
+
+@keyframes move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: var(--s) var(--s);
+  }
 }
 
 /* Dashboard background */
@@ -172,7 +188,6 @@ body {
   transform: translateY(-3px); /* Apply translate effect on hover */
 }
 
-
 /* Main content styling */
 .main-content {
   flex-grow: 1;
@@ -263,8 +278,6 @@ body {
 .fetch-button:hover {
   background: #5952d3;
 }
-
-
 
 /* Header styling */
 h1 {
