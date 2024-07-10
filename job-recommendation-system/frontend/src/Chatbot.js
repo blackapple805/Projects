@@ -50,8 +50,7 @@ const Chatbot = ({ onClose }) => {
   };
 
   const handleExampleClick = (example) => {
-    setInputValue(example.trim());
-    handleSendMessage();
+    setInputValue(example);
   };
 
   return (
@@ -71,7 +70,7 @@ const Chatbot = ({ onClose }) => {
         <input
           type="text"
           value={inputValue}
-          onChange={e => setInputValue(e.target.value.trim())}
+          onChange={e => setInputValue(e.target.value)}
           placeholder="Type a message..."
         />
         <button onClick={handleSendMessage}>Send</button>
