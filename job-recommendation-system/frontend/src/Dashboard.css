@@ -116,16 +116,21 @@ body {
   font-size: 1.25rem; /* Ensure icons are appropriately sized */
   display: flex;
   align-items: center;
-  transition: transform 0.3s ease; /* Add transition for hover effect */
+  position: relative;
 }
 
 .header-right a i {
   margin-right: 0.5rem; /* Adjust this value for icon spacing */
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.header-right a:hover i {
+  transform: scale(1.2);
+  color: #6c63ff; /* Change this color as needed */
 }
 
 .header-right a:hover {
-  text-decoration: none; /* Remove underline on hover */
-  transform: translateY(-3px); /* Apply translate effect on hover */
+  color: #6c63ff; /* Change text color on hover */
 }
 
 .header-right span {
@@ -176,16 +181,22 @@ body {
   display: flex;
   align-items: center;
   font-size: 1rem; /* Adjust font size if necessary */
-  transition: transform 0.3s ease; /* Add transition for hover effect */
+  position: relative;
+  transition: color 0.3s ease;
 }
 
 .sidebar a i {
   margin-right: 0.5rem; /* Adjust this value for icon spacing */
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.sidebar a:hover i {
+  transform: scale(1.2);
+  color: #6c63ff; /* Change this color as needed */
 }
 
 .sidebar a:hover {
-  text-decoration: none; /* Remove underline on hover */
-  transform: translateY(-3px); /* Apply translate effect on hover */
+  color: #6c63ff; /* Change text color on hover */
 }
 
 /* Main content styling */
@@ -531,4 +542,97 @@ h2 {
   flex-grow: 1;
   padding: 15px;
   overflow-y: auto;
+}
+
+/* Gender selection styling */
+.gender-selection {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.selection-text {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  color: #ddd;
+}
+
+.gender-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.gender-icon {
+  position: relative;
+  width: 50px;
+  height: 50px;
+}
+
+.gender-icon input[type="radio"] {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.icon-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.male-bg {
+  background-color: #cce7ff;
+}
+
+.female-bg {
+  background-color: #ffcce7;
+}
+
+.non-binary-bg {
+  background-color: #e7ccff;
+}
+
+.other-bg {
+  background-color: #e0e0e0;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 1.5rem;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.gender-icon input[type="radio"]:checked + .icon-bg {
+  transform: scale(1.2);
+}
+
+.gender-icon input[type="radio"]:checked + .icon-bg.male-bg {
+  background-color: #6c63ff; /* Change this color as needed */
+}
+
+.gender-icon input[type="radio"]:checked + .icon-bg.female-bg {
+  background-color: #ff63a5; /* Change this color as needed */
+}
+
+.gender-icon input[type="radio"]:checked + .icon-bg.non-binary-bg {
+  background-color: #b563ff; /* Change this color as needed */
+}
+
+.gender-icon input[type="radio"]:checked + .icon-bg.other-bg {
+  background-color: #636363; /* Change this color as needed */
+}
+
+.gender-icon input[type="radio"]:checked + .icon-bg + .icon {
+  color: #fff;
 }
