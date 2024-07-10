@@ -17,7 +17,7 @@ import Reporting from './Reporting';
 import Users from './Users';
 import Dash from './Dash';
 import SideCard from './SideCard';
-import Chatbot from './Chatbot'; // Ensure Chatbot is imported
+import Chatbot from './Chatbot';
 
 function Dashboard({ onLogout }) {
   const location = useLocation();
@@ -26,6 +26,7 @@ function Dashboard({ onLogout }) {
   const [user, setUser] = useState(null);
   const [testRecommendations, setTestRecommendations] = useState([]);
   const [showChatbox, setShowChatbox] = useState(false);
+  const [selectedGender, setSelectedGender] = useState('');
 
   useEffect(() => {
     if (location.state && location.state.email) {
@@ -214,6 +215,31 @@ function Dashboard({ onLogout }) {
         <Chatbot onClose={() => setShowChatbox(false)} />
       )}
       <div className="container">
+        <div className="gender-selection">
+          <span className="selection-text">Please select your gender</span>
+          <div className="gender-icons">
+            <label className="gender-icon">
+              <input type="radio" name="gender" value="male" checked={selectedGender === 'male'} onChange={() => setSelectedGender('male')} />
+              <div className="icon-bg male-bg"></div>
+              <i className="fas fa-mars icon"></i>
+            </label>
+            <label className="gender-icon">
+              <input type="radio" name="gender" value="female" checked={selectedGender === 'female'} onChange={() => setSelectedGender('female')} />
+              <div className="icon-bg female-bg"></div>
+              <i className="fas fa-venus icon"></i>
+            </label>
+            <label className="gender-icon">
+              <input type="radio" name="gender" value="non-binary" checked={selectedGender === 'non-binary'} onChange={() => setSelectedGender('non-binary')} />
+              <div className="icon-bg non-binary-bg"></div>
+              <i className="fas fa-genderless icon"></i>
+            </label>
+            <label className="gender-icon">
+              <input type="radio" name="gender" value="other" checked={selectedGender === 'other'} onChange={() => setSelectedGender('other')} />
+              <div className="icon-bg other-bg"></div>
+              <i className="fas fa-question icon"></i>
+            </label>
+          </div>
+        </div>
         {Array.from({ length: 21 }).map((_, i) => (
           <div className="item" style={{ '--i': i }} key={i}></div>
         ))}
