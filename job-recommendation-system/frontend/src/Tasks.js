@@ -24,7 +24,6 @@ const Tasks = () => {
       dueDate: '2024-07-10',
       assignees: ['Eve', 'Frank'],
     },
-    // Add more tasks here if needed
   ];
 
   return (
@@ -33,11 +32,16 @@ const Tasks = () => {
       <div className="tasks-list">
         {tasks.map((task, index) => (
           <div className="task-card" key={index}>
-            <h3>{task.title}</h3>
-            <p>{task.description}</p>
-            <p><strong>Status:</strong> {task.status}</p>
-            <p><strong>Due Date:</strong> {task.dueDate}</p>
-            <p><strong>Assignees:</strong> {task.assignees.join(', ')}</p>
+            <div className="front-content">
+              <p>{task.title}</p>
+            </div>
+            <div className="content">
+              <p className="heading">{task.title}</p>
+              <p><strong>Description:</strong> {task.description}</p>
+              <p><strong>Status:</strong> {task.status}</p>
+              <p><strong>Due Date:</strong> {task.dueDate}</p>
+              <p><strong>Assignees:</strong> {task.assignees.join(', ')}</p>
+            </div>
           </div>
         ))}
       </div>
