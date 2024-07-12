@@ -28,13 +28,16 @@ const Users = () => {
       <h2>Users</h2>
       <div className="users-list">
         {users.map((user, index) => (
-          <div key={index} className="user-card">
-            <div className="user-header">
-              <h3>{user.name}</h3>
-              <i className={user.icon}></i>
+          <div key={index} className="user-card playing">
+            <div className="user-wave"></div>
+            <div className="user-wave"></div>
+            <div className="user-wave"></div>
+            <div className="user-infotop">
+              <i className={`user-icon ${user.icon}`}></i><br />
+              <span className="user-title">{user.role}</span>
+              <div className="user-name">{user.name}</div>
+              <p className="user-status"><strong>Status:</strong> {user.status} <span className={`user-status-dot ${user.status === 'Active' ? 'active' : 'inactive'}`}></span></p>
             </div>
-            <p><strong>Role:</strong> {user.role}</p>
-            <p><strong>Status:</strong> {user.status} <span className={`status-dot ${user.status === 'Active' ? 'active' : 'inactive'}`}></span></p>
           </div>
         ))}
       </div>
