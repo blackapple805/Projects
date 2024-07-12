@@ -1,57 +1,103 @@
 .tasks-container {
   padding: 2rem;
   color: #fff;
-  max-height: 80vh; /* Adjust the max-height to fit your design */
-  overflow-y: auto; /* Enable vertical scrolling */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  max-height: 80vh;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .tasks-container::-webkit-scrollbar {
-  width: 0;  /* Safari and Chrome */
+  width: 0;
 }
 
 .tasks-list {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem; /* Adjusted gap to fit cards in a row */
 }
 
 .task-card {
-  background: rgba(50, 50, 50, 0.9);
-  padding: 1rem;
+  width: 180px; /* Reduced width */
+  height: 240px; /* Reduced height */
+  position: relative;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.task-card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-.task-card p {
-  margin: 0.5rem 0;
-  color: #ddd;
-}
-
-.task-card strong {
-  color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  background: transparent;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .task-card:hover {
   transform: scale(1.05);
 }
 
-.task-card:nth-child(1):hover {
-  background: #24305e; /* Solid color for the first card */
+.task-card .front-content, .task-card .content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 10px;
+  padding: 1rem;
+  box-sizing: border-box;
+  z-index: 3; /* Ensure text is above the background */
 }
 
-.task-card:nth-child(2):hover {
-  background: #004c4c; /* Solid color for the second card */
+.task-card .front-content {
+  background: rgba(50, 50, 50, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
 }
 
-.task-card:nth-child(3):hover {
-  background: #370048; /* Solid color for the third card */
+.task-card .front-content p {
+  font-size: 18px; /* Adjusted font size */
+  font-weight: 700;
+  opacity: 1;
+  background: linear-gradient(-45deg, #00d4ff 0%, #7b00d8 100%); /* Match website theme with purple standing out */
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.task-card .content {
+  background: linear-gradient(-45deg, #00d4ff, #7b00d8); /* Match website theme with purple standing out */
+  transform: translateY(-100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 10px; /* Adjusted padding */
+  line-height: 1.2; /* Adjusted line height */
+  border-radius: 10px;
+  pointer-events: none;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+}
+
+.task-card .content .heading {
+  font-size: 16px; /* Adjusted font size */
+  font-weight: 700;
+  margin-bottom: 5px; /* Adjusted margin */
+}
+
+.task-card .content p {
+  color: #ddd;
+  margin: 3px 0; /* Adjusted margin */
+  font-size: 12px; /* Adjusted font size */
+}
+
+.task-card:hover .content {
+  transform: translateY(0);
+}
+
+.task-card:hover .front-content {
+  transform: translateY(100%);
+}
+
+.task-card:hover .front-content p {
+  opacity: 0;
 }
