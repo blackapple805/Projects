@@ -73,27 +73,51 @@ const Reporting = () => {
     <div className="reporting-container">
       <h2>Reporting</h2>
       <div className="metrics-container">
-        <div className="metric-card">
-          <h3>Total Sales</h3>
-          <p>$120,000</p>
+        <div className="metric-card-3d">
+          <div className="card-3d">
+            <div className="content-box-3d">
+              <h3>Total Sales</h3>
+              <p>$120,000</p>
+            </div>
+          </div>
         </div>
-        <div className="metric-card">
-          <h3>Total Expenses</h3>
-          <p>$45,000</p>
+        <div className="metric-card-3d">
+          <div className="card-3d">
+            <div className="content-box-3d">
+              <h3>Total Expenses</h3>
+              <p>$45,000</p>
+            </div>
+          </div>
         </div>
-        <div className="metric-card">
-          <h3>Net Profit</h3>
-          <p>$75,000</p>
+        <div className="metric-card-3d">
+          <div className="card-3d">
+            <div className="content-box-3d">
+              <h3>Net Profit</h3>
+              <p>$75,000</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="chart-container">
-        <Bar data={data} options={options} />
+      <div className="chart-container-3d">
+        <div className="chart-3d">
+          <div className="chart-content-3d">
+            <Bar data={data} options={options} />
+          </div>
+        </div>
       </div>
-      <div className="chart-container">
-        <Line data={lineData} options={options} />
+      <div className="chart-container-3d">
+        <div className="chart-3d">
+          <div className="chart-content-3d">
+            <Line data={lineData} options={options} />
+          </div>
+        </div>
       </div>
-      <div className="chart-container">
-        <Doughnut data={doughnutData} options={options} />
+      <div className="chart-container-3d">
+        <div className="chart-3d">
+          <div className="chart-content-3d">
+            <Doughnut data={doughnutData} options={options} />
+          </div>
+        </div>
       </div>
     </div>
   );
