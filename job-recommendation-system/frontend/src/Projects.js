@@ -29,10 +29,27 @@ const Projects = () => {
       <div className="projects-list">
         {projectData.map((project, index) => (
           <div key={index} className="project-card">
-            <h3>{project.name}</h3>
-            <p>{project.description}</p>
-            <p><strong>Status:</strong> {project.status}</p>
-            <p><strong>Team Members:</strong> {project.teamMembers.join(', ')}</p>
+            <div className="top-section">
+              <div className="border"></div>
+            </div>
+            <div className="bottom-section">
+              <span className="title">{project.name}</span>
+              <div className="row">
+                <div className="item">
+                  <span className="big-text">{project.status}</span>
+                  <span className="regular-text">Status</span>
+                </div>
+                <div className="item">
+                  <span className="big-text">{project.teamMembers.length}</span>
+                  <span className="regular-text">Team</span>
+                </div>
+                <div className="item">
+                  <span className="big-text">{project.teamMembers.join(', ')}</span>
+                  <span className="regular-text">Members</span>
+                </div>
+              </div>
+              <p>{project.description}</p>
+            </div>
           </div>
         ))}
       </div>

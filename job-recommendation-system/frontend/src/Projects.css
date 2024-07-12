@@ -1,49 +1,115 @@
 .projects-container {
   padding: 2rem;
   color: #fff;
+  text-align: center;
 }
 
 .projects-list {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the cards horizontally */
+  gap: 1.5rem; /* Space between the cards */
 }
 
 .project-card {
-  background: rgba(50, 50, 50, 0.9);
-  padding: 1rem;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  transition: transform 0.3s ease, background 0.3s ease;
-}
-
-.project-card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-.project-card p {
-  margin: 0.5rem 0;
-  color: #ddd;
-}
-
-.project-card strong {
-  color: #fff;
+  width: 180px; /* Reduce the width of the card */
+  border-radius: 20px;
+  background: #2c2f33; /* Updated to fit the theme */
+  padding: 10px;
+  overflow: hidden;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 7px 20px 0px;
+  transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .project-card:hover {
   transform: scale(1.05);
 }
 
-.project-card:nth-child(1):hover {
-  background: #24305e; /* Solid color for the first card */
+.project-card .top-section {
+  height: 120px; /* Reduce the height of the top section */
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(45deg, rgb(44, 47, 51) 0%, rgb(88, 101, 242) 100%); /* Updated to fit the theme */
+  position: relative;
 }
 
-.project-card:nth-child(2):hover {
-  background: #004c4c; /* Solid color for the second card */
+.project-card .top-section .border {
+  border-bottom-right-radius: 10px;
+  height: 30px;
+  width: 100px; /* Adjust the width of the border */
+  background: white;
+  background: #2c2f33; /* Updated to fit the theme */
+  position: relative;
+  transform: skew(-40deg);
+  box-shadow: -10px -10px 0 0 #2c2f33;
 }
 
-.project-card:nth-child(3):hover {
-  background: #370048; /* Solid color for the third card */
+.project-card .top-section .border::before {
+  content: "";
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  top: 0;
+  right: -15px;
+  background: rgba(255, 255, 255, 0);
+  border-top-left-radius: 10px;
+  box-shadow: -5px -5px 0 2px #2c2f33;
+}
+
+.project-card .top-section::before {
+  content: "";
+  position: absolute;
+  top: 30px;
+  left: 0;
+  background: rgba(255, 255, 255, 0);
+  height: 15px;
+  width: 15px;
+  border-top-left-radius: 15px;
+  box-shadow: -5px -5px 0 2px #2c2f33;
+}
+
+.project-card .bottom-section {
+  margin-top: 15px;
+  padding: 10px 5px;
+}
+
+.project-card .bottom-section .title {
+  display: block;
+  font-size: 14px; /* Adjust the font size */
+  font-weight: bolder;
+  color: white;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.project-card .bottom-section .row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.project-card .bottom-section .row .item {
+  flex: 30%;
+  text-align: center;
+  padding: 5px;
+  color: rgba(170, 222, 243, 0.721);
+}
+
+.project-card .bottom-section .row .item .big-text {
+  font-size: 10px; /* Adjust the font size */
+  display: block;
+}
+
+.project-card .bottom-section .row .item .regular-text {
+  font-size: 8px; /* Adjust the font size */
+}
+
+.project-card .bottom-section .row .item:nth-child(2) {
+  border-left: 1px solid rgba(255, 255, 255, 0.126);
+  border-right: 1px solid rgba(255, 255, 255, 0.126);
+}
+
+.project-card p {
+  font-size: 12px; /* Adjust the font size for description */
 }
