@@ -26,7 +26,6 @@ function Dashboard({ onLogout }) {
   const [user, setUser] = useState(null);
   const [testRecommendations, setTestRecommendations] = useState([]);
   const [showChatbox, setShowChatbox] = useState(false);
-  const [selectedGender, setSelectedGender] = useState('');
 
   useEffect(() => {
     if (location.state && location.state.email) {
