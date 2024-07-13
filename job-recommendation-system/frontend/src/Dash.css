@@ -29,29 +29,31 @@
   cursor: pointer;
 }
 
+.stat-card i {
+  font-size: 2.5rem; /* Adjusted icon size */
+  color: #fff; /* Ensure the color is white */
+  margin-bottom: 0.5rem; /* Add margin */
+}
+
 .stat-card h3 {
-  margin-bottom: 0.5rem;
-  font-size: 1.2rem; /* Reduced font size */
+  font-size: 1rem; /* Adjusted font size */
   font-weight: bold; /* Make the heading text bold */
   color: #fff; /* Ensure the color is white */
+  margin: 0.5rem 0; /* Add margin */
+  text-align: center; /* Center align text */
 }
 
 .stat-card p {
-  font-size: 1.8rem; /* Reduced font size */
-  margin: 0;
+  font-size: 1.2rem; /* Reduced font size */
   line-height: 1; /* Ensure line-height is consistent */
-  vertical-align: middle; /* Align text vertically */
   color: #ddd; /* Slightly lighter color for contrast */
+  margin: 0;
+  text-align: center; /* Center align text */
 }
 
 .stat-card:hover {
   transform: scale(1.05);
   background: #6c63ff; /* Change background color on hover */
-}
-
-.stat-card:hover h3,
-.stat-card:hover p {
-  color: #ddd; /* Keep text color unchanged */
 }
 
 .chart-container {

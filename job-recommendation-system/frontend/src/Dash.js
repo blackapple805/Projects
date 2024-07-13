@@ -98,20 +98,24 @@ const Dash = () => {
       <h2>Dash</h2>
       <div className="stats-container">
         <div className="stat-card">
-          <h3>Total Applications</h3>
+          <i className="fas fa-clipboard-list fa-icon"></i>
           <p>45</p>
+          <h3>Total Applications</h3>
         </div>
         <div className="stat-card">
-          <h3>Interviews Scheduled</h3>
+          <i className="fas fa-calendar-check fa-icon"></i>
           <p>10</p>
+          <h3>Interviews Scheduled</h3>
         </div>
         <div className="stat-card">
-          <h3>Offers Received</h3>
+          <i className="fas fa-envelope-open-text fa-icon"></i>
           <p>3</p>
+          <h3>Offers Received</h3>
         </div>
         <div className="stat-card">
-          <h3>Rejections</h3>
+          <i className="fas fa-times-circle fa-icon"></i>
           <p>5</p>
+          <h3>Rejections</h3>
         </div>
       </div>
       <div className="chart-container">
