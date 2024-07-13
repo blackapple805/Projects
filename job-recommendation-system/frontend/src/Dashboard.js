@@ -216,33 +216,33 @@ function Dashboard({ onLogout }) {
       )}
       <div className="container">
         <div className="gender-selection">
-          <span className="selection-text">Please select your gender</span>
-          <div className="gender-icons">
-            <label className="gender-icon">
-              <input type="radio" name="gender" value="male" checked={selectedGender === 'male'} onChange={() => setSelectedGender('male')} />
-              <div className="icon-bg male-bg"></div>
-              <i className="fas fa-mars icon"></i>
-            </label>
-            <label className="gender-icon">
-              <input type="radio" name="gender" value="female" checked={selectedGender === 'female'} onChange={() => setSelectedGender('female')} />
-              <div className="icon-bg female-bg"></div>
-              <i className="fas fa-venus icon"></i>
-            </label>
-            <label className="gender-icon">
-              <input type="radio" name="gender" value="non-binary" checked={selectedGender === 'non-binary'} onChange={() => setSelectedGender('non-binary')} />
-              <div className="icon-bg non-binary-bg"></div>
-              <i className="fas fa-genderless icon"></i>
-            </label>
-            <label className="gender-icon">
-              <input type="radio" name="gender" value="other" checked={selectedGender === 'other'} onChange={() => setSelectedGender('other')} />
-              <div className="icon-bg other-bg"></div>
-              <i className="fas fa-question icon"></i>
-            </label>
-          </div>
+          <ul className="example-2">
+            <li className="icon-content">
+              <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">
+                <i className="fab fa-linkedin"></i>
+              </a>
+              <div className="tooltip">LinkedIn</div>
+            </li>
+            <li className="icon-content">
+              <a href="https://www.github.com/" aria-label="GitHub" data-social="github">
+                <i className="fab fa-github"></i>
+              </a>
+              <div className="tooltip">GitHub</div>
+            </li>
+            <li className="icon-content">
+              <a href="https://www.instagram.com/" aria-label="Instagram" data-social="instagram">
+                <i className="fab fa-instagram"></i>
+              </a>
+              <div className="tooltip">Instagram</div>
+            </li>
+            <li className="icon-content">
+              <a href="https://youtube.com/" aria-label="YouTube" data-social="youtube">
+                <i className="fab fa-youtube"></i>
+              </a>
+              <div className="tooltip">YouTube</div>
+            </li>
+          </ul>
         </div>
-        {Array.from({ length: 21 }).map((_, i) => (
-          <div className="item" style={{ '--i': i }} key={i}></div>
-        ))}
       </div>
     </div>
   );
