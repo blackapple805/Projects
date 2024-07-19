@@ -17,7 +17,29 @@
   border-radius: 5px;
   margin-bottom: 1rem;
   background-color: #555; /* Default gray background */
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.notification::after {
+  content: "";
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.1);
+  position: absolute;
+  right: 250px;
+  transition: right 0.4s 0s linear;
+  z-index: 1;
+}
+
+.notification:hover::after {
+  right: -160px;
+}
+
+.notification:hover {
+  color: #fff;
 }
 
 .notification.success:hover {
@@ -32,28 +54,23 @@
   background-color: #FF9800; /* Orange */
 }
 
-.notification.error {
-  color: red;
-}
-
 .notification.error:hover {
   background-color: #F44336; /* Red */
-  color: white; /* Change text color to white */
 }
 
-.mark-read {
+.notification .notification-icon {
+  z-index: 2; /* Ensure the icon is above the hover effect */
+}
+
+.notification .mark-read {
   cursor: pointer;
   color: #ccc;
   background: none;
   border: none;
   font-size: 14px;
+  z-index: 2; /* Ensure the button is above the hover effect */
 }
 
-.mark-read:hover {
+.notification .mark-read:hover {
   color: #fff;
-}
-
-.notification-icon {
-  margin-right: 1rem;
-  font-size: 1.5rem; /* Set a larger font size for sharper icons */
 }
