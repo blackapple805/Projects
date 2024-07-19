@@ -7,7 +7,18 @@
   background: #333;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  min-height: 700px;
+  max-height: 600px; /* Increase the maximum height for more scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Hide the scrollbar */
+.profile-container::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar for WebKit browsers */
+}
+
+.profile-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .profile-picture {

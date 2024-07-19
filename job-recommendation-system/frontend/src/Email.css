@@ -7,6 +7,18 @@
   background: #333;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  max-height: 600px; /* Increase the maximum height for more scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Hide the scrollbar */
+.email-container::-webkit-scrollbar {
+  width: 0; /* Hide scrollbar for WebKit browsers */
+}
+
+.email-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .email-content {
@@ -16,35 +28,112 @@
   margin-top: 2rem;
 }
 
-.plan {
-  background: #444;
-  padding: 1rem;
+.email-plan {
+  background: #444; /* Match background color with the main container */
+  padding: 1.5rem;
   border-radius: 10px;
   width: 100%;
   margin-bottom: 1.5rem;
   text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size: 16px;
+  isolation: isolate;
+  transition: box-shadow 0.3s ease; /* Only animate shadow on hover */
+  z-index: 1;
 }
 
-.plan:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+.email-plan:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
 }
 
-.plan h3 {
+.email-plan h3 {
   color: #6c63ff;
   margin-bottom: 0.5rem;
 }
 
-.plan p {
+.email-plan p {
   margin: 0.5rem 0;
+  color: #ddd;
 }
 
-.plan a {
+.email-plan a {
   color: #6c63ff;
   text-decoration: none;
 }
 
-.plan a:hover {
+.email-plan a:hover {
   text-decoration: underline;
+}
+
+.email-plan:before {
+  position: absolute;
+  content: "";
+  inset: 0.0625rem;
+  background: #444;
+  z-index: -1; /* Ensure it is behind the content */
+}
+
+.email-plan:after {
+  position: absolute;
+  content: "";
+  width: 0.25rem;
+  inset: 0.65rem auto 0.65rem 0.5rem;
+  background: linear-gradient(to bottom, #2eadff, #3d83ff, #7e61ff);
+  transition: transform 300ms ease;
+  z-index: 0; /* Ensure it is behind the content */
+}
+
+.email-plan:hover:after {
+  transform: translateX(0.15rem);
+}
+
+.email-plan-title {
+  color: #6c63ff;
+  padding: 0.65rem 0.25rem 0.4rem 1.25rem;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: transform 300ms ease;
+}
+
+.email-plan:hover .email-plan-title {
+  transform: translateX(0.15rem);
+}
+
+.email-plan-body {
+  color: #ddd;
+  padding: 0 1.25rem;
+  transition: transform 300ms ease;
+}
+
+.email-plan:hover .email-plan-body {
+  transform: translateX(0.25rem);
+}
+
+.email-plan-glow,
+.email-plan-borderglow {
+  position: absolute;
+  width: 20rem;
+  height: 20rem;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle closest-side at center, white, transparent);
+  opacity: 0;
+  transition: opacity 300ms ease;
+}
+
+.email-plan-glow {
+  z-index: 0;
+}
+
+.email-plan-borderglow {
+  z-index: -2;
+}
+
+.email-plan:hover .email-plan-glow {
+  opacity: 0.1;
+}
+
+.email-plan:hover .email-plan-borderglow {
+  opacity: 0.1;
 }
