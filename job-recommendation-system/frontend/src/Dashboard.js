@@ -217,25 +217,25 @@ function Dashboard({ onLogout }) {
         <div className="gender-selection">
           <ul className="example-2">
             <li className="icon-content">
-              <a href="https://linkedin.com/" aria-label="LinkedIn" data-social="linkedin">
+              <a href="https://www.linkedin.com/in/eric-del-angel/" aria-label="LinkedIn" data-social="linkedin">
                 <i className="fab fa-linkedin"></i>
               </a>
               <div className="tooltip">LinkedIn</div>
             </li>
             <li className="icon-content">
-              <a href="https://www.github.com/" aria-label="GitHub" data-social="github">
+              <a href="https://github.com/blackapple805" aria-label="GitHub" data-social="github">
                 <i className="fab fa-github"></i>
               </a>
               <div className="tooltip">GitHub</div>
             </li>
             <li className="icon-content">
-              <a href="https://www.instagram.com/" aria-label="Instagram" data-social="instagram">
+              <a href="https://www.instagram.com/quest.on.a.dream/" aria-label="Instagram" data-social="instagram">
                 <i className="fab fa-instagram"></i>
               </a>
               <div className="tooltip">Instagram</div>
             </li>
             <li className="icon-content">
-              <a href="https://youtube.com/" aria-label="YouTube" data-social="youtube">
+              <a href="https://www.youtube.com/@ericangel8220" aria-label="YouTube" data-social="youtube">
                 <i className="fab fa-youtube"></i>
               </a>
               <div className="tooltip">YouTube</div>
