@@ -562,9 +562,10 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
-  list-style-type: none; /* Add this line to remove list item markers */
+  list-style-type: none; /* Remove list item markers */
   padding: 0; /* Remove padding */
-  margin: 0; /* Remove margin */
+  margin: 0 auto; /* Center the container */
+  width: fit-content; /* Adjust width to fit content */
 }
 
 .example-2 .icon-content {
@@ -644,3 +645,4 @@ h2 {
 .example-2 .icon-content a[data-social="youtube"]:hover {
   background-color: #ff0000;
 }
+
