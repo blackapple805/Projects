@@ -562,6 +562,9 @@ h2 {
   display: flex;
   justify-content: center;
   align-items: center;
+  list-style-type: none; /* Add this line to remove list item markers */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margin */
 }
 
 .example-2 .icon-content {
