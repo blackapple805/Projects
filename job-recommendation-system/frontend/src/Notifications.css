@@ -7,6 +7,18 @@
   background: #333;
   border-radius: 15px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  max-height: 500px; /* Increase the maximum height for more scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+}
+
+/* Hide the scrollbar */
+.notifications-container::-webkit-scrollbar {
+  width: 0;
+}
+
+.notifications-container {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .notification {
@@ -16,61 +28,91 @@
   padding: 1rem;
   border-radius: 5px;
   margin-bottom: 1rem;
-  background-color: #555; /* Default gray background */
-  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  background-color: #444;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
   position: relative;
   overflow: hidden;
-}
-
-.notification::after {
-  content: "";
-  width: 500px;
-  height: 500px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.1);
-  position: absolute;
-  right: 250px;
-  transition: right 0.4s 0s linear;
-  z-index: 1;
-}
-
-.notification:hover::after {
-  right: -160px;
+  border: 1px solid transparent;
 }
 
 .notification:hover {
   color: #fff;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  border: 1px solid #6c63ff;
 }
 
 .notification.success:hover {
-  background-color: #4CAF50; /* Green */
+  background-color: #4CAF50;
+  border-color: #388E3C;
 }
 
 .notification.info:hover {
-  background-color: #2196F3; /* Blue */
+  background-color: #2196F3;
+  border-color: #1976D2;
 }
 
 .notification.warning:hover {
-  background-color: #FF9800; /* Orange */
+  background-color: #FF9800;
+  border-color: #F57C00;
 }
 
 .notification.error:hover {
-  background-color: #F44336; /* Red */
+  background-color: #F44336;
+  border-color: #D32F2F;
 }
 
 .notification .notification-icon {
-  z-index: 2; /* Ensure the icon is above the hover effect */
+  z-index: 2;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+  align-self: flex-start;
 }
 
-.notification .mark-read {
-  cursor: pointer;
-  color: #ccc;
-  background: none;
+.notification .text-wrap {
+  flex-grow: 1;
+  z-index: 2;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.notification:hover .text-wrap {
+  transform: translateX(0.15rem);
+}
+
+.notification .time {
+  font-size: 0.875rem;
+  color: #bbb;
+}
+
+.notification .button-wrap {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.primary-cta, .secondary-cta {
+  padding: 0.5rem 1rem;
   border: none;
-  font-size: 14px;
-  z-index: 2; /* Ensure the button is above the hover effect */
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.notification .mark-read:hover {
+.primary-cta {
+  background-color: #6c63ff;
+  color: #fff;
+}
+
+.primary-cta:hover {
+  background-color: #5a52d4;
+}
+
+.secondary-cta {
+  background-color: transparent;
+  color: #6c63ff;
+  border: 1px solid #6c63ff;
+}
+
+.secondary-cta:hover {
+  background-color: #6c63ff;
   color: #fff;
 }
