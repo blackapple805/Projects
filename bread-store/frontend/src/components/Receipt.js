@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import '../styles.css';
 
 const Receipt = () => {
   const { receiptId } = useParams(); // Get receiptId from the URL
@@ -34,17 +35,19 @@ const Receipt = () => {
   const breadItems = JSON.parse(items);
 
   return (
-    <div>
+    <div className="receipt-container">
       <h1>Receipt</h1>
       <p>Receipt ID: {receiptId}</p>
       <p>Purchase Date: {new Date(purchase_date).toLocaleString()}</p>
       <ul>
         {breadItems.map((bread, index) => (
-          <li key={index}>{bread.name} - ${bread.price}</li>
+          <li key={index}>
+            {bread.name} - ${bread.price} <span>×{bread.quantity}</span>
+          </li>
         ))}
       </ul>
-      <h3>Total: ${total}</h3>
-      <button onClick={() => navigate('/')}>Back to Bread List</button>
+      <h3 className="total-text">Total: ${total}</h3>
+      <button onClick={() => navigate('/')} className="back-button">Back to Bread List</button>
     </div>
   );
 };
