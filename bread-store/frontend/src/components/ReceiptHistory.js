@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
+import '../styles.css';
 
 const ReceiptHistory = () => {
   const [date, setDate] = useState('');
