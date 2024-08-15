@@ -14,7 +14,12 @@ const BreadList = () => {
     const fetchBreads = async () => {
       try {
         const response = await axios.get('/api/breads');
-        setBreads(response.data);
+        // Ensure that prices are numbers
+        const breadsData = response.data.map(bread => ({
+          ...bread,
+          price: parseFloat(bread.price) // Convert price to number
+        }));
+        setBreads(breadsData);
       } catch (error) {
         console.error('Failed to fetch breads:', error);
       } finally {
@@ -107,7 +112,7 @@ const BreadList = () => {
                 breads.map(bread => (
                   <li key={bread.id} className="user">
                     <span className="user-name">{bread.name}</span>
-                    <span className="user-occupation">${bread.price}</span>
+                    <span className="user-occupation">${bread.price.toFixed(2)}</span>
                     <button onClick={() => addToCart(bread)}>Add to Cart</button>
                   </li>
                 ))
@@ -126,12 +131,13 @@ const BreadList = () => {
             <ul>
               {Object.values(cart).map((bread) => (
                 <li key={bread.id} className="user">
-                  {bread.name} - ${bread.price} +{bread.quantity}
+                  <span className="user-name">{bread.name}</span>
+                  <span className="user-occupation">${bread.price.toFixed(2)} x {bread.quantity}</span>
                   <button onClick={() => removeFromCart(bread.id)} className="remove-btn">Remove</button>
                 </li>
               ))}
             </ul>
-            <h3>Total: ${calculateTotal()}</h3>
+            <h3 className="total">Total: ${calculateTotal()}</h3>
             <button onClick={handlePurchase}>Purchase</button>
             <button onClick={clearCart} className="clear-btn" style={{ marginLeft: '10px' }}>
               Clear Cart

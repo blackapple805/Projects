@@ -7,7 +7,10 @@ body, h1, h2, p, ul, li, button {
 
 body {
   font-family: 'Arial', sans-serif;
-  background-color: #f0f2f5;
+  background-image: url('/workspaces/Projects/bread-store/frontend/src/images/DALL·E 2024-08-15 07.20.49 - A seamless pattern background for a bakery-themed website, featuring kawaii doodle-style illustrations of various kinds of bread, pastries, and baking.webp'); /* Update the path to where your image is stored */
+  background-repeat: repeat; /* This makes the pattern tile seamlessly */
+  background-size: contain; /* Adjusts the size to ensure the pattern looks good */
+  background-attachment: fixed; /* Keeps the background fixed while scrolling */
   color: #333;
   line-height: 1.6;
   padding: 20px;
@@ -17,23 +20,23 @@ body {
   width: 90%;
   margin: 0 auto;
   padding: 20px;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* From Uiverse.io by bociKond */
+/* Wrapper styling */
 .wrapper {
   position: relative;
   --white: #e3e3e3;
-  --bc: rgb(56, 103, 214); /* Cooler blue color */
+  --bc: rgb(56, 103, 214);
   --bc-al: rgba(56, 103, 214, 0.6);
   margin-bottom: 30px;
 }
 
 .card {
   width: 100%;
-  padding: 2rem 3rem; /* Adjusted padding for better spacing */
+  padding: 2rem 3rem;
   display: grid;
   grid-template-areas: "top" "bottom";
   grid-template-rows: auto 1fr;
@@ -44,8 +47,8 @@ body {
   backdrop-filter: blur(14px);
   box-shadow: 0 15px 30px -15px var(--bc-al);
   isolation: isolate;
-  margin: 0 auto; /* Centering the card */
-  max-width: 1100px; /* Setting a max width to fit within the white container */
+  margin: 0 auto;
+  max-width: 1100px;
 }
 
 .circle-1, .circle-2 {
@@ -73,6 +76,8 @@ body {
 .top {
   padding: .5rem 1rem;
   z-index: 1;
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
 }
 
 .bottom {
@@ -93,6 +98,7 @@ body {
   align-items: center;
   font-size: 1rem;
   border-bottom: 1px solid var(--bc-al);
+  font-family: 'Arial', sans-serif; /* Ensure consistent font */
 }
 
 .user:hover {
@@ -113,44 +119,26 @@ body {
 }
 
 .user-name {
-  font-weight: 700;
-  font-style: italic;
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
+  flex: 2;
 }
 
 .user-occupation {
   opacity: .8;
-}
-
-.u-l {
-  font-size: 1.3rem;
-  font-weight: 700;
-  font-style: italic;
-  margin-bottom: 10px;
-}
-
-.cart-section {
-  margin-top: 20px;
-}
-
-.cart-section ul {
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  background-color: #f9f9f9;
-}
-
-.cart-section .total {
-  font-size: 1.25rem;
-  font-weight: bold;
-  text-align: right;
+  flex: 1;
+  text-align: center; /* Center the price text */
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
 }
 
 button {
-  padding: 1.3em 3em;
+  padding: 0.7em 1.5em;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
   color: #000;
   background-color: #fff;
   border: none;
@@ -172,7 +160,6 @@ button:active {
   transform: translateY(-1px);
 }
 
-/* Specific button styles for remove and clear cart */
 .remove-btn {
   background-color: #dc3545;
   margin-left: 10px;
@@ -191,7 +178,7 @@ button:active {
 .receipt-container {
   max-width: 500px;
   margin: 40px auto;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9); /* Slightly transparent white background */
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
@@ -200,33 +187,37 @@ button:active {
 
 .receipt-container h1 {
   margin-bottom: 20px;
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
 }
 
 .receipt-container ul {
   list-style: none;
   margin-bottom: 20px;
   padding-left: 0;
-  text-align: left;
+  text-align: center;
 }
 
 .receipt-container li {
   margin-bottom: 10px;
+  text-align: center;
 }
 
 .total-text {
   margin-top: 20px;
   font-size: 1.25rem;
-  font-weight: bold;
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
   text-align: center;
 }
 
-/* Button Styling for Receipt Page */
 .back-button {
   padding: 1.3em 3em;
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 2.5px;
-  font-weight: 500;
+  font-weight: 700; /* Apply bold font */
+  font-style: italic; /* Apply italic style */
   color: #000;
   background-color: #fff;
   border: none;
