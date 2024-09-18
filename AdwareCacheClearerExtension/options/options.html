@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      width: 200px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h3>Options</h3>
+  <label for="signoutSites">Sign out from sites (comma-separated):</label>
+  <input type="text" id="signoutSites" placeholder="e.g., facebook.com, google.com">
+  <button id="saveButton">Save</button>
+
+  <script>
+    document.getElementById('saveButton').addEventListener('click', () => {
+      const sites = document.getElementById('signoutSites').value;
+      chrome.storage.sync.set({ signoutSites: sites }, () => {
+        alert("Sites saved!");
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Adware Cache Clearer",
+    "version": "1.0",
+    "description": "Clears unwanted tracking and cache from fake scams, such as Microsoft Trojan scam.",
+    "permissions": [
+      "history",
+      "cookies",
+      "storage",
+      "browsingData",
+      "tabs"
+    ],
+    "host_permissions": [
+      "https://*.google.com/*"
+    ],
+    "background": {
+      "service_worker": "background/background.js"
+    },
+    "action": {
+      "default_popup": "popup/popup.html"
+    },
+    "options_page": "options/options.html",
+    "icons": {
+      "48": "assets/Screenshot 2024-09-16 204101.png",
+      "128": "assets/Screenshot 2024-09-16 204101.png"
+    }
+  }
+  
