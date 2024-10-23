@@ -1,4 +1,4 @@
-# Bubble Sort Visualizer
+# Bubble Sort Visualize
 
 This project provides a simple visual representation of the Bubble Sort algorithm using ASCII art in the terminal.
 
