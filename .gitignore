@@ -1,0 +1,11 @@
+# Byte-compiled / optimized / DLL files
+__pcache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+data_governance_env/
+
+# Environment variables file
+.env
+y
