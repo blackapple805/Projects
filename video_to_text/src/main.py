@@ -1,9 +1,10 @@
 # src/main.py
 import os
+import sys
 from audio_extractor import extract_audio
 from transcriber import transcribe_audio
 
-def transcribe_video(video_filename, output_filename, model_name="base"):
+def transcribe_video(video_filename, output_filename, model_name="tiny"):
     input_video = os.path.join("data", "input_videos", video_filename)
     temp_audio = os.path.join("data", "output_texts", "temp_audio.wav")
     output_text = os.path.join("data", "output_texts", output_filename)
@@ -21,4 +22,11 @@ def transcribe_video(video_filename, output_filename, model_name="base"):
     print(f"Transcription saved to {output_text}")
 
 if __name__ == "__main__":
-    transcribe_video("example_video.mp4", "transcription.txt")
+    # Allow command-line arguments for flexibility
+    if len(sys.argv) != 3:
+        print("Usage: python main.py <video_filename> <output_text_filename>")
+        sys.exit(1)
+    
+    video_filename = sys.argv[1]
+    output_filename = sys.argv[2]
+    transcribe_video(video_filename, output_filename)
