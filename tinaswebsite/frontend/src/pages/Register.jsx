@@ -1,6 +1,7 @@
 // frontend/src/pages/Register.jsx
 import { useState } from 'react';
 import axios from 'axios';
+import HeroSection from '../components/HeroSection';
 
 function Register() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -25,25 +26,28 @@ function Register() {
   };
 
   return (
-    <div className="p-4 max-w-sm mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Register</h2>
-      {message && <p className="mb-4">{message}</p>}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1">Name</label>
-          <input name="name" value={formData.name} onChange={handleChange} className="border p-2 w-full" required />
-        </div>
-        <div>
-          <label className="block mb-1">Email</label>
-          <input type="email" name="email" value={formData.email} onChange={handleChange} className="border p-2 w-full" required />
-        </div>
-        <div>
-          <label className="block mb-1">Password</label>
-          <input type="password" name="password" value={formData.password} onChange={handleChange} className="border p-2 w-full" required />
-        </div>
-        <button type="submit" className="bg-black text-white py-2 px-4">Register</button>
-      </form>
-    </div>
+    <>
+      <HeroSection />
+      <div className="p-4 max-w-sm mx-auto">
+        <h2 className="text-2xl font-bold mb-4">Register</h2>
+        {message && <p className="mb-4">{message}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label className="block mb-1">Name</label>
+            <input name="name" value={formData.name} onChange={handleChange} className="border p-2 w-full" required />
+          </div>
+          <div>
+            <label className="block mb-1">Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} className="border p-2 w-full" required />
+          </div>
+          <div>
+            <label className="block mb-1">Password</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} className="border p-2 w-full" required />
+          </div>
+          <button type="submit" className="bg-black text-white py-2 px-4">Register</button>
+        </form>
+      </div>
+    </>
   );
 }
 

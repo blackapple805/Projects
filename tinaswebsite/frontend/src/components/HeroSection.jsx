@@ -1,13 +1,27 @@
 // frontend/src/components/HeroSection.jsx
+import React, { useState, useEffect } from 'react';
+import heroImage1 from '../assets/hero-image-1.jpg';
+import heroImage2 from '../assets/hero-image-2.jpg';
+import heroImage3 from '../assets/hero-image-3.jpg';
+
 export default function HeroSection() {
-    return (
-      <div className="relative h-[80vh] bg-cover bg-center" style={{ backgroundImage: "url('https://your-image.jpg')" }}>
-        <div className="absolute inset-0 bg-black bg-opacity-30 flex flex-col justify-center items-center text-white p-4">
-          <h1 className="text-5xl font-display font-bold mb-4">Discover Luxury</h1>
-          <p className="text-lg mb-6 font-body">Indulge in handcrafted pieces and timeless style.</p>
-          <a href="/products" className="bg-white text-black px-6 py-3 transition-transform transform hover:scale-105">Explore Collections</a>
-        </div>
-      </div>
-    );
-  }
-  
+  const images = [heroImage1, heroImage2, heroImage3];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [images]);
+
+  return (
+    <div className="relative h-[80vh] overflow-hidden">
+      <div
+        className="w-full h-full absolute top-0 left-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000"
+        style={{ backgroundImage: `url(${images[currentIndex]})` }}
+      />
+      {/* Overlay and its contents have been completely removed */}
+    </div>
+  );
+}
