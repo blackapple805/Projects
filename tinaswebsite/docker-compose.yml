@@ -2,17 +2,25 @@ version: '3'
 
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
     env_file:
       - ./backend/.env
     ports:
       - "5000:5000"
-    # Note: Remove the depends_on for mongo if not using local mongo.
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
     ports:
       - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
-
