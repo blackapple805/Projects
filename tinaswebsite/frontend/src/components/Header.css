@@ -1,4 +1,6 @@
 /* Overall header container */
+
+
 .header-container {
   position: fixed;
   top: 0;
@@ -6,11 +8,10 @@
   width: 100%;
   background: #ffffff;
   z-index: 100;
-  /* Remove box-shadow to eliminate the subtle line when searching */
+  /* Remove box-shadow if you want no line */
   /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
 }
 
-/* Header content layout */
 .header-content {
   width: 100%;
   margin: 0;
@@ -20,7 +21,6 @@
   align-items: center;
 }
 
-/* Brand styling */
 .header-brand {
   text-align: center;
   font-family: 'Playfair Display', serif;
@@ -29,7 +29,6 @@
   color: #000;
 }
 
-/* Align sections */
 .left-section {
   justify-self: start;
 }
@@ -37,7 +36,6 @@
   justify-self: end;
 }
 
-/* Base text/icon color */
 .left-section,
 .right-section,
 .left-section a,
@@ -49,7 +47,6 @@
   font-size: 0.875rem;
 }
 
-/* Hover states */
 .left-section a:hover,
 .right-section a:hover,
 .left-section span:hover,
@@ -58,13 +55,11 @@
   color: #333;
 }
 
-/* Icons color */
 .left-section svg,
 .right-section svg {
   color: #000;
 }
 
-/* Sidebar close button */
 .sidebar-close {
   background: none;
   border: none;
@@ -73,7 +68,6 @@
   cursor: pointer;
 }
 
-/* Sidebar link styling */
 .sidebar-link {
   color: #000;
   text-decoration: none;
@@ -82,7 +76,6 @@
   color: #333;
 }
 
-/* Cart quantity bubble */
 .cart-quantity-bubble {
   position: absolute;
   top: -5px;
@@ -101,7 +94,6 @@
   z-index: 10;
 }
 
-/* Hide left and right sections and original brand when search is active */
 .search-active .left-section,
 .search-active .right-section,
 .search-active .header-brand {
@@ -111,7 +103,7 @@
 /* Search overlay */
 .search-overlay {
   position: fixed;
-  top: 0; /* Start right at the top to cover everything */
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
@@ -121,13 +113,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center all content vertically */
+  /* Instead of centering vertically, we push brand and search bar towards the top */
+  justify-content: flex-start; 
+  padding-top: 2rem; /* Adjust this to bring brand & search closer to top */
   
   transform: translateY(-20px);
   opacity: 0;
   transition: transform 0.5s ease, opacity 0.5s ease;
-  /* Remove extra padding-top to avoid extra white space */
-  padding-top: 0;
 }
 
 .search-overlay.open {
@@ -135,17 +127,15 @@
   opacity: 1;
 }
 
-/* Brand inside overlay */
 .search-overlay-brand {
   font-family: 'Playfair Display', serif;
   font-size: 2rem;
   font-weight: bold;
   color: #000;
   text-align: center;
-  margin-bottom: 2rem; /* Space the brand above the search bar */
+  margin-bottom: 1rem; /* Closer to the search bar */
 }
 
-/* Close button (icon) positioning */
 .close-button-container {
   position: absolute;
   top: 2rem;
@@ -158,12 +148,10 @@
   font-size: 1.5rem;
   transition: color 0.3s;
 }
-
 .close-icon:hover {
   color: #555;
 }
 
-/* Search form styling */
 .search-form {
   display: flex;
   align-items: center;
@@ -174,7 +162,6 @@
   width: 80%;
   max-width: 500px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  /* The form is now closer to the brand due to removal of padding-top on .search-overlay */
 }
 
 .search-icon {
@@ -203,15 +190,15 @@
   border-radius: 9999px;
   transition: background 0.3s;
 }
-
 .search-submit:hover {
   background: #f0f0f0;
 }
 
 /* Bring down the sidebar text */
 .fixed.top-0.left-0.h-full.bg-white.w-64.p-4.z-50 nav {
-  margin-top: 2rem; /* Add margin to bring the text down */
+  margin-top: 2rem;
 }
+
 
 
 

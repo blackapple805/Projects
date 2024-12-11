@@ -120,7 +120,7 @@ function Header() {
           <AiOutlineClose className="close-icon" onClick={() => setSearchOpen(false)} />
         </div>
 
-        {/* Centered Search input, closer to the brand now */}
+        {/* Search input near the top as well */}
         <form onSubmit={handleSearchSubmit} className="search-form">
           <AiOutlineSearch className="search-icon" />
           <input 
@@ -139,6 +139,7 @@ function Header() {
 }
 
 export default Header;
+
 
 
 
