@@ -1,47 +1,227 @@
-/* frontend/src/components/Header.css */
+/* Overall header container */
 .header-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: white;
-    z-index: 50;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  z-index: 100;
+  /* Remove box-shadow to eliminate the subtle line when searching */
+  /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
+}
+
+/* Header content layout */
+.header-content {
+  width: 100%;
+  margin: 0;
+  padding: 1rem 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+/* Brand styling */
+.header-brand {
+  text-align: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #000;
+}
+
+/* Align sections */
+.left-section {
+  justify-self: start;
+}
+.right-section {
+  justify-self: end;
+}
+
+/* Base text/icon color */
+.left-section,
+.right-section,
+.left-section a,
+.right-section a,
+.left-section span,
+.right-section span {
+  color: #000;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+/* Hover states */
+.left-section a:hover,
+.right-section a:hover,
+.left-section span:hover,
+.right-section span:hover,
+.sidebar-link:hover {
+  color: #333;
+}
+
+/* Icons color */
+.left-section svg,
+.right-section svg {
+  color: #000;
+}
+
+/* Sidebar close button */
+.sidebar-close {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #000;
+  cursor: pointer;
+}
+
+/* Sidebar link styling */
+.sidebar-link {
+  color: #000;
+  text-decoration: none;
+}
+.sidebar-link:hover {
+  color: #333;
+}
+
+/* Cart quantity bubble */
+.cart-quantity-bubble {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #000;
+  color: #fff !important;
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: bold;
+  border-radius: 9999px;
+  width: 0.6rem;
+  height: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+
+/* Hide left and right sections and original brand when search is active */
+.search-active .left-section,
+.search-active .right-section,
+.search-active .header-brand {
+  display: none;
+}
+
+/* Search overlay */
+.search-overlay {
+  position: fixed;
+  top: 0; /* Start right at the top to cover everything */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  z-index: 99;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center; /* Center all content vertically */
   
-  /* A content wrapper to center the brand and nav */
-  .header-content {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    max-width: 1200px; /* Adjust as desired */
-    margin: 0 auto;
-    padding: 1rem 1rem; /* Slightly less padding than before to free space */
-  }
-  
-  .header-brand {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #000;
-  }
-  
-  .header-nav {
-    display: flex;
-    align-items: center;
-    gap: 1rem; /* Slightly reduce gap to prevent cutoff */
-    white-space: nowrap; /* Prevent wrapping of links onto new lines */
-  }
-  
-  .header-link {
-    font-family: 'Roboto', sans-serif;
-    color: #333;
-    text-decoration: none;
-    transition: color 0.3s;
-    font-size: 1rem; 
-  }
-  
-  .header-link:hover {
-    color: #000;
-  }
-  
+  transform: translateY(-20px);
+  opacity: 0;
+  transition: transform 0.5s ease, opacity 0.5s ease;
+  /* Remove extra padding-top to avoid extra white space */
+  padding-top: 0;
+}
+
+.search-overlay.open {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Brand inside overlay */
+.search-overlay-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+  margin-bottom: 2rem; /* Space the brand above the search bar */
+}
+
+/* Close button (icon) positioning */
+.close-button-container {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+}
+
+.close-icon {
+  cursor: pointer;
+  color: #000;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.close-icon:hover {
+  color: #555;
+}
+
+/* Search form styling */
+.search-form {
+  display: flex;
+  align-items: center;
+  border: 1px solid #000;
+  border-radius: 9999px;
+  padding: 0.5rem 1rem;
+  background: #fff;
+  width: 80%;
+  max-width: 500px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  /* The form is now closer to the brand due to removal of padding-top on .search-overlay */
+}
+
+.search-icon {
+  color: #000;
+  font-size: 1rem;
+}
+
+.search-input {
+  flex-grow: 1;
+  border: none;
+  margin-left: 0.5rem;
+  color: #000;
+  font-size: 1rem;
+  background: transparent;
+  outline: none;
+}
+
+.search-submit {
+  background: transparent;
+  border: none;
+  color: #000;
+  font-size: 0.875rem;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  transition: background 0.3s;
+}
+
+.search-submit:hover {
+  background: #f0f0f0;
+}
+
+/* Bring down the sidebar text */
+.fixed.top-0.left-0.h-full.bg-white.w-64.p-4.z-50 nav {
+  margin-top: 2rem; /* Add margin to bring the text down */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

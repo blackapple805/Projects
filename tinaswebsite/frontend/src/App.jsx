@@ -1,6 +1,7 @@
 // frontend/src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'aos/dist/aos.css';
+// frontend/src/App.jsx
 import AOS from 'aos';
 import Home from './pages/Home'; 
 import Products from './pages/Products'; 
@@ -15,6 +16,7 @@ function App() {
     <Router>
       <div className="flex flex-col min-h-screen bg-gray-900 text-white relative">
         <Header />
+        {/* Add top padding so content doesn't hide behind the fixed header */}
         <main className="flex-grow p-4 pt-20 pb-20">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -29,3 +31,4 @@ function App() {
 }
 
 export default App;
+
