@@ -6,7 +6,7 @@ function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const toggleSidebar = () => setSidebarOpen(prev => !prev);
   const toggleSearch = () => setSearchOpen(prev => !prev);
 
   // Close search when pressing Escape
@@ -75,7 +75,11 @@ function Header() {
 
       {/* Sidebar Overlay */}
       {sidebarOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={toggleSidebar}></div>
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40" 
+          onClick={toggleSidebar} 
+          style={{ cursor: 'pointer' }}  /* Ensure clickable overlay */
+        ></div>
       )}
 
       {/* Sidebar Menu */}
@@ -90,17 +94,17 @@ function Header() {
           <span>Close</span>
         </button>
         <nav className="flex flex-col gap-3 text-sm">
-          <a href="#" className="sidebar-link">Gifts</a>
-          <a href="#" className="sidebar-link">What's new</a>
-          <a href="#" className="sidebar-link">Bags and Small Leather Goods</a>
-          <a href="#" className="sidebar-link">Women</a>
-          <a href="#" className="sidebar-link">Man</a>
-          <a href="#" className="sidebar-link">Jewelry</a>
-          <a href="#" className="sidebar-link">Watches</a>
-          <a href="#" className="sidebar-link">Perfumes</a>
-          <a href="#" className="sidebar-link">Trunks, Travel and Home</a>
-          <a href="#" className="sidebar-link">Services</a>
-          <a href="#" className="sidebar-link">The House of TINA</a>
+          <a href="/gifts" className="sidebar-link">Gifts</a>
+          <a href="/whats-new" className="sidebar-link">What's new</a>
+          <a href="/bags-leather" className="sidebar-link">Bags and Small Leather Goods</a>
+          <a href="/women" className="sidebar-link">Women</a>
+          <a href="/men" className="sidebar-link">Man</a>
+          <a href="/jewelry" className="sidebar-link">Jewelry</a>
+          <a href="/watches" className="sidebar-link">Watches</a>
+          <a href="/perfumes" className="sidebar-link">Perfumes</a>
+          <a href="/travel-home" className="sidebar-link">Trunks, Travel and Home</a>
+          <a href="/services" className="sidebar-link">Services</a>
+          <a href="/house-of-tina" className="sidebar-link">The House of TINA</a>
         </nav>
         
         <div className="mt-auto pt-4 sidebar-link cursor-pointer">
@@ -120,7 +124,7 @@ function Header() {
           <AiOutlineClose className="close-icon" onClick={() => setSearchOpen(false)} />
         </div>
 
-        {/* Search input near the top as well */}
+        {/* Search input */}
         <form onSubmit={handleSearchSubmit} className="search-form">
           <AiOutlineSearch className="search-icon" />
           <input 
@@ -139,6 +143,7 @@ function Header() {
 }
 
 export default Header;
+
 
 
 
