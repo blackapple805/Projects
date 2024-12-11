@@ -1,7 +1,6 @@
 // frontend/src/pages/Register.jsx
 import { useState } from 'react';
 import axios from 'axios';
-import HeroSection from '../components/HeroSection';
 
 function Register() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
@@ -27,7 +26,7 @@ function Register() {
 
   return (
     <>
-      <HeroSection />
+      {/* HeroSection removed to eliminate images */}
       <div className="p-4 max-w-sm mx-auto">
         <h2 className="text-2xl font-bold mb-4">Register</h2>
         {message && <p className="mb-4">{message}</p>}
@@ -52,3 +51,4 @@ function Register() {
 }
 
 export default Register;
+
