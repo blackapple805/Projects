@@ -2,14 +2,74 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 4rem 2rem;
-  /* Ensure the container background matches the page background color exactly */
-  background-color: #242424;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .home-heading {
   font-family: 'Playfair Display', serif;
+  margin-bottom: 1.5rem;
+  color: #000; 
 }
 
 .home-text {
   font-family: 'Roboto', sans-serif;
+  color: #333;
+  margin-bottom: 2rem;
 }
+
+/* Button styling */
+.selection-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000;
+  border-radius: 9999px;
+  padding: 0.5rem 2rem;
+  background: #fff;
+  color: #000;
+  font-size: 1rem;
+  font-weight: normal;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+.selection-button:hover {
+  background: #000;
+  color: #fff;
+  border-color: #000;
+}
+
+/* Global link styles: no underline, normal weight by default */
+a {
+  color: #000;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+a:hover {
+  color: #333;
+  text-decoration: none; /* no underline on hover for default links */
+}
+
+/* Special class for links that should always be underlined */
+.underline-link {
+  text-decoration: underline;
+}
+
+.footer-brand {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #000;
+  text-align: center;
+}
+
+
+
+
+
+
+
+

@@ -50,7 +50,8 @@ function Header() {
           </div>
 
           {/* Center: Brand */}
-          <div className="header-brand font-display">
+          {/* Added text-center and ensured it's the middle column */}
+          <div className="header-brand font-display text-center">
             TINA SHAYESTE
           </div>
 
@@ -78,7 +79,7 @@ function Header() {
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40" 
           onClick={toggleSidebar} 
-          style={{ cursor: 'pointer' }}  /* Ensure clickable overlay */
+          style={{ cursor: 'pointer' }}
         ></div>
       )}
 
@@ -115,7 +116,7 @@ function Header() {
       {/* Full-page Search Overlay with Transition */}
       <div className={`search-overlay ${searchOpen ? 'open' : ''}`}>
         {/* Brand inside search overlay */}
-        <div className="search-overlay-brand font-display">
+        <div className="search-overlay-brand font-display text-center">
           TINA SHAYESTE
         </div>
         
@@ -143,6 +144,7 @@ function Header() {
 }
 
 export default Header;
+
 
 
 
