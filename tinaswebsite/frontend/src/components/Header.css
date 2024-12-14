@@ -26,12 +26,16 @@ html, body {
 }
 
 .header-brand {
-  text-align: center;
   font-family: 'Playfair Display', serif;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   font-weight: bold;
   color: #000;
+  justify-self: center;  /* Center the brand text horizontally in the grid column */
+  margin-left: -3.8rem;             /* Remove unnecessary margins */
+  text-align: center;    /* Ensure text is centered */
 }
+
+
 
 .left-section {
   justify-self: start;
@@ -106,7 +110,6 @@ html, body {
 
 /* Search overlay with waterfall transition */
 .search-overlay {
-  /* Keep it always in the DOM */
   position: fixed;
   top: 0;
   left: 0;
@@ -120,19 +123,17 @@ html, body {
   justify-content: flex-start; 
   padding-top: 2rem;
   
-  /* Initial state off-screen and invisible */
   transform: translateY(-20px);
   opacity: 0;
-  pointer-events: none; /* No interaction when closed */
+  pointer-events: none;
   
   transition: transform 0.5s ease, opacity 0.5s ease;
 }
 
 .search-overlay.open {
-  /* Move it into place and fade in */
   transform: translateY(0);
   opacity: 1;
-  pointer-events: auto; /* Now clickable when open */
+  pointer-events: auto;
 }
 
 .search-overlay-brand {
@@ -202,10 +203,10 @@ html, body {
   background: #f0f0f0;
 }
 
-/* Bring down the sidebar text */
 .fixed.top-0.left-0.h-full.bg-white.w-64.p-4.z-50 nav {
   margin-top: 2rem;
 }
+
 
 
 

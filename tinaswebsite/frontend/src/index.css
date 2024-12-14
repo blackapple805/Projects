@@ -2,13 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Use a neutral, white-based theme throughout */
+html, body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: #ffffff; /* White background for the entire page */
+  color: #000;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color-scheme: light; /* Prefers light theme */
+  color: #000000; /* Black text */
+  background-color: #ffffff; /* White background */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -28,9 +38,9 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
-  background-color: #242424;
-  color: rgba(255, 255, 255, 0.87);
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background-color: #ffffff; /* White body background */
+  color: #000000; /* Black text */
+  font-family: inherit;
 }
 
 h1 {
@@ -45,28 +55,22 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #f0f0f0; /* Light gray for a subtle contrast */
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #000000;
 }
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+/* Remove dark mode overrides since we're always light-themed */
 @media (prefers-color-scheme: light) {
   :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
+    /* No changes needed */
   }
 }
 
@@ -77,4 +81,6 @@ button:focus-visible {
   -ms-overflow-style: none; /* for IE and Edge */
   scrollbar-width: none; /* for Firefox */
 }
+
+
 
