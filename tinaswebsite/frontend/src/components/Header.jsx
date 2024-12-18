@@ -1,13 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { AiOutlineMenu, AiOutlineSearch, AiOutlineHeart, AiOutlineUser, AiOutlineShopping, AiOutlineClose } from 'react-icons/ai';
+import { 
+  AiOutlineMenu, 
+  AiOutlineSearch, 
+  AiOutlineHeart, 
+  AiOutlineUser, 
+  AiOutlineShopping, 
+  AiOutlineClose 
+} from 'react-icons/ai';
 import './Header.css';
 
 function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
+  // New state for contact sidebar
+  const [showContactSidebar, setShowContactSidebar] = useState(false);
+
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
   const toggleSearch = () => setSearchOpen(prev => !prev);
+
+  // Handle "Contact us" click to open contact sidebar
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    setShowContactSidebar(true);
+  };
+
+  const handleContactClose = () => {
+    setShowContactSidebar(false);
+  };
 
   // Close search when pressing Escape
   useEffect(() => {
@@ -50,14 +70,17 @@ function Header() {
           </div>
 
           {/* Center: Brand */}
-          {/* Added text-center and ensured it's the middle column */}
           <div className="header-brand font-display text-center">
             TINA SHAYESTE
           </div>
 
           {/* Right Section: Contact and Icons */}
           <div className="right-section flex items-center gap-3">
-            <a href="/contact" className="text-sm hover:text-gray-700 transition-colors whitespace-nowrap">
+            <a 
+              href="/contact" 
+              className="text-sm hover:text-gray-700 transition-colors whitespace-nowrap"
+              onClick={handleContactClick}
+            >
               Contact us
             </a>
             <a href="/favorites" className="hover:text-gray-700 transition-colors">
@@ -83,9 +106,11 @@ function Header() {
         ></div>
       )}
 
-      {/* Sidebar Menu */}
+      {/* Sidebar Menu (Left) */}
       <div 
-        className={`fixed top-0 left-0 h-full bg-white w-64 p-4 z-50 transform transition-transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        className={`fixed top-0 left-0 h-full bg-white w-64 p-4 z-50 transform transition-transform duration-300 ease-in-out ${
+          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
         <button 
           onClick={toggleSidebar} 
@@ -139,11 +164,55 @@ function Header() {
           </button>
         </form>
       </div>
+
+      {/* Contact Sidebar (Right) */}
+      {/* Apply similar transition as menu: from the right, using translate-x-full */}
+      <div 
+        className={`fixed top-0 right-0 h-full bg-white z-50 p-6 transform transition-transform duration-300 ease-in-out ${
+          showContactSidebar ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        style={{ boxShadow: '-2px 0 5px rgba(0,0,0,0.1)', width: '300px', maxWidth: '100%' }}
+      >
+        <button 
+          onClick={handleContactClose} 
+          className="absolute top-4 right-4 hover:text-gray-500"
+        >
+          <AiOutlineClose size={24} />
+        </button>
+        <h2 className="text-xl font-normal mb-4">Contact us</h2>
+        <p className="text-sm text-black mb-4 font-normal">
+          Need gift inspiration? Wherever you are, our customer advisors will be happy to help you.
+        </p>
+        <ul className="space-y-2 text-sm text-black font-normal mb-6">
+          <li><a href="tel:+33977404077" className="underline-link hover:text-gray-500 font-normal">+33 9 77 40 40 77</a></li>
+          <li><a href="/email" className="hover:text-gray-500 font-normal">Send an email</a></li>
+          <li><a href="/whatsapp" className="hover:text-gray-500 font-normal">WhatsApp</a></li>
+          <li><a href="/apple-message" className="hover:text-gray-500 font-normal">Apple Message</a></li>
+          <li><a href="/deaf-hard-of-hearing" className="hover:text-gray-500 font-normal">Deaf and Hard of Hearing Customer Service</a></li>
+        </ul>
+        <h3 className="text-sm font-normal mb-2">Need help?</h3>
+        <ul className="space-y-2 text-sm text-black font-normal">
+          <li><a href="/your-questions" className="hover:text-gray-500 font-normal">Your questions</a></li>
+          <li><a href="/repair-service" className="hover:text-gray-500 font-normal">Repair service</a></li>
+          <li><a href="/stores" className="hover:text-gray-500 font-normal">Stores</a></li>
+        </ul>
+      </div>
+
+      {/* Overlay for contact sidebar */}
+      {showContactSidebar && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={handleContactClose}
+          style={{ cursor: 'pointer' }}
+        ></div>
+      )}
     </>
   );
 }
 
 export default Header;
+
+
 
 
 
