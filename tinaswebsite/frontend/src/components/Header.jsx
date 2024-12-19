@@ -7,19 +7,19 @@ import {
   AiOutlineShopping, 
   AiOutlineClose 
 } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom'; // If using React Router
 import './Header.css';
 
 function Header() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
-  // New state for contact sidebar
+  // Contact sidebar state
   const [showContactSidebar, setShowContactSidebar] = useState(false);
 
   const toggleSidebar = () => setSidebarOpen(prev => !prev);
   const toggleSearch = () => setSearchOpen(prev => !prev);
 
-  // Handle "Contact us" click to open contact sidebar
   const handleContactClick = (e) => {
     e.preventDefault();
     setShowContactSidebar(true);
@@ -27,6 +27,14 @@ function Header() {
 
   const handleContactClose = () => {
     setShowContactSidebar(false);
+  };
+
+  const navigate = useNavigate(); // If using React Router
+
+  // Handle Favorites click - now navigates to a page
+  const handleFavoritesClick = (e) => {
+    e.preventDefault();
+    navigate('/favorites');
   };
 
   // Close search when pressing Escape
@@ -63,7 +71,10 @@ function Header() {
               <AiOutlineMenu size={20} />
               <span className="text-sm">Menu</span>
             </div>
-            <div className="flex items-center gap-1 hover:text-gray-700 transition-colors cursor-pointer" onClick={toggleSearch}>
+            <div 
+              className="flex items-center gap-1 hover:text-gray-700 transition-colors cursor-pointer" 
+              onClick={toggleSearch}
+            >
               <AiOutlineSearch size={20} />
               <span className="text-sm">Search for your gifts</span>
             </div>
@@ -83,7 +94,10 @@ function Header() {
             >
               Contact us
             </a>
-            <a href="/favorites" className="hover:text-gray-700 transition-colors">
+            <a 
+              className="hover:text-gray-700 transition-colors cursor-pointer"
+              onClick={handleFavoritesClick}
+            >
               <AiOutlineHeart size={20} />
             </a>
             <a href="/profile" className="hover:text-gray-700 transition-colors">
@@ -97,7 +111,7 @@ function Header() {
         </div>
       </header>
 
-      {/* Sidebar Overlay */}
+      {/* Sidebar Overlay for Menu */}
       {sidebarOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40" 
@@ -166,7 +180,6 @@ function Header() {
       </div>
 
       {/* Contact Sidebar (Right) */}
-      {/* Apply similar transition as menu: from the right, using translate-x-full */}
       <div 
         className={`fixed top-0 right-0 h-full bg-white z-50 p-6 transform transition-transform duration-300 ease-in-out ${
           showContactSidebar ? 'translate-x-0' : 'translate-x-full'
@@ -198,7 +211,6 @@ function Header() {
         </ul>
       </div>
 
-      {/* Overlay for contact sidebar */}
       {showContactSidebar && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-40"
@@ -211,6 +223,10 @@ function Header() {
 }
 
 export default Header;
+
+
+
+
 
 
 
