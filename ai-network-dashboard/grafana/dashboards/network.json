@@ -1,0 +1,40 @@
+{
+  "id": null,
+  "uid": "network-dashboard",
+  "title": "AI Network Dashboard",
+  "schemaVersion": 27,
+  "version": 1,
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Node Latency (ms)",
+      "targets": [
+        {
+          "expr": "node_latency_ms",
+          "legendFormat": "{{node}}",
+          "refId": "A"
+        }
+      ],
+      "gridPos": { "x": 0, "y": 0, "w": 24, "h": 10 }
+    },
+    {
+      "type": "gauge",
+      "title": "Predicted Spike Probability",
+      "targets": [
+        {
+          "expr": "node_spike_prob",
+          "legendFormat": "{{node}}",
+          "refId": "B"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "min": 0,
+          "max": 1,
+          "unit": "percentunit"
+        }
+      },
+      "gridPos": { "x": 0, "y": 10, "w": 24, "h": 8 }
+    }
+  ]
+}
