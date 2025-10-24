@@ -1,0 +1,13 @@
+global:
+  scrape_interval: 5s
+
+scrape_configs:
+  - job_name: "ai_network_dashboard"
+    static_configs:
+      - targets: ["app:8000"]
+
+remote_write:
+  - url: https://prometheus-prod-36-prod-us-west-0.grafana.net/api/prom/push
+    basic_auth:
+      username: ${GRAFANA_USER}
+      password: ${GRAFANA_API_TOKEN}
