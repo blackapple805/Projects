@@ -1,0 +1,73 @@
+# ----------------------------
+# Python / Flask ignores
+# ----------------------------
+
+# Virtual environments
+venv/
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.log
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# Environment files
+.env
+.env.*
+
+# Flask / local runtime
+instance/
+*.db
+*.sqlite3
+
+# ----------------------------
+# VS Code and IDEs
+# ----------------------------
+.vscode/
+.idea/
+*.code-workspace
+
+# ----------------------------
+# System files
+# ----------------------------
+.DS_Store
+Thumbs.db
+
+# ----------------------------
+# Temporary files / Outputs
+# ----------------------------
+*.bak
+*.tmp
+*.swp
+*.swo
+*.orig
+
+# ----------------------------
+# Jupyter or test notebooks
+# ----------------------------
+*.ipynb_checkpoints
+
+# ----------------------------
+# Optional: ignore raw data or media if recorded
+# ----------------------------
+*.mp4
+*.avi
+*.jpg
+*.jpeg
+*.png
+*.mov
+
+# ----------------------------
+# Optional: ignore Docker build cache if present
+# ----------------------------
+*.tar
+*.gz
+*.zip
