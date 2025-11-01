@@ -6,20 +6,20 @@ import cv2, threading, time
 
 app = Flask(__name__)
 
-cap = get_camera()
+cap = get_camera(index=1)
 metrics = Metrics()
 
 latest_frame = None
 processed_frame = None
 _frame_lock = threading.Lock()
 
-# Optimize intervals
-DETECTION_INTERVAL = 2  # every 2 frames
-FRAME_DELAY = 0.01      # smoother capture
-STREAM_DELAY = 0.02     # more stable playback
+# Tuned parameters
+FRAME_DELAY = 0.005      # smoother capture
+DETECTION_DELAY = 0.01   # faster hand/body updates
+STREAM_DELAY = 0.02      # stable HTTP stream
 
 def capture_loop():
-    """Continuously grab frames from camera."""
+    """Continuously capture frames from camera."""
     global latest_frame
     while True:
         ret, frame = cap.read()
@@ -29,46 +29,45 @@ def capture_loop():
         time.sleep(FRAME_DELAY)
 
 def detection_loop():
-    """Run detection in a parallel thread."""
+    """Continuously process frames for detection."""
     global latest_frame, processed_frame
-    frame_counter = 0
     while True:
         with _frame_lock:
             if latest_frame is None:
                 continue
             frame = latest_frame.copy()
 
-        frame_counter += 1
-        if frame_counter % DETECTION_INTERVAL == 0:
-            processed, viewers, ts = process_frame(frame)
-            metrics.update(viewers, ts)
-            with _frame_lock:
-                processed_frame = processed
-        time.sleep(0.02)
+        processed, viewers, ts = process_frame(frame)
+        metrics.update(viewers, ts)
+        with _frame_lock:
+            processed_frame = processed
+        time.sleep(DETECTION_DELAY)
 
 def gen():
-    """Streams processed frames."""
+    """Generate and stream processed frames."""
     global processed_frame
     while True:
         with _frame_lock:
             if processed_frame is None:
                 continue
-            frame = processed_frame.copy()
-
-        _, buf = cv2.imencode('.jpg', frame)
+            ret, buf = cv2.imencode('.jpg', processed_frame)
+        if not ret:
+            continue
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + buf.tobytes() + b'\r\n')
         time.sleep(STREAM_DELAY)
 
 @app.route('/')
 def video_feed():
+    """Main live feed route."""
     return Response(gen(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/metrics')
 def get_metrics():
+    """JSON metrics endpoint."""
     return jsonify(metrics.export())
 
-# Start both threads
+# Launch background threads
 threading.Thread(target=capture_loop, daemon=True).start()
 threading.Thread(target=detection_loop, daemon=True).start()
 

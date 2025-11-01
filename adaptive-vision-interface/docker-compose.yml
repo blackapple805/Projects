@@ -1,0 +1,15 @@
+services:
+  adaptive-vision:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: adaptive-vision
+    ports:
+      - "5000:5000"
+    devices:
+      - "/dev/video0:/dev/video0"
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - .:/app
+    restart: unless-stopped
