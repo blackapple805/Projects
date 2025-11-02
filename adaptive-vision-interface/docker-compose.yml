@@ -8,8 +8,23 @@ services:
       - "5000:5000"
     devices:
       - "/dev/video0:/dev/video0"
+    device_cgroup_rules:
+      - 'c 81:* rmw'
+    group_add:
+      - video
     environment:
-      - PYTHONUNBUFFERED=1
+      PYTHONUNBUFFERED: "1"
+      OPENCV_FPS: "30"
+      OPENCV_BUFFERSIZE: "1"
+      OMP_NUM_THREADS: "4"
+      OPENCV_OPENCL_RUNTIME: "enabled"
+      OPENCV_OPENCL_DEVICE: ":GPU:"
     volumes:
       - .:/app
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.5"
+
