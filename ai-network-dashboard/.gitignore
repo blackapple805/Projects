@@ -1,0 +1,6 @@
+.env
+*.pkl
+*.json
+__pycache__/
+grafana-storage/
+.env

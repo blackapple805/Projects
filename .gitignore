@@ -58,3 +58,9 @@ Thumbs.db
 # Compiled binaries (no extension)
 web-scraper/scrape_imdb
 concurrent-web-scraper/scraper
+
+# ML model binaries
+*.pkl
+
+# Large 3D mesh files (regenerable / sample data)
+*.obj
