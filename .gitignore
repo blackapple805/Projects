@@ -55,3 +55,6 @@ Thumbs.db
 *.so
 *.exe
 *.out
+# Compiled binaries (no extension)
+web-scraper/scrape_imdb
+concurrent-web-scraper/scraper
