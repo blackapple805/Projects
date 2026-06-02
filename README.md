@@ -27,6 +27,7 @@ Languages span **JavaScript/React, Python, Go, and C++**.
 | [my-web-app](my-web-app) | Client/server web app with a custom Webpack build | React, Node/Express, Webpack |
 | [my-portfolio](my-portfolio) | Personal portfolio site | React |
 | [personal-task-manager](personal-task-manager) | Task manager with user auth and persistence | Node/Express, MongoDB |
+| [personal-finance-manager](personal-finance-manager) | Personal finance tracker with budgeting and transaction views | React, Node/Express, MongoDB |
 
 ## Data, ML & Automation
 
