@@ -1,2 +1,57 @@
 node_modules
 crypto-tracker-backend/crypto-tracker-14a52-firebase-adminsdk-3byc5-95524ec5b0.json
+# ---- Dependencies ----
+node_modules/
+**/node_modules/
+
+# ---- Python ----
+.venv/
+**/.venv/
+venv/
+env/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ---- Secrets / env ----
+.env
+**/.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# ---- Build output ----
+build/
+dist/
+**/build/
+**/dist/
+*.tar.gz
+
+# ---- Databases / large data ----
+*.db
+*.sqlite
+*.sqlite3
+*.joblib
+*.leases
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- OS / editor junk ----
+.DS_Store
+**/.DS_Store
+._*
+**/._*
+Thumbs.db
+.vscode/
+.idea/
+
+# ---- Compiled binaries ----
+*.so
+*.exe
+*.out
