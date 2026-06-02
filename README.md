@@ -1,8 +1,7 @@
 ## About This Project
 
 CyberGuardian is an AI-powered cybersecurity threat-detection and response tool,
-built as a **group capstone project**, based on the
-[Sidequest040/Capstone](https://github.com/Sidequest040/Capstone) template.
+built as a **group capstone project**
 
 **Team:** [@YuukiCJ](https://github.com/YuukiCJ), [@visioninhope](https://github.com/visioninhope), and [@blackapple805](https://github.com/blackapple805)
 
