@@ -1,0 +1,21 @@
+# Build artifacts
+/scraper
+/web
+*.exe
+
+# Generated output
+results.txt
+
+# Editor
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keys and certificates
+certs/
+*.key
+*.pem
+*.crt
+*.cert

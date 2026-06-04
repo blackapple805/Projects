@@ -1,6 +1,19 @@
-https://www.example.com
-https://www.google.com
-https://www.github.com
-https://news.ycombinator.com
-https://www.reddit.com
-https://www.stackoverflow.com
+# Recon target queue. Lines starting with # are ignored.
+# Every site below either is a purpose-built scraping sandbox or explicitly
+# tolerates scraping, so results reflect real-world handling without abusing
+# anyone's servers.
+
+# --- content extraction: clean prose ---
+https://example.com
+https://quotes.toscrape.com
+https://books.toscrape.com
+https://www.scrapethissite.com/pages/
+https://en.wikipedia.org/wiki/Open-source_intelligence
+
+# --- realistic e-commerce sandbox (meta tags + structured data) ---
+https://web-scraping.dev/product/1
+
+# --- HTTP behaviours: redirect-follow, refusal, server error ---
+https://httpbin.org/redirect-to?url=https://example.com&status_code=302
+https://httpbin.org/status/403
+https://httpbin.org/status/500

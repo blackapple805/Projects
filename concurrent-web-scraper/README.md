@@ -1,65 +1,105 @@
-# Concurrent Web Scraper
+# concurrent-web-scraper
 
-This project is a concurrent web scraper written in Go. It fetches data from multiple websites in parallel and stores the results in a file.
+A concurrent web scraper in Go. Fetches URLs in parallel with a bounded worker
+pool, extracts each page's title and best-available description, and reports
+results in input order. Ships with a CLI and an HTTPS browser UI that share one
+scraping package.
 
-## Features
+## Layout
 
-- Reads URLs from a file
-- Fetches data from URLs concurrently using goroutines
-- Stores the fetched data in a results file
+```
+.
+├── cmd/
+│   ├── scraper/      # CLI: reads urls.txt, writes results.txt
+│   │   └── main.go
+│   └── web/          # browser UI over HTTPS (or -http)
+│       ├── main.go
+│       └── index.go  # embedded single-page UI
+├── internal/
+│   └── scrape/       # shared core: fetching + extraction (no duplication)
+│       ├── scrape.go
+│       ├── extract.go
+│       └── extract_test.go
+├── urls.txt          # input, one URL per line (# comments allowed)
+├── go.mod
+└── go.sum
+```
 
-## Prerequisites
+The standard `cmd/` + `internal/` layout keeps each binary thin and the
+scraping logic in one place, so the CLI and web server can never drift apart.
 
-- Go 1.16 or later
+## Run
 
-## Usage
+```bash
+go mod tidy
 
-1. Clone the repository:
+# CLI
+go run ./cmd/scraper                      # urls.txt -> results.txt
+go run ./cmd/scraper -c 16 -timeout 20s   # tune concurrency / timeout
+go run ./cmd/scraper -in sites.txt -out out.txt
 
-    ```bash
-    git clone https://github.com/yourusername/concurrent-web-scraper.git
-    cd concurrent-web-scraper
-    ```
+# Web UI
+go run ./cmd/web          # HTTPS on https://localhost:8443 (self-signed)
+go run ./cmd/web -http    # plain HTTP, no browser warning
+go run ./cmd/web -addr :9000
 
-2. Add URLs to the `urls.txt` file.
+# Tests
+go test ./...
+```
 
-3. Build and run the program:
+## How extraction works
 
-    ```bash
-    go build -o scraper
-    ./scraper
-    ```
+Many sites have no `<p>` near the top — content is JS-rendered or built from
+`<div>`s. Rather than give up, the scraper tries a cascade and reports which
+source it used:
 
-4. Check the `results.txt` file for the scraped data.# Concurrent Web Scraper
+1. First real `<p>` (>20 chars)
+2. `<meta name="description">`
+3. Open Graph `og:description`
+4. JSON-LD `description`
 
-This project is a concurrent web scraper written in Go. It fetches data from multiple websites in parallel and stores the results in a file.
+If a response is a bot-challenge page (HTTP 403/429, or a "Just a moment" /
+"verification" title), the result is flagged `blocked` with an explanation
+rather than a blank `N/A`.
 
-## Features
+## Test sites that allow scraping
 
-- Reads URLs from a file
-- Fetches data from URLs concurrently using goroutines
-- Stores the fetched data in a results file
+`urls.txt` ships with sandboxes and open content built for this:
 
-## Prerequisites
+- `books.toscrape.com`, `quotes.toscrape.com` — purpose-built scraping sandboxes
+- `scrapethissite.com/pages` — scraping practice site
+- `httpbin.org/html` — returns a known HTML document
+- `example.com`, Wikipedia — stable, scraping-friendly
 
-- Go 1.16 or later
+Sites like Google, Reddit, and Stack Overflow actively block non-browser
+clients (Cloudflare, bot walls), so they will show as `blocked`. That's the
+site's choice, not a scraper bug.
 
-## Usage
+## Notable design points
 
-1. Clone the repository:
+- Ordered, race-free results (each worker writes its own slice index)
+- UTF-8 transcoding via `charset.NewReader` (no mojibake)
+- Full element-text extraction (nested inline tags included)
+- Per-request timeout and bounded concurrency, both configurable
+- Context-aware: the web server cancels in-flight scrapes if the client leaves
 
-    ```bash
-    git clone https://github.com/yourusername/concurrent-web-scraper.git
-    cd concurrent-web-scraper
-    ```
+## Trusted local HTTPS (no browser warning)
 
-2. Add URLs to the `urls.txt` file.
+By default the web UI uses a self-signed cert, so the browser warns once. To
+get a real green padlock with no warning, use [mkcert](https://github.com/FiloSottile/mkcert):
 
-3. Build and run the program:
+```bash
+# 1. Install mkcert (Windows, via Chocolatey):
+choco install mkcert
 
-    ```bash
-    go build -o scraper
-    ./scraper
-    ```
+# 2. Install the local CA into your OS/browser trust store (one time):
+mkcert -install
 
-4. Check the `results.txt` file for the scraped data.
+# 3. Generate a localhost cert into ./certs:
+mkdir certs
+mkcert -cert-file certs/localhost.pem -key-file certs/localhost-key.pem localhost 127.0.0.1
+```
+
+Now `go run ./cmd/web` picks up those files automatically and serves trusted
+HTTPS. If the files aren't present, it falls back to the self-signed cert, so
+the project still runs for anyone who clones it without mkcert.
