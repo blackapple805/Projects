@@ -1,0 +1,36 @@
+{
+  "name": "crypto-tracker",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Live crypto dashboard — React frontend + Express/CoinGecko backend in one folder.",
+  "author": "blackapple805",
+  "license": "ISC",
+  "main": "server.js",
+  "dependencies": {
+    "axios": "^1.7.2",
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-scripts": "5.0.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "scripts": {
+    "client": "node node_modules/react-scripts/bin/react-scripts.js start",
+    "client:https": "set HTTPS=true&& node node_modules/react-scripts/bin/react-scripts.js start",
+    "server": "node --watch server.js",
+    "dev": "node dev.js",
+    "build": "node node_modules/react-scripts/bin/react-scripts.js build",
+    "start": "node server.js"
+  },
+  "proxy": "http://localhost:5000",
+  "eslintConfig": {
+    "extends": ["react-app"]
+  },
+  "browserslist": {
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
+  }
+}

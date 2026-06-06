@@ -1,0 +1,7 @@
+node_modules
+build
+.env
+.env.local
+*-firebase-adminsdk-*.json
+
+certs/
