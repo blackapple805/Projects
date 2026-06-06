@@ -35,33 +35,145 @@ function formatCompact(value, symbol = '') {
   })}`;
 }
 
-// Tiny inline SVG sparkline from the 7-day price array.
-function Sparkline({ points, positive }) {
-  if (!points || points.length < 2) return <div className="spark-empty" />;
-  const w = 120;
-  const h = 36;
+function formatNumber(value) {
+  if (value == null) return '—';
+  return value.toLocaleString(undefined, { maximumFractionDigits: 0 });
+}
+
+function formatDate(iso) {
+  if (!iso) return '';
+  try {
+    return new Date(iso).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+  } catch {
+    return '';
+  }
+}
+
+function Sparkline({ points, positive, big }) {
+  if (!points || points.length < 2) return <div className={big ? 'spark-empty big' : 'spark-empty'} />;
+  const w = big ? 560 : 120;
+  const h = big ? 160 : 36;
   const min = Math.min(...points);
   const max = Math.max(...points);
   const range = max - min || 1;
   const step = w / (points.length - 1);
-  const d = points
-    .map((p, i) => `${i === 0 ? 'M' : 'L'}${(i * step).toFixed(2)},${(h - ((p - min) / range) * h).toFixed(2)}`)
-    .join(' ');
+  const coords = points.map((p, i) => [i * step, h - ((p - min) / range) * h]);
+  const line = coords.map((c, i) => `${i === 0 ? 'M' : 'L'}${c[0].toFixed(2)},${c[1].toFixed(2)}`).join(' ');
   const stroke = positive ? 'var(--up)' : 'var(--down)';
+  const area = big ? `${line} L${w},${h} L0,${h} Z` : null;
   return (
-    <svg className="spark" viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true">
-      <path d={d} fill="none" stroke={stroke} strokeWidth="1.6" strokeLinejoin="round" strokeLinecap="round" />
+    <svg className={big ? 'spark big' : 'spark'} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" aria-hidden="true">
+      {big && <path d={area} fill={stroke} opacity="0.08" />}
+      <path d={line} fill="none" stroke={stroke} strokeWidth={big ? 2 : 1.6} strokeLinejoin="round" strokeLinecap="round" />
     </svg>
   );
 }
 
-function ChangeBadge({ value }) {
-  if (value == null) return <span className="change muted">—</span>;
+function ChangeBadge({ value, large }) {
+  if (value == null) return <span className={`change muted ${large ? 'lg' : ''}`}>—</span>;
   const positive = value >= 0;
   return (
-    <span className={`change ${positive ? 'up' : 'down'}`}>
+    <span className={`change ${positive ? 'up' : 'down'} ${large ? 'lg' : ''}`}>
       {positive ? '▲' : '▼'} {Math.abs(value).toFixed(2)}%
     </span>
+  );
+}
+
+function Stat({ label, value }) {
+  return (
+    <div className="stat">
+      <span className="stat-label">{label}</span>
+      <span className="stat-value">{value}</span>
+    </div>
+  );
+}
+
+function CoinModal({ id, vs, onClose }) {
+  const cur = CURRENCIES[vs];
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+    setData(null);
+    setError(null);
+    axios
+      .get(`/api/coin/${id}?vs=${vs}`)
+      .then((res) => active && setData(res.data))
+      .catch(() => active && setError('Could not load details for this coin.'));
+    return () => {
+      active = false;
+    };
+  }, [id, vs]);
+
+  useEffect(() => {
+    const onKey = (e) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  const positive = (data?.change7d ?? data?.change24h ?? 0) >= 0;
+
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="modal" onClick={(e) => e.stopPropagation()}>
+        <button className="modal-close" onClick={onClose} aria-label="Close">×</button>
+
+        {error ? (
+          <div className="modal-error">{error}</div>
+        ) : !data ? (
+          <div className="modal-loading">Loading details…</div>
+        ) : (
+          <>
+            <div className="modal-head">
+              <img src={data.image} alt="" width="44" height="44" />
+              <div className="modal-title">
+                <div className="modal-name">
+                  {data.name} <span className="modal-sym">{data.symbol.toUpperCase()}</span>
+                </div>
+                {data.rank && <span className="modal-rank">Rank #{data.rank}</span>}
+              </div>
+              <div className="modal-price">
+                <div className="big-price">{formatPrice(data.price, cur.symbol)}</div>
+                <ChangeBadge value={data.change24h} large />
+              </div>
+            </div>
+
+            <div className="modal-chart">
+              <Sparkline points={data.sparkline} positive={positive} big />
+              <span className="chart-caption">Last 7 days</span>
+            </div>
+
+            <div className="stats-grid">
+              <Stat label="Market cap" value={formatCompact(data.marketCap, cur.symbol)} />
+              <Stat label="24h volume" value={formatCompact(data.volume, cur.symbol)} />
+              <Stat label="24h high" value={formatPrice(data.high24h, cur.symbol)} />
+              <Stat label="24h low" value={formatPrice(data.low24h, cur.symbol)} />
+              <Stat label="7d change" value={<ChangeBadge value={data.change7d} />} />
+              <Stat label="30d change" value={<ChangeBadge value={data.change30d} />} />
+              <Stat label="All-time high" value={
+                <span>{formatPrice(data.ath, cur.symbol)} <span className="muted-date">{formatDate(data.athDate)}</span></span>
+              } />
+              <Stat label="All-time low" value={
+                <span>{formatPrice(data.atl, cur.symbol)} <span className="muted-date">{formatDate(data.atlDate)}</span></span>
+              } />
+              <Stat label="Circulating supply" value={formatNumber(data.circulatingSupply)} />
+              <Stat label="Total supply" value={formatNumber(data.totalSupply)} />
+              <Stat label="Max supply" value={data.maxSupply ? formatNumber(data.maxSupply) : '∞'} />
+              {data.homepage && (
+                <Stat label="Website" value={
+                  <a href={data.homepage} target="_blank" rel="noreferrer" className="modal-link">
+                    {data.homepage.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                  </a>
+                } />
+              )}
+            </div>
+
+            {data.description && <p className="modal-desc">{data.description}</p>}
+          </>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -74,18 +186,22 @@ function App() {
   const [favorites, setFavorites] = useState(loadFavorites);
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [updatedAt, setUpdatedAt] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   const fetchData = useCallback(async () => {
     try {
       setError(null);
       const { data } = await axios.get(`/api/coins?vs=${vs}&per_page=50`);
+      if (!Array.isArray(data)) {
+        throw new Error('unexpected');
+      }
       setCoins(data);
       setUpdatedAt(new Date());
     } catch (e) {
       setError(
         e.response?.status === 429
-          ? 'CoinGecko is rate-limiting us. Give it a few seconds.'
-          : 'Could not load market data. Is the backend running?'
+          ? 'CoinGecko is rate-limiting us. Give it a few seconds and hit Retry.'
+          : 'Could not load market data. Is the backend running on port 5000?'
       );
     } finally {
       setLoading(false);
@@ -95,7 +211,7 @@ function App() {
   useEffect(() => {
     setLoading(true);
     fetchData();
-    const id = setInterval(fetchData, 60000); // auto-refresh every 60s
+    const id = setInterval(fetchData, 60000);
     return () => clearInterval(id);
   }, [fetchData]);
 
@@ -148,11 +264,7 @@ function App() {
           </div>
           <div className="seg">
             {Object.entries(CURRENCIES).map(([key, c]) => (
-              <button
-                key={key}
-                className={vs === key ? 'active' : ''}
-                onClick={() => setVs(key)}
-              >
+              <button key={key} className={vs === key ? 'active' : ''} onClick={() => setVs(key)}>
                 {c.label}
               </button>
             ))}
@@ -172,6 +284,13 @@ function App() {
           <div className="banner error">
             <span>{error}</span>
             <button onClick={fetchData}>Retry</button>
+          </div>
+        )}
+
+        {onlyFavorites && (
+          <div className="banner filter">
+            <span>Showing favorites only ({favorites.size} of {coins.length} coins)</span>
+            <button onClick={() => setOnlyFavorites(false)}>Show all</button>
           </div>
         )}
 
@@ -201,10 +320,20 @@ function App() {
             : filtered.map((c) => {
                 const positive = (c.price_change_percentage_24h ?? 0) >= 0;
                 return (
-                  <div className="row" key={c.id}>
+                  <div
+                    className="row clickable"
+                    key={c.id}
+                    onClick={() => setSelected(c.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && setSelected(c.id)}
+                  >
                     <button
                       className={`star ${favorites.has(c.id) ? 'on' : ''}`}
-                      onClick={() => toggleFavorite(c.id)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFavorite(c.id);
+                      }}
                       aria-label="Toggle favorite"
                     >
                       ★
@@ -240,11 +369,13 @@ function App() {
       <footer className="footer">
         <span>
           {updatedAt
-            ? `Updated ${updatedAt.toLocaleTimeString()} · auto-refresh 60s`
+            ? `${filtered.length} coins · updated ${updatedAt.toLocaleTimeString()} · auto-refresh 60s`
             : 'Connecting…'}
         </span>
         <button className="refresh" onClick={fetchData}>↻ Refresh</button>
       </footer>
+
+      {selected && <CoinModal id={selected} vs={vs} onClose={() => setSelected(null)} />}
     </div>
   );
 }

@@ -154,6 +154,7 @@ body {
   font-size: 14px;
 }
 .banner.error { background: var(--down-soft); border: 1px solid var(--down); color: var(--down); }
+.banner.filter { background: var(--accent-soft); border: 1px solid var(--accent); color: var(--accent); }
 .banner button {
   background: transparent; border: 1px solid currentColor; color: inherit;
   border-radius: 7px; padding: 5px 12px; cursor: pointer; font-weight: 600;
@@ -279,4 +280,113 @@ body {
   .col-rank, .col-mcap, .col-spark, .spark { display: none; }
   .row.head .col-mcap, .row.head .col-spark, .row.head .col-rank { display: none; }
   .search input { width: 130px; }
+}
+
+/* clickable rows */
+.row.clickable { cursor: pointer; }
+.row.clickable:hover { background: rgba(255, 255, 255, 0.04); }
+.row.clickable:focus-visible { outline: 1px solid var(--accent); outline-offset: -1px; }
+
+/* detail modal */
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(5, 6, 9, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 48px 20px;
+  overflow-y: auto;
+  animation: fade 0.15s ease;
+}
+@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  background: var(--panel-solid);
+  border: 1px solid var(--border-strong);
+  border-radius: 18px;
+  padding: 26px;
+  animation: rise 0.18s ease;
+}
+@keyframes rise { from { transform: translateY(10px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  transition: 0.15s;
+}
+.modal-close:hover { color: var(--text); }
+
+.modal-loading, .modal-error { padding: 40px; text-align: center; color: var(--muted); }
+.modal-error { color: var(--down); }
+
+.modal-head { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.modal-head img { border-radius: 50%; }
+.modal-title { display: flex; flex-direction: column; gap: 3px; }
+.modal-name { font-family: 'Sora', sans-serif; font-size: 20px; font-weight: 700; }
+.modal-sym { color: var(--muted); font-size: 14px; font-weight: 600; margin-left: 2px; }
+.modal-rank {
+  font-size: 11px;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 8px;
+  border-radius: 6px;
+  width: fit-content;
+  letter-spacing: 0.03em;
+}
+.modal-price { margin-left: auto; text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.big-price { font-family: 'JetBrains Mono', monospace; font-size: 24px; font-weight: 600; }
+.change.lg { font-size: 13.5px; padding: 5px 10px; }
+
+.modal-chart {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 14px 8px;
+  margin-bottom: 22px;
+}
+.spark.big { width: 100%; height: 160px; }
+.spark-empty.big { width: 100%; height: 160px; }
+.chart-caption { display: block; text-align: right; color: var(--muted); font-size: 11px; margin-top: 6px; letter-spacing: 0.04em; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.stat {
+  background: var(--panel-solid);
+  padding: 13px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stat-label { color: var(--muted); font-size: 11.5px; letter-spacing: 0.04em; text-transform: uppercase; }
+.stat-value { font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 500; }
+.muted-date { color: var(--muted); font-size: 11px; font-family: 'DM Sans', sans-serif; }
+.modal-link { color: var(--accent); text-decoration: none; font-family: 'DM Sans', sans-serif; font-size: 13px; }
+.modal-link:hover { text-decoration: underline; }
+
+.modal-desc { margin-top: 18px; color: var(--muted); font-size: 14px; line-height: 1.6; }
+
+@media (max-width: 560px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .modal-head { flex-wrap: wrap; }
+  .modal-price { margin-left: 0; align-items: flex-start; text-align: left; }
 }

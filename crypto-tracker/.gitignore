@@ -3,5 +3,4 @@ build
 .env
 .env.local
 *-firebase-adminsdk-*.json
-
 certs/

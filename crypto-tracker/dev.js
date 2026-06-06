@@ -1,4 +1,4 @@
-﻿// Runs the API server and the React dev server together with one command.
+// Runs the API server and the React dev server together with one command.
 // Uses only Node built-ins — nothing to install.
 // Spawns `node` directly (no npm.cmd, no shell) so it works cleanly on
 // Windows with modern Node versions.
@@ -6,8 +6,8 @@
 const { spawn } = require('child_process');
 
 const tasks = [
-  { name: 'SERVER', color: '\x1b[34m', args: ['--watch', 'server.js'] },
-  { name: 'CLIENT', color: '\x1b[32m', args: ['node_modules/react-scripts/bin/react-scripts.js', 'start'] },
+  { name: 'SERVER', color: '\x1b[34m', args: ['--watch', 'server.js'] },                                  // blue
+  { name: 'CLIENT', color: '\x1b[32m', args: ['node_modules/react-scripts/bin/react-scripts.js', 'start'] }, // green
 ];
 
 const RESET = '\x1b[0m';
