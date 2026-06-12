@@ -47,10 +47,23 @@ function persistCache() {
     }, 2000);
 }
 
+// ---- CoinGecko circuit breaker ---------------------------------------------
+// After a 429, stop calling CoinGecko entirely for a cooldown window. Poking a
+// rate-limiter on every refresh extends the penalty; backing off lets it expire.
+let cgBlockedUntil = 0;
+const CG_COOLDOWN_MS = 90 * 1000;
+
 // Fetch with caching. On upstream failure, serve the stale copy instead of erroring.
 async function cachedGet(key, url, params, ttl = TTL_MS) {
     const hit = cache.get(key);
     if (hit && hit.expires > Date.now()) return hit.data;
+
+    const isCG = url.startsWith(COINGECKO);
+    if (isCG && Date.now() < cgBlockedUntil) {
+        if (hit) return hit.data; // stale data beats poking a rate-limiter
+        throw new Error('CoinGecko cooling down after 429');
+    }
+
     try {
         const { data } = await axios.get(url, {
             params,
@@ -61,12 +74,38 @@ async function cachedGet(key, url, params, ttl = TTL_MS) {
         persistCache();
         return data;
     } catch (err) {
+        if (isCG && err.response?.status === 429) {
+            cgBlockedUntil = Date.now() + CG_COOLDOWN_MS;
+            console.warn(`[breaker] CoinGecko 429 — pausing all CoinGecko calls for ${CG_COOLDOWN_MS / 1000}s`);
+        }
         if (hit) {
             console.warn(`[stale] upstream failed for "${key}" — serving cached copy (${err.message})`);
             return hit.data;
         }
         throw err; // no cache at all -> caller decides on a fallback
     }
+}
+
+// ---- coin metadata sidecar --------------------------------------------------
+// Every successful CoinGecko list teaches us each coin's name/logo/market cap,
+// persisted to disk forever. Binance fallback lists merge this in, so after the
+// FIRST ever CoinGecko success, fallback mode is visually identical to normal.
+const META_KEY = '__coinmeta';
+function updateCoinMeta(coins) {
+    if (!Array.isArray(coins)) return;
+    const meta = cache.get(META_KEY)?.data || {};
+    for (const c of coins) {
+        if (!c || !c.symbol) continue;
+        meta[c.symbol.toUpperCase()] = {
+            id: c.id,
+            name: c.name,
+            image: c.image || null,
+            market_cap: c.market_cap ?? null,
+            rank: c.market_cap_rank ?? null,
+        };
+    }
+    cache.set(META_KEY, { data: meta, expires: 9e15 }); // effectively permanent
+    persistCache();
 }
 
 // Find a coin inside any cached top-coins list. Lets the detail endpoint
@@ -141,20 +180,22 @@ function overlayLive(coins, vs) {
 async function binanceFallbackList(perPage) {
     const { data } = await axios.get(`${BINANCE_REST}/ticker/24hr`, { timeout: 10000 });
     const STABLES = new Set(['USDC', 'FDUSD', 'TUSD', 'DAI', 'BUSD', 'USDP', 'EUR', 'GBP']);
+    const meta = cache.get(META_KEY)?.data || {};
     return data
         .filter((t) => t.symbol.endsWith('USDT') && !STABLES.has(t.symbol.slice(0, -4)))
         .sort((a, b) => Number(b.quoteVolume) - Number(a.quoteVolume))
         .slice(0, perPage)
         .map((t, i) => {
             const sym = t.symbol.slice(0, -4);
+            const m = meta[sym] || {};
             return {
-                id: sym.toLowerCase(),
+                id: m.id || sym.toLowerCase(),
                 symbol: sym.toLowerCase(),
-                name: sym,
-                image: null,
+                name: m.name || sym,
+                image: m.image || null,
                 current_price: Number(t.lastPrice),
-                market_cap: null,
-                market_cap_rank: i + 1,
+                market_cap: m.market_cap ?? null,
+                market_cap_rank: m.rank ?? i + 1,
                 total_volume: Number(t.quoteVolume),
                 price_change_percentage_24h: Number(t.priceChangePercent),
                 price_change_percentage_24h_in_currency: Number(t.priceChangePercent),
@@ -188,12 +229,20 @@ app.get('/api/coins', async (req, res) => {
             sparkline: true,
             price_change_percentage: '24h,7d',
         });
+        if (vs === 'usd') updateCoinMeta(data); // teach the sidecar
         res.json(overlayLive(data, vs));
     } catch (err) {
-        // No cache AND CoinGecko down -> emergency list straight from Binance
+        // No cache AND CoinGecko unavailable -> emergency list from Binance.
+        // Cached for 60s so frontend polling doesn't refetch it constantly.
         try {
-            console.warn('[fallback] CoinGecko down with empty cache — using Binance REST');
+            const fbKey = `bfallback:${perPage}`;
+            const fbHit = cache.get(fbKey);
+            if (fbHit && fbHit.expires > Date.now()) {
+                return res.json(overlayLive(fbHit.data, 'usd'));
+            }
+            console.warn('[fallback] CoinGecko unavailable with empty cache — using Binance REST');
             const data = await binanceFallbackList(perPage);
+            cache.set(fbKey, { data, expires: Date.now() + 60 * 1000 });
             res.json(overlayLive(data, 'usd'));
         } catch (err2) {
             handleError(res, err2);
@@ -235,7 +284,10 @@ app.get('/api/coin/:id', async (req, res) => {
         const m = data.market_data || {};
         const pick = (obj) => (obj && obj[vs] != null ? obj[vs] : null);
 
-        const rawDesc = (data.description?.en || '').replace(/<[^>]*>/g, '').trim();
+        const decodeEntities = (s) => s
+            .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+            .replace(/&quot;/g, '"').replace(/&#39;|&apos;/g, "'").replace(/&nbsp;/g, ' ');
+        const rawDesc = decodeEntities((data.description?.en || '').replace(/<[^>]*>/g, '')).trim();
         const description = rawDesc ? rawDesc.split('. ').slice(0, 3).join('. ').trim() : '';
 
         // Overlay live price for USD views
