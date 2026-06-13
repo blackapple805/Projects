@@ -2,26 +2,36 @@ import React, { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import BreadArt from './BreadArt';
 import '../styles.css';
+
+// SweetAlert theme matched to the MIGA design tokens
+const swalTheme = {
+  confirmButtonColor: '#1d1a16',
+  cancelButtonColor: '#8c8478',
+  background: '#fffefb',
+  color: '#1d1a16',
+};
 
 const BreadList = () => {
   const [breads, setBreads] = useState([]);
   const [cart, setCart] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBreads = async () => {
       try {
         const response = await axios.get('/api/breads');
-        // Ensure that prices are numbers
-        const breadsData = response.data.map(bread => ({
+        const breadsData = response.data.map((bread) => ({
           ...bread,
-          price: parseFloat(bread.price) // Convert price to number
+          price: parseFloat(bread.price),
         }));
         setBreads(breadsData);
       } catch (error) {
         console.error('Failed to fetch breads:', error);
+        setLoadError('Could not load the bread list. Is the server running?');
       } finally {
         setLoading(false);
       }
@@ -33,7 +43,10 @@ const BreadList = () => {
     setCart((prevCart) => {
       const newCart = { ...prevCart };
       if (newCart[bread.id]) {
-        newCart[bread.id].quantity += 0.5;
+        newCart[bread.id] = {
+          ...newCart[bread.id],
+          quantity: newCart[bread.id].quantity + 1,
+        };
       } else {
         newCart[bread.id] = { ...bread, quantity: 1 };
       }
@@ -44,8 +57,12 @@ const BreadList = () => {
   const removeFromCart = useCallback((breadId) => {
     setCart((prevCart) => {
       const newCart = { ...prevCart };
+      if (!newCart[breadId]) return prevCart;
       if (newCart[breadId].quantity > 1) {
-        newCart[breadId].quantity -= 0.5;
+        newCart[breadId] = {
+          ...newCart[breadId],
+          quantity: newCart[breadId].quantity - 1,
+        };
       } else {
         delete newCart[breadId];
       }
@@ -55,21 +72,16 @@ const BreadList = () => {
 
   const clearCart = () => {
     Swal.fire({
-      title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      title: 'Clear the order?',
+      text: 'Everything in the order will be removed.',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
-      confirmButtonText: 'Yes, clear it!'
+      confirmButtonText: 'Clear it',
+      cancelButtonText: 'Keep it',
+      ...swalTheme,
     }).then((result) => {
       if (result.isConfirmed) {
         setCart({});
-        Swal.fire(
-          'Cleared!',
-          'Your cart has been cleared.',
-          'success'
-        );
       }
     });
   };
@@ -89,65 +101,118 @@ const BreadList = () => {
       });
       navigate(`/receipt/${response.data.receiptId}`);
     } catch (error) {
-      alert('Failed to save the receipt. Please try again.');
+      Swal.fire({
+        title: 'Purchase failed',
+        text: 'The receipt could not be saved. Try again.',
+        icon: 'error',
+        ...swalTheme,
+      });
     }
   };
 
-  if (loading) {
-    return <p>Loading breads...</p>;
-  }
+  const cartItems = Object.values(cart);
 
   return (
-    <div className="container">
-      <div className="wrapper">
-        <div className="circle-1"></div>
-        <div className="circle-2"></div>
-        <div className="card">
-          <section className="top">
-            <span className="u-l">Available Breads:</span>
-          </section>
-          <section className="bottom">
-            <ul className="users">
+    <main>
+      {/* Hero */}
+      <section className="m-hero">
+        <div className="m-label">San Buenaventura · Est. MMXIX</div>
+        <h1>From our hearth, <em>raised slowly,</em> baked before dawn.</h1>
+        <p>
+          Flour, water, salt and time — nothing else. Every loaf is naturally
+          leavened over two days and drawn from the oven the morning you buy it,
+          a few blocks from the Ventura pier.
+        </p>
+      </section>
+
+      <hr className="m-rule" />
+
+      <div className="m-shop">
+        {/* Product grid */}
+        <div>
+          <div className="m-label m-label--ink" style={{ marginBottom: '34px' }}>
+            The Day's Bake
+          </div>
+
+          {loadError && <p className="m-notice">{loadError}</p>}
+          {loading && <p className="m-muted">Loading breads…</p>}
+
+          {!loading && (
+            <ul className="m-grid">
               {breads.length > 0 ? (
-                breads.map(bread => (
-                  <li key={bread.id} className="user">
-                    <span className="user-name">{bread.name}</span>
-                    <span className="user-occupation">${bread.price.toFixed(2)}</span>
-                    <button onClick={() => addToCart(bread)}>Add to Cart</button>
+                breads.map((bread) => (
+                  <li key={bread.id} className="m-card">
+                    <div className="m-art">
+                      {bread.image ? (
+                        <img src={bread.image} alt={bread.name} loading="lazy" />
+                      ) : (
+                        <BreadArt name={bread.name} />
+                      )}
+                    </div>
+                    <span className="m-card-name">{bread.name}</span>
+                    <span className="m-card-price">$ {bread.price.toFixed(2)}</span>
+                    <button className="m-card-add" onClick={() => addToCart(bread)}>
+                      Add to order
+                    </button>
                   </li>
                 ))
               ) : (
-                <p>No breads available.</p>
+                !loadError && <p className="m-muted">No breads available right now.</p>
               )}
             </ul>
-          </section>
+          )}
         </div>
-      </div>
 
-      <div className="cart-section">
-        <h2>Your Cart</h2>
-        {Object.keys(cart).length > 0 ? (
-          <>
-            <ul>
-              {Object.values(cart).map((bread) => (
-                <li key={bread.id} className="user">
-                  <span className="user-name">{bread.name}</span>
-                  <span className="user-occupation">${bread.price.toFixed(2)} x {bread.quantity}</span>
-                  <button onClick={() => removeFromCart(bread.id)} className="remove-btn">Remove</button>
-                </li>
-              ))}
-            </ul>
-            <h3 className="total">Total: ${calculateTotal()}</h3>
-            <button onClick={handlePurchase}>Purchase</button>
-            <button onClick={clearCart} className="clear-btn" style={{ marginLeft: '10px' }}>
-              Clear Cart
-            </button>
-          </>
-        ) : (
-          <p>No items in cart.</p>
-        )}
+        {/* Order panel */}
+        <aside className="m-order">
+          <div className="m-label m-order-title">Your Order</div>
+          <hr className="m-order-rule" />
+
+          {cartItems.length > 0 ? (
+            <>
+              <ul className="m-lines">
+                {cartItems.map((bread) => (
+                  <li key={bread.id} className="m-line">
+                    <span className="m-line-name">{bread.name}</span>
+                    <span className="m-qty">
+                      <button
+                        onClick={() => removeFromCart(bread.id)}
+                        aria-label={`Remove one ${bread.name}`}
+                      >
+                        −
+                      </button>
+                      {bread.quantity}
+                      <button
+                        onClick={() => addToCart(bread)}
+                        aria-label={`Add one ${bread.name}`}
+                      >
+                        +
+                      </button>
+                    </span>
+                    <span className="m-amount">
+                      ${(bread.price * bread.quantity).toFixed(2)}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+              <hr className="m-order-rule" />
+              <div className="m-total">
+                <span className="m-label m-label--ink">Total</span>
+                <span className="m-total-figure">${calculateTotal()}</span>
+              </div>
+              <button className="m-cta" onClick={handlePurchase}>
+                Complete purchase
+              </button>
+              <button className="m-quiet" onClick={clearCart}>
+                Clear order
+              </button>
+            </>
+          ) : (
+            <p className="m-empty">Nothing here yet — add some bread.</p>
+          )}
+        </aside>
       </div>
-    </div>
+    </main>
   );
 };
 
