@@ -1,66 +1,69 @@
-const connection = require('../config/db');
+const db = require('../config/db');
 
 const saveReceipt = (req, res) => {
-  const { cart, total } = req.body;
-  const items = JSON.stringify(cart);
-
-  connection.query(
-    'INSERT INTO receipts (items, total) VALUES (?, ?)',
-    [items, total],
-    (err, results) => {
-      if (err) {
-        console.error('Error saving receipt:', err);
-        return res.status(500).send(err);
-      }
-      res.status(201).json({ message: 'Receipt saved successfully!', receiptId: results.insertId });
+  try {
+    const { cart, total } = req.body;
+    if (!Array.isArray(cart) || cart.length === 0) {
+      return res.status(400).json({ message: 'Cart is empty' });
     }
-  );
+    const items = JSON.stringify(cart);
+    const result = db
+      .prepare('INSERT INTO receipts (items, total) VALUES (?, ?)')
+      .run(items, parseFloat(total));
+    res.status(201).json({
+      message: 'Receipt saved successfully!',
+      receiptId: Number(result.lastInsertRowid),
+    });
+  } catch (err) {
+    console.error('Error saving receipt:', err);
+    res.status(500).json({ message: 'Failed to save receipt' });
+  }
 };
 
 const getReceiptById = (req, res) => {
-  const { id } = req.params;
-
-  connection.query('SELECT * FROM receipts WHERE id = ?', [id], (err, results) => {
-    if (err) {
-      console.error('Error fetching receipt:', err);
-      return res.status(500).send(err);
-    }
-    if (results.length === 0) {
+  try {
+    const receipt = db
+      .prepare('SELECT * FROM receipts WHERE id = ?')
+      .get(req.params.id);
+    if (!receipt) {
       return res.status(404).json({ message: 'Receipt not found' });
     }
-    res.json(results[0]);
-  });
+    res.json(receipt);
+  } catch (err) {
+    console.error('Error fetching receipt:', err);
+    res.status(500).json({ message: 'Failed to fetch receipt' });
+  }
 };
 
 const getAllReceipts = (req, res) => {
-  connection.query('SELECT * FROM receipts ORDER BY purchase_date DESC', (err, results) => {
-    if (err) {
-      console.error('Error fetching receipts:', err);
-      return res.status(500).send(err);
-    }
-    res.json(results);
-  });
+  try {
+    const receipts = db
+      .prepare('SELECT * FROM receipts ORDER BY purchase_date DESC')
+      .all();
+    res.json(receipts);
+  } catch (err) {
+    console.error('Error fetching receipts:', err);
+    res.status(500).json({ message: 'Failed to fetch receipts' });
+  }
 };
 
 const getReceiptsByDate = (req, res) => {
-  const { date } = req.params;
-  
-  connection.query(
-    'SELECT * FROM receipts WHERE DATE(purchase_date) = ? ORDER BY purchase_date DESC', 
-    [date], 
-    (err, results) => {
-      if (err) {
-        console.error('Error fetching receipts by date:', err);
-        return res.status(500).send(err);
-      }
-      res.json(results);
-    }
-  );
+  try {
+    const receipts = db
+      .prepare(
+        "SELECT * FROM receipts WHERE date(purchase_date) = ? ORDER BY purchase_date DESC"
+      )
+      .all(req.params.date);
+    res.json(receipts);
+  } catch (err) {
+    console.error('Error fetching receipts by date:', err);
+    res.status(500).json({ message: 'Failed to fetch receipts' });
+  }
 };
 
 module.exports = {
   saveReceipt,
   getReceiptById,
   getAllReceipts,
-  getReceiptsByDate, // Add this function
+  getReceiptsByDate,
 };

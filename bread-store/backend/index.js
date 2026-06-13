@@ -5,12 +5,22 @@ const receiptRoutes = require('./routes/receiptRoutes');
 
 const app = express();
 
-// Apply CORS middleware
-app.use(cors({
-  origin: 'https://super-duper-eureka-464rp5pj7xjh5jj-3000.app.github.dev',
-  methods: 'GET,POST,PUT,DELETE',
-  credentials: true
-}));
+// CORS — was hardcoded to a dead GitHub Codespaces URL, which blocked
+// the frontend everywhere else. In dev the CRA proxy makes requests
+// same-origin anyway; this allows localhost plus an optional
+// FRONTEND_URL env var for when you deploy.
+const allowedOrigins = [
+  'http://localhost:3000',
+  process.env.FRONTEND_URL, // set this in .env when you deploy
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    methods: 'GET,POST,PUT,DELETE',
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
@@ -18,7 +28,6 @@ app.get('/', (req, res) => {
   res.send('Welcome to the Bread Store API');
 });
 
-// Use the routes
 app.use('/api', breadRoutes);
 app.use('/api', receiptRoutes);
 

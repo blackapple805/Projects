@@ -1,14 +1,13 @@
-const connection = require('../config/db');
+const db = require('../config/db');
 
 const getBreads = (req, res) => {
-  connection.query('SELECT * FROM breads', (err, results) => {
-    if (err) {
-      console.error('Error fetching breads:', err);
-      return res.status(500).send(err);
-    }
-    console.log('Breads fetched successfully:', results);
-    res.json(results);
-  });
+  try {
+    const breads = db.prepare('SELECT * FROM breads ORDER BY name').all();
+    res.json(breads);
+  } catch (err) {
+    console.error('Error fetching breads:', err);
+    res.status(500).json({ message: 'Failed to fetch breads' });
+  }
 };
 
 module.exports = {
