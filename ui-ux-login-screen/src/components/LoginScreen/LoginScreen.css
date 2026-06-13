@@ -1,0 +1,349 @@
+/* ============================================================
+   LoginScreen — token-driven styles
+   Every color, size, and radius lives in :root below.
+   To re-theme the whole screen in the future, edit ONLY :root.
+   ============================================================ */
+
+:root {
+  /* Color */
+  --ink: #16181d;          /* near-black, main text + brand panel   */
+  --ink-soft: #5a5e6a;     /* secondary text                        */
+  --paper: #fafaf8;        /* page background                       */
+  --surface: #ffffff;      /* form panel                            */
+  --line: #e4e3de;         /* borders, dividers                     */
+  --accent: #1f3dbe;       /* ultramarine — the one accent color    */
+  --accent-deep: #162d8f;  /* accent hover/active                   */
+  --danger: #b3261e;       /* error text                            */
+  --on-ink: #f4f4f1;       /* text on dark panel                    */
+
+  /* Type — system stack: native everywhere, never goes stale */
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+
+  /* Shape & rhythm */
+  --radius: 10px;
+  --radius-sm: 7px;
+  --space: 1rem;
+  --speed: 160ms;
+}
+
+/* ---------- Layout: brand panel + form panel ---------- */
+
+.login-page {
+  display: grid;
+  grid-template-columns: minmax(320px, 42%) 1fr;
+  min-height: 100vh;
+  font-family: var(--font);
+  background: var(--paper);
+  color: var(--ink);
+  text-align: left; /* override .App { text-align: center } from App.css */
+}
+
+/* ---------- Brand panel (left) ---------- */
+
+.login-brand {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: calc(var(--space) * 2.5);
+  background: var(--ink);
+  color: var(--on-ink);
+  overflow: hidden;
+}
+
+/* faint engineering-grid texture, pure CSS, no assets */
+.login-brand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+
+.login-brand-mark {
+  position: relative;
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.login-brand-copy {
+  position: relative;
+}
+
+.login-brand-eyebrow {
+  margin: 0 0 0.6rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: rgba(244, 244, 241, 0.55);
+}
+
+.login-brand-title {
+  margin: 0 0 0.75rem;
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.login-brand-tagline {
+  margin: 0;
+  max-width: 30ch;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(244, 244, 241, 0.7);
+}
+
+.login-brand-foot {
+  position: relative;
+  margin: 0;
+  font-size: 0.78rem;
+  color: rgba(244, 244, 241, 0.45);
+}
+
+/* ---------- Form panel (right) ---------- */
+
+.login-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: calc(var(--space) * 2);
+}
+
+.login-form {
+  width: 100%;
+  max-width: 360px;
+}
+
+.login-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.55rem;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.login-subtitle {
+  margin: 0 0 1.75rem;
+  font-size: 0.95rem;
+  color: var(--ink-soft);
+}
+
+.login-error {
+  margin: 0 0 1.25rem;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.88rem;
+  color: var(--danger);
+  background: rgba(179, 38, 30, 0.06);
+  border: 1px solid rgba(179, 38, 30, 0.25);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+  margin-bottom: 1.15rem;
+}
+
+.field-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.field-label {
+  display: inline-block;
+  margin-bottom: 0.45rem;
+  font-size: 0.83rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.field-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.7rem 0.85rem;
+  font: inherit;
+  font-size: 0.95rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--speed) ease, box-shadow var(--speed) ease;
+}
+
+.field-input:hover {
+  border-color: #c9c8c2;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(31, 61, 190, 0.15);
+}
+
+.field-toggle {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+}
+
+.field-toggle:hover {
+  color: var(--accent-deep);
+  text-decoration: underline;
+}
+
+/* ---------- Remember / forgot row ---------- */
+
+.login-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0.25rem 0 1.5rem;
+}
+
+.remember {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.remember-box {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.login-link {
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  color: var(--accent-deep);
+  text-decoration: underline;
+}
+
+.field-hint {
+  margin: 0.4rem 0 0;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+.login-foot {
+  margin: 1.5rem 0 0;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+/* ---------- Submit ---------- */
+
+.login-button {
+  width: 100%;
+  padding: 0.75rem;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--accent);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--speed) ease, transform var(--speed) ease;
+}
+
+.login-button:hover {
+  background: var(--accent-deep);
+}
+
+.login-button:active {
+  transform: translateY(1px);
+}
+
+.login-button:disabled {
+  opacity: 0.65;
+  cursor: default;
+  transform: none;
+}
+
+/* ---------- Quality floor ---------- */
+
+/* visible keyboard focus everywhere */
+.field-toggle:focus-visible,
+.login-link:focus-visible,
+.login-button:focus-visible,
+.remember-box:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* respect users who turn off motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+
+/* mobile: brand panel becomes a compact header */
+@media (max-width: 760px) {
+  .login-page {
+    grid-template-columns: 1fr;
+  }
+
+  .login-brand {
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+  }
+
+  .login-brand-mark {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+  }
+
+  .login-brand-title {
+    font-size: 1.15rem;
+    margin-bottom: 0;
+  }
+
+  .login-brand-eyebrow,
+  .login-brand-tagline,
+  .login-brand-foot {
+    display: none;
+  }
+
+  .login-panel {
+    align-items: flex-start;
+    padding-top: 3rem;
+  }
+}
