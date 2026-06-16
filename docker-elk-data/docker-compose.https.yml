@@ -1,0 +1,12 @@
+# docker-compose.https.yml — overlay that turns on HTTPS for Kibana only.
+#
+# Use it ALONGSIDE the base file (the base stays unchanged):
+#   docker compose -f docker-compose.yml -f docker-compose.https.yml up -d
+#
+# The start-https.ps1 script does this for you and also generates the certs.
+
+services:
+  kibana:
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+      - ./certs:/usr/share/kibana/config/certs:ro

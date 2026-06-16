@@ -1,0 +1,10 @@
+# kibana.yml — enables HTTPS on the Kibana web UI (browser -> Kibana).
+# Elasticsearch stays on plain HTTP internally; only the browser-facing
+# side is encrypted. This keeps the rest of the stack unchanged.
+
+server.host: "0.0.0.0"
+server.ssl.enabled: true
+server.ssl.certificate: /usr/share/kibana/config/certs/kibana.crt
+server.ssl.key: /usr/share/kibana/config/certs/kibana.key
+
+elasticsearch.hosts: ["http://elasticsearch:9200"]

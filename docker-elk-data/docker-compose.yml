@@ -1,32 +1,49 @@
-version: '3'
-services:
+# docker-compose.yml — a local ELK stack for traffic analysis.
+#
+# Pinned to 7.17.x: the last 7.x line, which runs without the mandatory
+# passwords/TLS that 8.x turns on by default — ideal for a local lab.
+# Bring it up with:  docker compose up -d
 
+services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.16.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.18
+    container_name: elk-elasticsearch
     environment:
-      - "discovery.type=single-node"
+      - discovery.type=single-node
+      - xpack.security.enabled=false
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ports:
       - "9200:9200"
-      - "9300:9300"
     volumes:
       - esdata:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:7.16.0
+    image: docker.elastic.co/logstash/logstash:7.17.18
+    container_name: elk-logstash
     volumes:
-      - ./logstash-config:/usr/share/logstash/pipeline
-    ports:
-      - "5000:5000"
+      # Pipeline config and the CSV data, mounted read-only.
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - ./logstash/traffic-template.json:/usr/share/logstash/templates/traffic.json:ro
+      - ./data:/usr/share/logstash/csv:ro
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:7.16.0
+    image: docker.elastic.co/kibana/kibana:7.17.18
+    container_name: elk-kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
     ports:
       - "5601:5601"
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
 volumes:
   esdata:
