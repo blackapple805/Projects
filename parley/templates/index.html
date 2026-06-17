@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parley</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <!-- Markdown rendering for assistant replies (vendored locally, no CDN) -->
+  <script src="{{ url_for('static', filename='marked.min.js') }}"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <span class="logo">◆</span>
+        <span class="name">Parley</span>
+      </div>
+      <div class="meta" id="provider-meta">connecting…</div>
+      <button class="clear" id="clear-btn" title="Clear conversation">Clear</button>
+    </header>
+
+    <main class="messages" id="messages">
+      <div class="empty" id="empty-state">
+        <h1>Start a conversation</h1>
+        <p>Ask anything. Parley runs on a free LLM provider of your choice.</p>
+      </div>
+    </main>
+
+    <form class="composer" id="composer">
+      <textarea id="input" rows="1" placeholder="Message Parley…" autocomplete="off"></textarea>
+      <button type="submit" id="send" title="Send">Send</button>
+    </form>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
