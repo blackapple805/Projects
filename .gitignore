@@ -64,3 +64,8 @@ concurrent-web-scraper/scraper
 
 # Large 3D mesh files (regenerable / sample data)
 *.obj
+
+# backups and other projects
+job-recommendation-system - Copy/
+job-recommendation-system - Copy.zip
+
