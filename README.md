@@ -1,10 +1,3 @@
-## About This Project
-
-CyberGuardian is an AI-powered cybersecurity threat-detection and response tool,
-built as a **group capstone project**.
-
-**Team:** [@YuukiCJ](https://github.com/YuukiCJ), [@visioninhope](https://github.com/visioninhope), and [@blackapple805](https://github.com/blackapple805)
-
 **My contributions:** Worked across the full stack — React frontend components
 (dashboard, threat-detection views, auth flow), the Node/Express backend and API,
 and the threat-detection logic. The team delivered the final in-person presentation
