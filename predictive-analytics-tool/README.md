@@ -1,69 +1,117 @@
 # Predictive Analytics Tool
 
-## Overview
+A modular machine-learning project that generates data, cleans and normalizes
+it, **compares multiple models with cross-validation**, trains the best one,
+and produces diagnostic visualizations. Built as a clean GitHub portfolio piece.
 
-This project is a predictive analytics tool designed to analyze historical data and predict future trends using machine learning algorithms. The project is structured to be modular and easy to understand, making it an excellent addition to your GitHub portfolio.
+## What it does
+
+1. Generates a reproducible synthetic dataset (2,000 rows, linear signal + noise).
+2. Cleans (drops NaNs) and z-score normalizes the features.
+3. Cross-validates three models — LinearRegression, RandomForest, GradientBoosting.
+4. Selects the best by 5-fold CV R², trains it, and evaluates on a holdout set.
+5. Saves the trained model and four diagnostic plots.
+
+## Results
+
+Running `python main.py` produces:
+
+```
+Model comparison (5-fold CV R2):
+           model  cv_r2_mean  cv_r2_std
+LinearRegression       0.924      0.020
+GradientBoosting       0.795      0.057
+    RandomForest       0.772      0.069
+
+Selected: LinearRegression
+Holdout R2:  0.936
+Holdout MAE: 4.542
+```
+
+LinearRegression wins because the synthetic target is a linear combination of
+the features — a good reminder that the simplest model often beats ensembles
+when it matches the underlying structure.
+
+### Model comparison
+
+Cross-validated R² for each candidate, with error bars. Tested rather than
+assumed — the simplest model came out on top.
+
+![Model comparison](docs/model_comparison.png)
+
+### Predicted vs. actual
+
+Predictions form a tight, unbiased cloud along the ideal-fit line across the
+full range of values.
+
+![Predicted vs actual](docs/predicted_vs_actual.png)
+
+### Residuals
+
+A structureless cloud centered on zero — the leftover error is just the noise
+baked into the data, confirming the model captured the real signal.
+
+![Residuals](docs/residuals.png)
+
+### Feature importance
+
+Coefficient magnitudes recover the true driver ordering used to build the data.
+
+![Feature importance](docs/feature_importance.png)
 
 ## Project Structure
+
+```
 predictive-analytics-tool/
 ├── data/
-│ ├── raw/
-│ ├── processed/
+│   ├── generate_data.py     # creates data/raw/sample_data.csv
+│   ├── raw/  processed/     # gitignored
+├── docs/                    # plots embedded in this README (committed)
+├── models/                  # trained model.pkl (gitignored)
+├── reports/                 # plots from each run (gitignored)
 ├── notebooks/
-│ ├── data_exploration.ipynb
-│ ├── model_training.ipynb
 ├── src/
-│ ├── data_processing.py
-│ ├── model.py
-│ ├── visualization.py
-├── tests/
-│ ├── test_data_processing.py
-│ ├── test_model.py
-├── README.md
-├── requirements.txt
-├── setup.py
-└── .gitignore
+│   ├── data_processing.py   # load / clean / normalize / split
+│   ├── model.py             # compare_models / train_model / load_model
+│   └── visualization.py     # prediction, residual, comparison, importance plots
+├── tests/                   # pytest suite (8 tests)
+├── main.py                  # end-to-end pipeline
+├── README.md  requirements.txt  setup.py
+```
 
+## Quick start
 
-## Getting Started
+```powershell
+# Windows / PowerShell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r requirements.txt
+python main.py            # runs the full pipeline, writes reports/
+python -m pytest          # 8 tests
+```
 
-### Prerequisites
+```bash
+# macOS / Linux
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python main.py
+python -m pytest
+```
 
-- Python 3.6 or higher
-- Virtual environment (recommended)
+> The plots in this README live in `docs/` so they render on GitHub. The pipeline
+> writes fresh copies to `reports/` (gitignored) on every run; to refresh the
+> README images, copy `reports/*.png` into `docs/`.
 
-### Installation
+## Using the modules directly
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/yourusername/predictive-analytics-tool.git
-    cd predictive-analytics-tool
-    ```
+```python
+from src.data_processing import load_data, clean_data, process_data, split_features_target
+from src.model import compare_models, train_model
 
-2. Create and activate a virtual environment:
-    ```bash
-    python3 -m venv venv
-    source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-    ```
-
-3. Install the required packages:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-### Usage
-
-1. **Data Processing**:
-    - Load and process your data using the `src/data_processing.py` module.
-
-2. **Model Training**:
-    - Train your machine learning model using the `src/model.py` module.
-
-3. **Visualization**:
-    - Visualize your data and model predictions using the `src/visualization.py` module.
-
-4. **Running Tests**:
-    - Run the unit tests to ensure everything is working correctly:
-      ```bash
-      python -m unittest discover tests
-      ```
+df = process_data(clean_data(load_data("data/raw/sample_data.csv")))
+X, y = split_features_target(df)
+print(compare_models(X, y))          # cross-validated leaderboard
+model, metrics, results = train_model(X, y)
+print(metrics)
+```
