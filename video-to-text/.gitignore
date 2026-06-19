@@ -1,0 +1,19 @@
+# Virtual environments
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Project I/O (keep the folders, ignore the media)
+data/input_videos/*
+data/output_texts/*
+!data/**/.gitkeep
+
+# Whisper model cache
+*.pt
+
+# OS cruft
+.DS_Store
