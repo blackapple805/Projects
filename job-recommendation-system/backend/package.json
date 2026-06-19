@@ -1,17 +1,19 @@
 {
     "name": "job-recommendation-backend",
     "version": "1.0.0",
-    "description": "Backend for job recommendation system",
+    "description": "Backend for job recommendation system (file-based store, no database)",
     "main": "server.js",
     "scripts": {
         "start": "node server.js"
     },
     "dependencies": {
+        "axios": "^1.7.2",
         "bcrypt": "^5.0.1",
         "cors": "^2.8.5",
         "express": "^4.17.1",
         "jsonwebtoken": "^8.5.1",
+        "mammoth": "^1.8.0",
         "multer": "^1.4.5-lts.1",
-        "mysql2": "^2.2.5"
+        "pdf-parse": "^1.1.1"
     }
 }

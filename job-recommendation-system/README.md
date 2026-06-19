@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+# JobFinder — Job Recommendation System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A React + Express app that recommends jobs based on your saved preferences and
+your uploaded resume. **No database required** — user data is stored in a JSON
+file on disk, so there is nothing to install or configure beyond Node.
 
-## Available Scripts
 
-In the project directory, you can run:
+## Login is disabled
 
-### `npm start`
+This build skips login — opening the app goes straight to the dashboard. All
+profile, preferences, and resume data is saved under a single shared "Guest"
+account (`guest@local` in `data/users.json`).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+To turn real login back on later:
+1. In `frontend/src/App.js`, restore the `/login` and `/signup` routes and the
+   `isLoggedIn` guard (the original logic, the `Login`/`Signup` pages are still
+   in `src/pages/`).
+2. In `backend/server.js`, restore the 401 responses in `verifyToken` so a
+   missing/invalid token is rejected instead of falling back to the guest user.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## What's inside
 
-### `npm test`
+```
+package.json         root — runs backend + frontend together (npm start)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+backend/
+  server.js          API (auth, profile, recommendations, resume upload)
+  store.js           File-based datastore — replaces MySQL
+  data/              user records live here (data/users.json, auto-created)
+  uploads/           resumes + profile pictures
+  package.json
 
-### `npm run build`
+frontend/
+  src/
+    index.js, App.js
+    pages/           one file per screen (Login, Dashboard, Resume, etc.)
+    components/      reusable pieces (SideCard, Chatbot, Chatbox, ThreeDChart)
+    services/
+      api.js         single place that talks to the backend
+    styles/
+      styles.css     ALL styles merged into one file
+  package.json
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running it (one command)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+From the project root, install everything once:
+```
+npm run install:all
+```
+Then start the backend and frontend together:
+```
+npm start
+```
+That's it. The backend runs on http://localhost:5000 and the frontend on
+http://localhost:3000, both in the same terminal. Output is labelled
+`[BACKEND]` (magenta) and `[FRONTEND]` (cyan). Press Ctrl+C once to stop both.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+On first run the backend creates `data/users.json` automatically. That file
+*is* your database — back it up if you want to keep accounts. The frontend
+proxies API calls to the backend (see `proxy` in `frontend/package.json`).
 
-### `npm run eject`
+### Running them separately (optional)
+If you ever want just one side:
+```
+npm run start:backend     # backend only
+npm run start:frontend    # frontend only
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Note on PowerShell
+You no longer need to chain commands, so the `&&` error from before won't come
+up. If you ever do chain commands in older PowerShell, use `;` instead of `&&`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Features
+- **Personalized jobs** — recommendations use your saved desired position and
+  preferred location instead of a fixed search.
+- **Resume upload** — drag-and-drop a PDF/DOC/DOCX. It's stored and lightly
+  parsed to seed your job search (it never overwrites preferences you set).
+- **Purple glass UI** — a single theme (aurora background, frosted glass cards,
+  glow buttons, 3D hover) defined at the top of `styles/styles.css`.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Notes on the data store
+`store.js` reads and writes the whole `users.json` on each operation. That's
+simple and dependency-free, and fine for development or a small number of users.
+If you later outgrow it, every data call goes through `store.js`, so you can swap
+in a real database by changing that one file — the rest of the app won't need to
+change.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Security
+JWT secret and the RapidAPI key are read from environment variables if set
+(`JWT_SECRET`, `RAPIDAPI_KEY`), otherwise fall back to the values in `server.js`.
+For anything public, move them into a `.env` file and rotate the RapidAPI key,
+since it was committed to the repo.
