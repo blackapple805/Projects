@@ -1,13 +1,14 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
-    name='predictive_analytics_tool',
-    version='0.1',
+    name="predictive_analytics_tool",
+    version="0.1",
     packages=find_packages(),
     install_requires=[
-        'pandas',
-        'scikit-learn',
-        'joblib',
-        'matplotlib',
+        "pandas",
+        "numpy",
+        "scikit-learn",
+        "joblib",
+        "matplotlib",
     ],
 )

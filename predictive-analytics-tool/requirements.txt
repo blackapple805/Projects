@@ -1,5 +1,6 @@
 pandas
+numpy
 scikit-learn
 joblib
 matplotlib
-unittest
+pytest
